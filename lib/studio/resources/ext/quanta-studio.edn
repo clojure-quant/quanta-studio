@@ -3,5 +3,8 @@
                quanta.studio.view.options
                quanta.studio.view.live-result
                quanta.studio.page.algo]
- :cljs-routes {"interact" quanta.studio.page.algo/algo-page}
+ :cljs-routes {"interact" quanta.studio.page.algo/algo-page
+               ["interact/" :task-id] quanta.studio.page.algo/algo-task-page 
+               "tasks" quanta.studio.page.tasks/tasks-page
+               }
  }

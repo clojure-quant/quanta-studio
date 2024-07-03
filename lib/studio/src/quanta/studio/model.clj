@@ -2,7 +2,7 @@
   (:require
    [de.otto.nom.core :as nom]
    [taoensso.timbre :as log :refer [tracef debug debugf info infof warn error errorf]]
-
+   [ta.helper.date :refer [now]]
    [ta.algo.env.protocol :as algo-env]
    [ta.algo.error-report :refer [save-error-report]]
    [ta.algo.compile :refer [compile-symbol]]
@@ -47,7 +47,8 @@
             viz-result-a (p/formula-cell model viz-fn [algo-result-a])
             pusher-a (p/formula-cell model #(result-fn id task-id %) [viz-result-a])]
           ;_ (info "algo-result-a: " algo-result-a)
-        {:task-id task-id
+        {:start-dt (now)
+         :task-id task-id
          :template template
          :algo-result algo-result-a
          :viz-result viz-result-a

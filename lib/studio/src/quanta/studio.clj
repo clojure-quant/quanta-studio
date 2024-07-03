@@ -48,11 +48,16 @@
         (info "starting quanta-studio clj-services..")
         (expose-functions clj
                           {:name "quanta-studio"
-                           :symbols ['quanta.studio.template/available-templates
+                           :symbols [; template
+                                     'quanta.studio.template/available-templates
                                      'quanta.studio.template/get-options
+                                     ; backtest
                                      'quanta.studio/backtest
-                                     'quanta.studio/subscribe
-                                     'quanta.studio/unsubscribe]
+                                     ; task
+                                     'quanta.studio/start
+                                     'quanta.studio/stop
+                                     'quanta.studio/current-task-result
+                                     'quanta.studio/task-summary]
                            :permission role
                            :fixed-args [this]}))
       (warn "quanta-studio starting without clj-services, perhaps you want to pass :clj key"))
@@ -71,6 +76,7 @@
   ([this template-id template-options mode]
    (backtest this template-id template-options mode (nano-id 6)))
   ([{:keys [bar-db] :as this} template-id template-options mode task-id]
+   (info "backtest template:" template-id "mode: " mode)
    (let [template (template/load-with-options this template-id template-options)
          env (create-env-javelin bar-db)
          {:keys [viz-result] :as task} (model/create-algo-model env template mode task-id log-viz-result)
@@ -85,14 +91,14 @@
        (error-render-spec result)
        result))))
 
-(defn subscribe
+(defn start
   "starts new algo via the web ui.
    this creates a viz-task once and then starts pushing all results to the websocket.
    returns task-id or nom/anomaly"
   ([this template-id template-options mode]
-   (subscribe this template-id template-options mode (nano-id 6)))
+   (start this template-id template-options mode (nano-id 6)))
   ([{:keys [env-live subscriptions-a websocket] :as this} template-id template-options mode task-id]
-   (info "subscribe-live template:" template-id "mode: " mode)
+   (info "start template:" template-id "mode: " mode)
    (if env-live
      (let [template (template/load-with-options this template-id template-options)
            result-fn (partial push-viz-result websocket)
@@ -101,18 +107,40 @@
          task
          (do (swap! subscriptions-a assoc task-id task)
              task-id)))
-     (nom/fail ::subscribe {:message "cannot subscribe, :env-live is nil."}))))
+     (nom/fail ::subscribe {:message "cannot start :env-live is nil."}))))
 
-(defn get-subscription-state [{:keys [subscriptions-a] :as this} task-id]
+(defn stop [{:keys [env-live subscriptions-a] :as this} task-id]
+  (if-let [m (get @subscriptions-a task-id)]
+    (do (info "stopping task-id: " task-id)
+        (model/destroy-algo-model env-live m)
+            ; done!
+        (swap! subscriptions-a dissoc task-id)
+        :success)
+    (do (error "cannot stop unknown task-id: " task-id)
+        :error)))
+
+(defn current-task-result [{:keys [subscriptions-a] :as this} task-id]
   (if-let [m (get @subscriptions-a task-id)]
     (let [{:keys [viz-result]} m]
       @viz-result)
     (nom/fail ::subscribe {:message "subscription not found"})))
 
-(defn unsubscribe [{:keys [env-live subscriptions-a] :as this} task-id]
-  (when-let [m (get @subscriptions-a task-id)]
-    (info "unsubscribing subscription-id: " task-id)
-    (model/destroy-algo-model env-live m)
-    ; done!
-    (swap! subscriptions-a dissoc task-id)
-    :success))
+; task lists
+
+(defn- summarize-task [algo-option-keys {:keys [task-id template start-dt] :as task}]
+  (let [{:keys [id algo]} template]
+    {:task-id task-id
+     :start-dt start-dt
+     :template-id id
+     :algo (if algo-option-keys
+             (select-keys algo algo-option-keys)
+             ; if no specific keys are provide
+             ; we want to remove data that is not helpful to the user.
+             (dissoc algo :type :import :algo))}))
+
+(defn task-summary
+  [{:keys [subscriptions-a] :as this} & [algo-option-keys]]
+  (let [tasks (vals @subscriptions-a)]
+    (map #(summarize-task algo-option-keys %) tasks)))
+
+
