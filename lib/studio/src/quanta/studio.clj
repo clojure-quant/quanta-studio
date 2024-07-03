@@ -123,7 +123,7 @@
   (if-let [m (get @subscriptions-a task-id)]
     (let [{:keys [viz-result]} m]
       @viz-result)
-    (nom/fail ::subscribe {:message "subscription not found"})))
+    (nom/fail ::subscribe {:message "task not found"})))
 
 ; task lists
 

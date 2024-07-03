@@ -3,9 +3,11 @@
    [clojure.pprint :refer [print-table]]
    [modular.system]
    [quanta.studio.template :refer [load-template get-options]]
-   [quanta.studio :refer [backtest subscribe get-subscription-state unsubscribe
-                          subscription-summary
-                          ]]))
+   [quanta.studio :refer [backtest 
+                          start stop 
+                          current-task-result task-summary]]
+   [quanta.template :refer [permutate]]
+   ))
 
 (def s (modular.system/system :studio))
 
@@ -18,22 +20,25 @@
 
 
 (def id 
-   (subscribe s :alex/bollinger {} :table))
+   (start s :alex/bollinger {} :table))
 
 
 id
 
-(get-subscription-state s id)
+(current-task-result s id)
 
-(unsubscribe s id)
+(stop s id)
 
-(-> (subscription-summary s)
+(-> (task-summary s)
     (print-table)
  )
 
-(-> (subscription-summary s [:asset])
+(-> (task-summary s [:asset])
     (print-table))
 
+(-> (load-template s :alex/bollinger)
+    (permutate :asset ["BTCUSDT" "ETHUSDT"])
+ )
 
 
 
