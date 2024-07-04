@@ -59,3 +59,19 @@
     (p/destroy-cell model pusher)
     (p/destroy-cell model viz-result)
     (p/destroy-cell model algo-result)))
+
+(defn error? [{:keys [viz-result] :as task}]
+  (or (nil? viz-result)
+      (nom/anomaly? @viz-result)))
+
+(defn summarize-task [algo-option-keys {:keys [task-id template start-dt] :as task}]
+  (let [{:keys [id algo]} template]
+    {:task-id task-id
+     :start-dt start-dt
+     :template-id id
+     :error?  (error? task)
+     :algo (if algo-option-keys
+             (select-keys algo algo-option-keys)
+             ; if no specific keys are provide
+             ; we want to remove data that is not helpful to the user.
+             (dissoc algo :type :import :algo))}))

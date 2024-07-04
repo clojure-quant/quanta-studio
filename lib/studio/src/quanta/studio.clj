@@ -11,7 +11,7 @@
    [ta.algo.env.protocol :as algo-env]
    [quanta.model.backtest :refer [fire-backtest-events]]
    [quanta.template :as qtempl]
-   [quanta.template.task :refer [start-task stop-task]]
+   [quanta.template.task :refer [start-task stop-task summarize-task]]
    [quanta.template.db :as template-db]
    [quanta.studio.publish :refer [push-viz-result]]))
 
@@ -162,17 +162,6 @@
     (nom/fail ::subscribe {:message "task not found"})))
 
 ; task lists
-
-(defn- summarize-task [algo-option-keys {:keys [task-id template start-dt] :as task}]
-  (let [{:keys [id algo]} template]
-    {:task-id task-id
-     :start-dt start-dt
-     :template-id id
-     :algo (if algo-option-keys
-             (select-keys algo algo-option-keys)
-             ; if no specific keys are provide
-             ; we want to remove data that is not helpful to the user.
-             (dissoc algo :type :import :algo))}))
 
 (defn task-summary
   [{:keys [subscriptions-a] :as this} & [algo-option-keys]]

@@ -9,7 +9,7 @@
                           current-task-result task-summary
                           start-variations]]))
 
-;; first lets get the runnign studio instance
+;; first lets get the running studio instance
 
 (def s (modular.system/system :studio))
 
@@ -41,6 +41,7 @@ id
 (-> (task-summary s)
     (print-table))
 
+
 (-> (task-summary s [:asset])
     (print-table))
  
@@ -59,6 +60,18 @@ id
                [:crypto :m15]
                [:crypto :m30]
                [:crypto :h]]])
+
+
+; get result specific task
+
+(current-task-result s "cdEkYS")
+
+(current-task-result s "YVuDZv")
+
+
+(current-task-result s "nlavCI")
+
+
 
 
 
