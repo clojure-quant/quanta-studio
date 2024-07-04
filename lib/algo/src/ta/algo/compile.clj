@@ -10,7 +10,7 @@
   [fun]
   (if (symbol? fun)
     (try
-      (info "requiring-resolve: " fun)
+      (debug "requiring-resolve: " fun)
       (let [f (requiring-resolve fun)]
         (if f
           f
