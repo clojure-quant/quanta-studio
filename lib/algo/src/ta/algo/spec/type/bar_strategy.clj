@@ -18,7 +18,7 @@
                            })))
 
 (defn run-algo-safe [algo-fn env spec ds-bars]
-  (warn "run-algo-safe: " (:algo spec))
+  ;(warn "run-algo-safe: " (:algo spec))
   (cond
     ; algo-fn is nil (most likely a compile error)
     (nil? algo-fn)
@@ -33,7 +33,7 @@
     ; run algo
     :else
     (try
-      (warn "run-algo-safe else.. fn: " algo-fn)
+      ;(warn "run-algo-safe else.. fn: " algo-fn)
       (algo-fn env spec ds-bars)
       (catch AssertionError ex (create-error spec ex))
       (catch Exception ex (create-error spec ex)))))
