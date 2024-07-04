@@ -3,7 +3,7 @@
    [clojure.pprint :refer [print-table]]
    [modular.system]
    [quanta.template :refer [get-options make-variations apply-options]]
-   [quanta.template.db :refer [load-template ]]
+   [quanta.template.db :refer [load-template]]
    [quanta.studio :refer [backtest
                           start stop
                           current-task-result task-summary
@@ -44,30 +44,29 @@ id
 
 (-> (task-summary s [:asset])
     (print-table))
- 
+
 ;; start variations
 
+; test code to get a list of templates
 (let [option-seq (make-variations [:asset [:a :b :c :d]])
       template (load-template s :alex/bollinger)]
-   (map #(apply-options template %) option-seq))
+  (map #(apply-options template %) option-seq))
 
-   (start-variations
-   s
-   :alex/bollinger
-   :chart
-   [:asset ["BTCUSDT" "ETHUSDT"]
-    :calendar [[:crypto :m]
-               [:crypto :m15]
-               [:crypto :m30]
-               [:crypto :h]]])
-
+(start-variations
+ s
+ :alex/bollinger
+ :chart
+ [:asset ["BTCUSDT" "ETHUSDT"]
+  :calendar [[:crypto :m]
+             [:crypto :m15]
+             [:crypto :m30]
+             [:crypto :h]]])
 
 ; get result specific task
 
 (current-task-result s "cdEkYS")
 
 (current-task-result s "YVuDZv")
-
 
 (current-task-result s "nlavCI")
 

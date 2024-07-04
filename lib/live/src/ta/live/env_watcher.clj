@@ -27,8 +27,13 @@
   (let [time-a (:time state)]
     (when (not (contains? @time-a calendar))
       (swap! time-a conj calendar)
-      (info "watcher is adding time-generator for:  " calendar)
-      (ct/add-calendar (:time-generator state) calendar))))
+      (warn "watcher is adding time-generator for:  " calendar)
+      (try
+        (ct/add-calendar (:time-generator state) calendar)
+        (catch AssertionError ex
+          (error "cannot start time-genertor for calendar: " calendar " ex: " ex))
+        (catch Exception ex
+          (error "cannot start time-genertor for calendar: " calendar " ex: " ex))))))
 
 (defn process-added-algo [state spec]
   (let [qs (subscriptions spec)
@@ -48,7 +53,7 @@
                :quote-manager quote-manager
                :bar-generator bar-generator}
         w (fn [spec]
-            (info "watcher received:  spec")
+            (warn "watcher received: " spec)
             (process-added-algo state spec))]
     (algo-env/set-watcher env w)
     state))

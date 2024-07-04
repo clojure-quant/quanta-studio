@@ -114,7 +114,7 @@
   ([this template mode]
    (start-template this template mode (nano-id 6)))
   ([{:keys [env-live subscriptions-a websocket] :as this} template mode task-id]
-   (info "start template:" (:id template) "mode: " mode)
+   (info "start template-id: " (:id template) "mode: " mode)
    (if env-live
      (let [result-fn (partial push-viz-result websocket)
            {:keys [task-id] :as task} (start-task env-live template mode task-id result-fn)]

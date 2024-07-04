@@ -12,7 +12,8 @@
   io.github.clojure-quant/vector-math {:git/url "https://github.com/clojure-quant/techml.vector-math.git"
                                        :sha "1d6e5d0ef3eba53e2afddb5ca0927385a9f62ece"}
   
-  io.github.clojure-quant/quanta {:mvn/version "0.4.821"}
+
+  io.github.clojure-quant/quanta {:mvn/version "0.4.822"}
   ; projects belonging to studio here:
   ta/algo {:local/root "./lib/algo" :deps/manifest :deps}
   ta/db {:local/root "./lib/db" :deps/manifest :deps}

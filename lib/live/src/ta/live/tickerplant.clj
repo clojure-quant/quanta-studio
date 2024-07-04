@@ -11,6 +11,7 @@
    [ta.live.bar-generator.db :as db]))
 
 (defn start-tickerplant [{:keys [algo-env quote-manager]}]
+  (info "starting tickerplant..")
   (assert quote-manager "tickerplant needs :quote-manager")
   (assert algo-env "tickerplant needs :algo-env")
   (let [eng (algo-env/get-model algo-env)
@@ -33,7 +34,8 @@
          (catch Exception ex
            (error "exception in setting calendar time: " calendar-time))))
      (ct/get-time-stream t))
-    {:engine eng
+    {:algo-env algo-env
+     :engine eng
      :time-generator t
      :bar-generator b
      :watcher w}))
