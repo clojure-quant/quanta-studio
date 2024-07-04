@@ -2,7 +2,7 @@
   (:require
    [tablecloth.api :as tc]
    [tech.v3.dataset.print :refer [print-range]]
-   [quanta.studio.template :refer [get-options]]
+   [quanta.template.db :refer [get-options]]
    [quanta.studio.publish :as sub]
    [quanta.studio.debug :refer [dump-dataset]]))
 

@@ -5,14 +5,15 @@
    [nano-id.core :refer [nano-id]]
    [extension :as ext]
    [clj-service.core :refer [expose-functions]]
+   [ta.helper.date :refer [now]]
    [ta.viz.error :refer [error-render-spec]]
    [ta.algo.env :refer [create-env-javelin]]
    [ta.algo.env.protocol :as algo-env]
    [quanta.model.backtest :refer [fire-backtest-events]]
-   [quanta.studio.template :as template]
-   [quanta.studio.model :as model]
-   [quanta.studio.publish :refer [push-viz-result]]
-   [ta.helper.date :refer [now]]))
+   [quanta.template :as qtempl]
+   [quanta.template.task :refer [start-task stop-task]]
+   [quanta.template.db :as template-db]
+   [quanta.studio.publish :refer [push-viz-result]]))
 
 (defn- requiring-resolve-safe [template-symbol]
   (try
@@ -24,7 +25,7 @@
 (defn add-template [this template-symbol]
   (if-let [template-var (requiring-resolve-safe template-symbol)]
     (let [template-val (var-get template-var)]
-      (template/add this template-val))
+      (template-db/add this template-val))
     (throw (ex-info "quanta-template could not be resolved"
                     {:template template-symbol}))))
 
@@ -49,8 +50,8 @@
         (expose-functions clj
                           {:name "quanta-studio"
                            :symbols [; template
-                                     'quanta.studio.template/available-templates
-                                     'quanta.studio.template/get-options
+                                     'quanta.template.db/available-templates
+                                     'quanta.studio/get-options
                                      ; backtest
                                      'quanta.studio/backtest
                                      ; task
@@ -69,6 +70,21 @@
       ; make sure we never retrun something. result ends up in a javelin cell
   nil)
 
+(defn load-with-options [this template-id options]
+  (let [template (template-db/load-template this template-id)
+        template (qtempl/apply-options template options)]
+    (info "template " template-id " options: " (:algo template))
+    ;(warn "full template: " template)
+    template))
+
+(defn get-options
+  "returns the options (what a user can edit) for a template-id"
+  ; exposed at start of studio
+  [this template-id]
+  (info "getting options for template: " template-id)
+  (-> (template-db/load-template this template-id)
+      (qtempl/get-options)))
+
 (defn backtest
   "this runs a viz-task once and returns the viz-result.
    output is guaranteed to be always viz-spec format, so
@@ -77,9 +93,9 @@
    (backtest this template-id template-options mode (nano-id 6)))
   ([{:keys [bar-db] :as this} template-id template-options mode task-id]
    (info "backtest template:" template-id "mode: " mode)
-   (let [template (template/load-with-options this template-id template-options)
+   (let [template (load-with-options this template-id template-options)
          env (create-env-javelin bar-db)
-         {:keys [viz-result] :as task} (model/create-algo-model env template mode task-id log-viz-result)
+         {:keys [viz-result] :as task} (start-task env template mode task-id log-viz-result)
          window-or-dt (now)
          model (algo-env/get-model env)
          result (if (nom/anomaly? task)
@@ -91,28 +107,48 @@
        (error-render-spec result)
        result))))
 
+(defn start-template
+  "starts new algo via the web ui.
+   this creates a viz-task once and then starts pushing all results to the websocket.
+   returns task-id or nom/anomaly"
+  ([this template mode]
+   (start-template this template mode (nano-id 6)))
+  ([{:keys [env-live subscriptions-a websocket] :as this} template mode task-id]
+   (info "start template:" (:id template) "mode: " mode)
+   (if env-live
+     (let [result-fn (partial push-viz-result websocket)
+           {:keys [task-id] :as task} (start-task env-live template mode task-id result-fn)]
+       (if (nom/anomaly? task)
+         task
+         (do (swap! subscriptions-a assoc task-id task)
+             task-id)))
+     (nom/fail ::start-template {:message "cannot start :env-live is nil."}))))
+
 (defn start
   "starts new algo via the web ui.
    this creates a viz-task once and then starts pushing all results to the websocket.
    returns task-id or nom/anomaly"
   ([this template-id template-options mode]
    (start this template-id template-options mode (nano-id 6)))
-  ([{:keys [env-live subscriptions-a websocket] :as this} template-id template-options mode task-id]
+  ([this template-id template-options mode task-id]
    (info "start template:" template-id "mode: " mode)
-   (if env-live
-     (let [template (template/load-with-options this template-id template-options)
-           result-fn (partial push-viz-result websocket)
-           {:keys [task-id] :as task} (model/create-algo-model env-live template mode task-id result-fn)]
-       (if (nom/anomaly? task)
-         task
-         (do (swap! subscriptions-a assoc task-id task)
-             task-id)))
-     (nom/fail ::subscribe {:message "cannot start :env-live is nil."}))))
+   (let [template (load-with-options this template-id template-options)]
+     (if template
+       (start-template this template mode task-id)
+       (nom/fail ::start-template {:message "cannot start template, template not found."})))))
+
+(defn start-variations
+  "starts template variations with the same mode"
+  [this template-id mode variation-spec]
+  (info "starting template: " template-id " mode: " mode " variations: " variation-spec)
+  (let [template  (template-db/load-template this template-id)
+        template-seq (qtempl/create-template-variations template variation-spec)]
+    (doall (map #(start-template this % mode) template-seq))))
 
 (defn stop [{:keys [env-live subscriptions-a] :as this} task-id]
   (if-let [m (get @subscriptions-a task-id)]
     (do (info "stopping task-id: " task-id)
-        (model/destroy-algo-model env-live m)
+        (stop-task env-live m)
             ; done!
         (swap! subscriptions-a dissoc task-id)
         :success)

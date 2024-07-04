@@ -1,4 +1,4 @@
-(ns quanta.studio.model
+(ns quanta.template.task
   (:require
    [de.otto.nom.core :as nom]
    [taoensso.timbre :as log :refer [tracef debug debugf info infof warn error errorf]]
@@ -32,7 +32,7 @@
                                        :filename filename
                                        :location :visualize})))))))))
 
-(defn create-algo-model [env {:keys [id algo key] :as template} mode task-id result-fn]
+(defn start-task [env {:keys [id algo key] :as template} mode task-id result-fn]
   (let [algo-results-a (algo-env/add-algo env algo)
         viz-fn (create-viz-fn template mode)
         err (or (when (nom/anomaly? algo-results-a) algo-results-a)
@@ -54,7 +54,7 @@
          :viz-result viz-result-a
          :pusher pusher-a}))))
 
-(defn destroy-algo-model [env {:keys [template algo-result viz-result pusher]}]
+(defn stop-task [env {:keys [template algo-result viz-result pusher] :as task}]
   (let [model (algo-env/get-model env)]
     (p/destroy-cell model pusher)
     (p/destroy-cell model viz-result)

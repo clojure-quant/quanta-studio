@@ -56,13 +56,97 @@
           (:algo template)
           options)))
 
+(defn- add-key [m [k seq]]
+  (map #(assoc m k %) seq))
 
-(defn permutate [template option-key option-permutations]
-  (map #(apply-options template {option-key %}) option-permutations))
-  
+(defn- map-keys [r key-seq-tuples]
+  (let [seq (add-key r (first key-seq-tuples))
+        next (rest key-seq-tuples)]
+    (if (empty? next)
+      seq
+      (flatten (map #(map-keys % next) seq)))))
 
+(defn make-variations
+  "returns a seq of different options that each can be
+   applied to a template.
+
+   example:
+     (make-variations [:x [1 2 3] 
+                       :y [:a :b :c]
+                       :debug [true false]])
+   returns:
+    ;; => ({:x 1, :y :a, :debug true}
+  ;;     {:x 1, :y :a, :debug false}
+  ;;     {:x 1, :y :b, :debug true}
+  ;;     {:x 1, :y :b, :debug false}
+  ;;     {:x 1, :y :c, :debug true}
+  ;;     {:x 1, :y :c, :debug false}
+  ;;     {:x 2, :y :a, :debug true}
+  ;;     {:x 2, :y :a, :debug false}
+  ;;     {:x 2, :y :b, :debug true}
+  ;;     {:x 2, :y :b, :debug false}
+  ;;     {:x 2, :y :c, :debug true}
+  ;;     {:x 2, :y :c, :debug false}
+  ;;     {:x 3, :y :a, :debug true}
+  ;;     {:x 3, :y :a, :debug false}
+  ;;     {:x 3, :y :b, :debug true}
+  ;;     {:x 3, :y :b, :debug false}
+  ;;     {:x 3, :y :c, :debug true}
+  ;;     {:x 3, :y :c, :debug false})"
+  [variation-spec]
+  (let [key-seq-tuples (partition 2 variation-spec)]
+    (map-keys {} key-seq-tuples)))
+
+(defn create-template-variations
+  "input: template and variation spec
+   returns a templates, with different option
+   variations applied. example:
+   (create-template-variations t :asset [:EURUSD :SPY :BTCUSD]
+                        :n [100 200 500])"
+  [template variation-spec]
+  (let [option-seq (make-variations variation-spec)]
+    (map (partial apply-options template) option-seq)))
 
 (comment
+  (add-key {:calendar [:us :d]}
+           [:asset ["a" "b" "c"]])
+  (map-keys {:calendar [:us :d]}
+            [[:asset ["a" "b" "c"]]
+             [:n [100 500 1000]]])
+
+  (make-variations [:x [1 2 3]
+                    :y [:a :b :c]])
+    ;; => ({:x 1, :y :a}
+    ;;     {:x 1, :y :b}
+    ;;     {:x 1, :y :c}
+    ;;     {:x 2, :y :a}
+    ;;     {:x 2, :y :b}
+    ;;     {:x 2, :y :c}
+    ;;     {:x 3, :y :a}
+    ;;     {:x 3, :y :b}
+    ;;     {:x 3, :y :c})
+
+  (make-variations [:x [1 2 3]
+                    :y [:a :b :c]
+                    :debug [true false]])
+  ;; => ({:x 1, :y :a, :debug true}
+  ;;     {:x 1, :y :a, :debug false}
+  ;;     {:x 1, :y :b, :debug true}
+  ;;     {:x 1, :y :b, :debug false}
+  ;;     {:x 1, :y :c, :debug true}
+  ;;     {:x 1, :y :c, :debug false}
+  ;;     {:x 2, :y :a, :debug true}
+  ;;     {:x 2, :y :a, :debug false}
+  ;;     {:x 2, :y :b, :debug true}
+  ;;     {:x 2, :y :b, :debug false}
+  ;;     {:x 2, :y :c, :debug true}
+  ;;     {:x 2, :y :c, :debug false}
+  ;;     {:x 3, :y :a, :debug true}
+  ;;     {:x 3, :y :a, :debug false}
+  ;;     {:x 3, :y :b, :debug true}
+  ;;     {:x 3, :y :b, :debug false}
+  ;;     {:x 3, :y :c, :debug true}
+  ;;     {:x 3, :y :c, :debug false})
 
   (def paths [:a [:b :c] :d])
   (def data [{:a 1 :b {:c 22 :x 5} :d 55}
@@ -93,7 +177,6 @@
                      data)
 
   (specter/select [:a :b] data)
-  
 
   (specter/setval [1 :asset]  "NZD/USD"
                   [:day {:feed :fx
@@ -103,6 +186,5 @@
                    :signal {:formula [:day :minute], :spike-atr-prct-min 0.5, :pivot-max-diff 0.001,
                             :algo 'juan.algo.combined/daily-intraday-combined}])
 
-
- ; 
+; 
   )

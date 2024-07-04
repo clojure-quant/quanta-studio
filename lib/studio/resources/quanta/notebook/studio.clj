@@ -1,6 +1,6 @@
 (ns quanta.notebook.studio
   (:require
-   [quanta.studio.template :refer [get-options]]
+   [quanta.template.template-db :refer [get-options]]
    [quanta.studio.publish :as sub]))
 
 (-> :watch-crypto get-options)

@@ -1,8 +1,7 @@
-(ns quanta.studio.template
+(ns quanta.template.db
   (:require
    [de.otto.nom.core :as nom]
-   [taoensso.timbre :as log :refer [tracef debug debugf info infof warn error errorf]]
-   [quanta.template :as qtempl]))
+   [taoensso.timbre :as log :refer [tracef debug debugf info infof warn error errorf]]))
 
 (defn add
   "adds a template to the template-db
@@ -13,31 +12,17 @@
   (assert algo "missing mandatory parameter :algo")
   (swap! templates assoc id template-spec))
 
-(defn available-templates
-  "returns all template-ids. 
-   used in the browser to select a template"
-  [{:keys [templates]}]
-  (-> @templates keys sort))
-
 (defn load-template
   "returns the template for a template-id"
   ; note: get is used, because template-id might be a string.
   [{:keys [templates]} template-id]
   (-> @templates (get template-id)))
 
-(defn get-options
-  "returns the options (what a user can edit) for a template-id"
-  [this template-id]
-  (info "getting options for template: " template-id)
-  (-> (load-template this template-id)
-      (qtempl/get-options)))
-
-(defn load-with-options [this template-id options]
-  (let [template (load-template this template-id)
-        template (qtempl/apply-options template options)]
-    (info "template " template-id " options: " (:algo template))
-    ;(warn "full template: " template)
-    template))
+(defn available-templates
+  "returns all template-ids. 
+   used in the browser to select a template"
+  [{:keys [templates]}]
+  (-> @templates keys sort))
 
 (defn- get-fn [fun]
   (if (symbol? fun)
@@ -63,8 +48,6 @@
 
 (comment
 
-  
-
   (def template (load-template :juan-fx))
 
   (load-with-options :juan-fx {[1 :atr-n] 20})
@@ -76,7 +59,6 @@
    [1 :atr-n] 30,
    [1 :asset] "NZD/USD",
    [3 :asset] "NZD/USD"}
-
 
 ; 
   )

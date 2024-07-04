@@ -2,26 +2,33 @@
   (:require
    [clojure.pprint :refer [print-table]]
    [modular.system]
-   [quanta.studio.template :refer [load-template get-options]]
-   [quanta.studio :refer [backtest 
-                          start stop 
-                          current-task-result task-summary]]
-   [quanta.template :refer [permutate]]
-   ))
+   [quanta.template :refer [get-options make-variations apply-options]]
+   [quanta.template.db :refer [load-template ]]
+   [quanta.studio :refer [backtest
+                          start stop
+                          current-task-result task-summary
+                          start-variations]]))
+
+;; first lets get the runnign studio instance
 
 (def s (modular.system/system :studio))
 
+;; template - load and get options.
+
 (load-template s :alex/bollinger)
-(get-options s :alex/bollinger)
+
+(-> (load-template s :alex/bollinger)
+    (get-options))
+
+;; backtest
 
 (backtest s :alex/bollinger {} :table)
 (backtest s :alex/bollinger {} :chart)
 
+;; start/stop task (a realtime calculation)
 
-
-(def id 
-   (start s :alex/bollinger {} :table))
-
+(def id
+  (start s :alex/bollinger {} :table))
 
 id
 
@@ -29,16 +36,36 @@ id
 
 (stop s id)
 
+;; task admin
+
 (-> (task-summary s)
-    (print-table)
- )
+    (print-table))
 
 (-> (task-summary s [:asset])
     (print-table))
+ 
+;; start variations
 
-(-> (load-template s :alex/bollinger)
-    (permutate :asset ["BTCUSDT" "ETHUSDT"])
- )
+(let [option-seq (make-variations [:asset [:a :b :c :d]])
+      template (load-template s :alex/bollinger)]
+   (map #(apply-options template %) option-seq))
+
+   (start-variations
+   s
+   :alex/bollinger
+   :chart
+   [:asset ["BTCUSDT" "ETHUSDT"]
+    :calendar [[:crypto :m]
+               [:crypto :m15]
+               [:crypto :m30]
+               [:crypto :h]]])
+
+
+
+
+  
+
+
 
 
 
