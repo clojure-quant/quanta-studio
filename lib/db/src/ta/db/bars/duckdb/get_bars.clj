@@ -67,27 +67,35 @@
 (defn get-bars
   "returns bar-ds for asset/calendar + window
    returns nom anomaly if there are no bars in the dataset."
-  [session {:keys [asset calendar]} {:keys [start end] :as window}]
-  (let [; v0.10 of tmlducken cannot do queries with date
-        ; being zoned-datetime
-        start (ensure-instant start)
-        end (ensure-instant end)
-        bar-ds (cond
-                 (and start end)
-                 (get-bars-window session calendar asset start end)
+  [session {:keys [asset calendar] :as opts} {:keys [start end] :as window}]
+  (try
+    (let [; v0.10 of tmlducken cannot do queries with date
+          ; being zoned-datetime
+          start (ensure-instant start)
+          end (ensure-instant end)
+          bar-ds (cond
+                   (and start end)
+                   (get-bars-window session calendar asset start end)
 
-                 start
-                 (get-bars-since session calendar asset start)
+                   start
+                   (get-bars-since session calendar asset start)
 
-                 :else
-                 (get-bars-full session calendar asset))]
-    (cond
-      (or (nil? bar-ds)
-          (= 0 (tc/row-count bar-ds)))
-      (nom/fail ::get-bars-duckdb {:message (str "asset " asset " has no bars in duckdb!")})
+                   :else
+                   (get-bars-full session calendar asset))]
+      (cond
+        (or (nil? bar-ds)
+            (= 0 (tc/row-count bar-ds)))
+        (nom/fail ::get-bars-duckdb {:message (str "asset " asset " has no bars in duckdb!")})
 
-      :else
-      bar-ds)))
+        :else
+        bar-ds))
+    (catch Exception ex
+      (error "get-bars " (select-keys opts [:task-id :asset :calendar :import])
+             " window: " (select-keys window [:start :end])
+             "exception: " ex)
+      (nom/fail ::get-bars-duckdb {:message (str "get-bars asset: " asset
+                                                 " calendar: " calendar
+                                                 "exception! ")}))))
 
 (comment
 

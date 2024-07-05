@@ -48,26 +48,17 @@ db
 (b/get-bars db
             {:asset "ETHUSDT"  ; "USD/JPY"
              :calendar [:crypto :m15]}
-            {;:start #inst "2024-07-01T01:00:00.000-00:00"
-             ;:end #inst "2024-07-05T16:45:00.000000000-00:00"
-             })
-; working
-; start 2024-06-20T01:15:00Z 
-; end   2024-07-05T01:00:00Z
+            {})
 
 (b/get-bars db
             {:asset "ETHUSDT"  ; "USD/JPY"
              :calendar [:crypto :m15]}
             {:start #inst "2024-07-01T01:00:00.000-00:00"
-             ;:end #inst "2024-07-05T16:45:00.000000000-00:00"
              })
-; not working
 
 (b/get-bars db
             {:asset "ETHUSDT"  ; "USD/JPY"
              :calendar [:crypto :m15]}
             {:start (t/instant "2024-07-01T01:00:00.000-00:00")
              })
-; this works
 
- (t/instant "2022-03-05T00:00:00Z")
