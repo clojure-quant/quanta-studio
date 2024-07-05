@@ -60,9 +60,9 @@
 
 (defn ensure-instant [dt]
   (when dt
-    (if (t/zoned-date-time? dt)
-      (t/instant dt)
-      dt)))
+    (if (t/instant? dt)
+      dt
+      (t/instant dt))))
 
 (defn get-bars
   "returns bar-ds for asset/calendar + window
