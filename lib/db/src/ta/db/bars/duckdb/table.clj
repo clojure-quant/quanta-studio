@@ -42,7 +42,7 @@
 (defn create-table [session calendar]
   (let [ds (empty-ds calendar)
         table-name (bar-category->table-name calendar)]
-    (info "creating table: " table-name)
+    (debug "creating table: " table-name)
     (duckdb/create-table! (:conn session) ds)))
 
 (defn init-tables [session]

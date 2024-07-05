@@ -33,7 +33,8 @@
                                        :location :visualize})))))))))
 
 (defn start-task [env {:keys [id algo key] :as template} mode task-id result-fn]
-  (let [algo-results-a (algo-env/add-algo env algo)
+  (let [algo (assoc algo :task-id task-id) ; adds task-id as an option, this is used for logging.
+        algo-results-a (algo-env/add-algo env algo)
         viz-fn (create-viz-fn template mode)
         err (or (when (nom/anomaly? algo-results-a) algo-results-a)
                 (when (nom/anomaly? viz-fn) viz-fn))]

@@ -73,15 +73,17 @@
       (t/long)
       (* 1000)))
 
-(defn range->parameter [range]
-  (assoc range
-         :start (instant->epoch-millisecond (:start range))
-         :end (instant->epoch-millisecond (:end range))))
+(defn range->parameter [window]
+  (assoc window
+         :start (instant->epoch-millisecond (:start window))
+         :end (instant->epoch-millisecond (:end window))))
 
-(defn get-bars-req [{:keys [asset calendar] :as opts} range]
-  (info "get-bars-req" opts range)
-  (assert asset "bybit get-bars needs :asset")
-  (assert asset "bybit get-bars needs range")
+(defn get-bars-req [{:keys [asset calendar] :as opts} window]
+  (info "get-bars-req: " (select-keys opts [:task-id :asset :calendar :import]) 
+        "window: "  (select-keys window [:start :end]))
+  (assert asset "bybit get-bars needs asset parameter")
+  ;(assert calendar "bybit get-bars needs calendar parameter")
+  (assert window "bybit get-bars needs window paramaeter")
   (nom/let-nom>
    [f (if calendar
         (cal-type/interval calendar)
@@ -168,15 +170,15 @@
                                       :range range})))
 
 (defn get-bars [{:keys [asset calendar] :as opts} {:keys [start end] :as window}]
-  (info "get-bars: " opts range)
+  (info "get-bars: " (select-keys opts [:task-id :asset :calendar :import]) "window: " window)
   (let [page-size 1000 ; 200
         ; dates need to be instant, because only instant can be converted to unix-epoch-ms
         start (if (t/instant? start) start (t/instant start))
         end (if (t/instant? end) end (t/instant end))
         window (assoc window :limit page-size :start start :end end)]
-    (info "start: " start)
+    (info "initial-page start: " start)
     (->> (iteration (fn [window]
-                      (info "new page req: " window)
+                      (info "new page window: " window)
                       (get-bars-req opts window))
                     :initk window
                     :kf  (partial next-request calendar window))

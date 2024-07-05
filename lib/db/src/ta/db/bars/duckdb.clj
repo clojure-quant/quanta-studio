@@ -31,10 +31,11 @@
 
 ;; CREATE INDEX s_idx ON films (revenue);
 
+
 (defrecord bardb-duck [db conn new?]
   barsource
   (get-bars [this opts window]
-    (info "get-bars " opts window)
+    (info "get-bars " (select-keys opts [:task-id :asset :calendar :import]) window)
     (get-bars this opts window))
   bardb
   (append-bars [this opts ds-bars]

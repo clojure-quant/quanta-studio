@@ -15,6 +15,7 @@
 (defrecord compressing-provider [provider interval-config]
   barsource
   (get-bars [this opts window]
+    (info "get-bars " (select-keys opts [:task-id :asset :calendar :import]) window)
     (let [calendar  (:calendar opts)
           market (cal/exchange calendar)
           interval (cal/interval calendar)
@@ -22,10 +23,10 @@
       (if interval-source
         (let [calendar-source [market interval-source]
               opts-source (assoc opts :calendar calendar-source)
-              _ (warn "compressing " interval-source " to: " interval " opts: " opts-source)
+              _ (warn "compressing [" interval-source "=> " interval "] opts: " (select-keys opts-source [:task-id :asset :calendar :import]))
               ds-higher (b/get-bars (:provider this) opts-source window)]
-          (case
-           (not ds-higher)
+          (cond
+            (not ds-higher)
             (nom/fail ::compress {:message "cannot compress dataset, ds-higher is nil"
                                   :opts opts
                                   :range window})
@@ -34,9 +35,10 @@
             ds-higher
 
             :else
-            (compress-to-calendar ds-higher calendar)))
+            (do (info "compressing "  " bars to calendar: " calendar) ; (count ds-higher)
+                (compress-to-calendar ds-higher calendar))))
         (do
-          (warn "compressing-provider no compression for: " interval " -forwarding request to import-provider: " opts window)
+          (warn "no compression for: " interval " - forwarding request to import-provider: " opts window)
           (b/get-bars (:provider this) opts window))))))
 
 (defn start-compressing-provider  [provider interval-config]

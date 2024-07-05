@@ -58,17 +58,23 @@
       (b/append-bars (:bar-db state) opts bar-ds)
       (overview/update-range (:overview-db state) opts (:db task)))
     (catch AssertionError ex
-      (error "dynamic-import.append-bars exception! asset: " (:asset opts) "calendar: " (:calendar opts))
+      (error "append-bars " (select-keys opts [:task-id :asset :calendar :import]) " assert error: " ex)
       nil)
     (catch Exception ex
-      (error "dynamic-import.append-bars exception! asset: " (:asset opts) "calendar: " (:calendar opts))
+      (error "append-bars  " (select-keys opts [:task-id :asset :calendar :import]) " exception : " ex)
       nil)))
 
 (defn run-import-task [state opts task]
   (let [bar-ds (get-bars-safe state opts task)]
-    (if (and bar-ds (not (nom/anomaly? bar-ds)))
-      (append-bars-safe state opts task bar-ds)
-      (error "run-import-task " opts "error: " bar-ds))))
+    (cond 
+      (nil? bar-ds)
+      (error "run-import-task " (select-keys opts [:task-id :asset :calendar :import]) "failed: imported bar-ds is nil.")
+      
+      (nom/anomaly? bar-ds)
+      (error "run-import-task " (select-keys opts [:task-id :asset :calendar :import]) " failed. anomaly: " bar-ds)
+
+      :else 
+      (append-bars-safe state opts task bar-ds))))
 
 (defn run-import-tasks [state opts tasks]
   (doall (map #(run-import-task state opts %) tasks)))
@@ -76,13 +82,13 @@
 (defn tasks-for-request [state {:keys [asset calendar import] :as opts} req-window]
   (if import
     (let [db-window (overview/available-range (:overview-db state) opts)
-          tasks (import-tasks  req-window db-window)]
+          tasks (import-tasks req-window db-window)]
       tasks)
     (do (warn "no import defined for asset: " asset " calendar: " calendar)
         '())))
 
 (defn import-on-demand [state {:keys [asset calendar] :as opts} req-window]
-  (info "import-on-demand " opts req-window)
+  (info "import-on-demand " (select-keys opts [:task-id :asset :calendar :import]) req-window)
   (let [tasks (tasks-for-request state opts req-window)]
     (info "tasks: " tasks)
     (when (import-needed? tasks)
