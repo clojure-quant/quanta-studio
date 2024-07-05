@@ -46,6 +46,8 @@
                                  :opts opts
                                  :task task}))
     (catch Exception ex
+      (error "get-bars-safe " (select-keys opts [:task-id :asset :calendar :import]) 
+             "task: " task "failed: reason import-provider get-bars exception: " ex)
       (nom/fail ::get-bars-safe {:message "import-provider get-bars has thrown an exception"
                                  :opts opts
                                  :task task

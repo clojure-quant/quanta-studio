@@ -14,10 +14,10 @@ dt
 
 ;; BYBIT
 (b/get-bars im {:asset "ETHUSDT" ; crypto
-                :calendar [:crypto :d]
+                :calendar [:crypto :m]
                 :import :bybit}
-            {:start  (t/instant "2020-01-01T00:00:00Z")
-             :end (t/instant "2024-01-01T00:00:00Z")})
+            {:start  (t/instant "2024-05-01T00:00:00Z")
+             :end (t/instant "2024-07-01T00:00:00Z")})
 
 ;; ALPHAVANTAGE
 (b/get-bars im {:asset "FMCDX" ; mutual fund

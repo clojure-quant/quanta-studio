@@ -1,7 +1,7 @@
 (ns ta.import.provider.bybit.ds
   (:require
    [clojure.string :as str]
-   [taoensso.timbre :refer [info]]
+   [taoensso.timbre :refer [info error]]
    [de.otto.nom.core :as nom]
    [tick.core :as t] ; tick uses cljc.java-time
    [tech.v3.dataset :as tds]
@@ -62,6 +62,8 @@
 (def bybit-frequencies
   ; Kline interval. 1,3,5,15,30,60,120,240,360,720,D,M,W
   {:m "1"
+   :m15 "15"
+   :m30 "30"
    :h "60"
    :d "D"})
 
@@ -79,11 +81,11 @@
          :end (instant->epoch-millisecond (:end window))))
 
 (defn get-bars-req [{:keys [asset calendar] :as opts} window]
-  (info "get-bars-req: " (select-keys opts [:task-id :asset :calendar :import]) 
+  (info "get-bars-req: " (select-keys opts [:task-id :asset :calendar :import])
         "window: "  (select-keys window [:start :end]))
   (assert asset "bybit get-bars needs asset parameter")
   ;(assert calendar "bybit get-bars needs calendar parameter")
-  (assert window "bybit get-bars needs window paramaeter")
+  (assert window "bybit get-bars needs window parameter")
   (nom/let-nom>
    [f (if calendar
         (cal-type/interval calendar)
@@ -93,10 +95,10 @@
                       frequency-bybit
                       (nom/fail ::get-bars-req {:message "unsupported bybit frequency!"
                                                 :opts opts
-                                                :range range}))
+                                                :range window}))
     symbol-bybit (symbol->provider asset)
     category (symbol->provider-category asset)
-    range-bybit (range->parameter range)]
+    range-bybit (range->parameter window)]
    (-> (bybit/get-history-request (merge
                                    {:symbol symbol-bybit
                                     :interval frequency-bybit
@@ -126,16 +128,16 @@
   "returns the parameters for the next request.
    returns nil if last result is an anomaly, or
    if no more requests are needed."
-  [calendar range bar-ds]
-  (info "next-request range: " range)
+  [calendar window bar-ds]
+  (info "next-request window: " window)
   (when-not (nom/anomaly? bar-ds)
     (let [earliest-received-dt (-> bar-ds tc/first :date first)
           [calendar-kw interval-kw] calendar
           end (prior-close calendar-kw interval-kw earliest-received-dt)
           end-instant (t/instant end)
-          {:keys [start limit]} range]
+          {:keys [start limit]} window]
       (when (more? start limit bar-ds)
-        (assoc range :end end-instant)))))
+        (assoc window :end end-instant)))))
 
 (defn all-ds-valid [datasets]
   (let [or-fn (fn [a b] (or a b))]
@@ -159,7 +161,7 @@
       (tc/update-columns ds {:date set-close-time-vec})
       ds)))
 
-(defn consolidate-datasets [opts range datasets]
+(defn consolidate-datasets [opts window datasets]
   (if (all-ds-valid datasets)
     (->> datasets
          (apply tc/concat)
@@ -167,22 +169,34 @@
          (set-daily-time opts))
     (nom/fail ::consolidate-datasets {:message "paged request failed!"
                                       :opts opts
-                                      :range range})))
+                                      :range window})))
 
 (defn get-bars [{:keys [asset calendar] :as opts} {:keys [start end] :as window}]
-  (info "get-bars: " (select-keys opts [:task-id :asset :calendar :import]) "window: " window)
-  (let [page-size 1000 ; 200
+  (info "get-bars: " (select-keys opts [:task-id :asset :calendar :import])
+        "window: " (select-keys window [:start :end]))
+  (try
+    (let [page-size 1000 ; 200
         ; dates need to be instant, because only instant can be converted to unix-epoch-ms
-        start (if (t/instant? start) start (t/instant start))
-        end (if (t/instant? end) end (t/instant end))
-        window (assoc window :limit page-size :start start :end end)]
-    (info "initial-page start: " start)
-    (->> (iteration (fn [window]
-                      (info "new page window: " window)
-                      (get-bars-req opts window))
-                    :initk window
-                    :kf  (partial next-request calendar window))
-         (consolidate-datasets opts range))))
+          start (if (t/instant? start) start (t/instant start))
+          end (if (t/instant? end) end (t/instant end))
+          window (assoc window :limit page-size :start start :end end)]
+      (info "initial-page start: " start " end: " end)
+      (->> (iteration (fn [window]
+                        (info "new page window: " (select-keys window [:start :end]))
+                        (get-bars-req opts window))
+                      :initk window
+                      :kf  (partial next-request calendar window))
+           (consolidate-datasets opts window)))
+    (catch AssertionError ex
+      (error "get-bars: " calendar " assert-error: " ex)
+      (nom/fail ::compress {:message "assert-error in compressing ds-higher"
+                            :opts opts
+                            :range window}))
+    (catch Exception ex
+      (error "get-barss calendar: " calendar " exception: " ex)
+      (nom/fail ::compress {:message "exception in bybit get-bars"
+                            :opts opts
+                            :range window}))))
 
 (defrecord import-bybit []
   barsource

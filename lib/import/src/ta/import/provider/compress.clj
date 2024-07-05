@@ -12,10 +12,27 @@
     (info "requested interval: " interval "source interval: " source-interval)
     source-interval))
 
+(defn run-compress-safe [ds-higher calendar opts window]
+  (info "compressing "  " bars to calendar: " calendar) ; (count ds-higher)
+  (try
+    (compress-to-calendar ds-higher calendar)
+
+    (catch AssertionError ex
+      (error "run-compress calendar: " calendar " assert-error: " ex)
+      (nom/fail ::compress {:message "assert-error in compressing ds-higher"
+                            :opts opts
+                            :range window}))
+    (catch Exception ex
+      (error "run-compress calendar: " calendar " exception: " ex)
+      (nom/fail ::compress {:message "exception in compressing ds-higher"
+                            :opts opts
+                            :range window}))))
+
 (defrecord compressing-provider [provider interval-config]
   barsource
   (get-bars [this opts window]
-    (info "get-bars " (select-keys opts [:task-id :asset :calendar :import]) window)
+    (info "get-bars " (select-keys opts [:task-id :asset :calendar :import])
+          " window: " (select-keys window [:start :end]))
     (let [calendar  (:calendar opts)
           market (cal/exchange calendar)
           interval (cal/interval calendar)
@@ -35,10 +52,9 @@
             ds-higher
 
             :else
-            (do (info "compressing "  " bars to calendar: " calendar) ; (count ds-higher)
-                (compress-to-calendar ds-higher calendar))))
+            (run-compress-safe ds-higher calendar opts window)))
         (do
-          (warn "no compression for: " interval " - forwarding request to import-provider: " opts window)
+          (warn "no compression for: " interval " - forwarding request to import-provider: ")
           (b/get-bars (:provider this) opts window))))))
 
 (defn start-compressing-provider  [provider interval-config]
