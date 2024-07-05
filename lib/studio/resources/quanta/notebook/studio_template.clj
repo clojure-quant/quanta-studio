@@ -64,9 +64,9 @@ id
 
 ; get result specific task
 
-(current-task-result s "cdEkYS")
+(current-task-result s "2CYCPN")
 
-(current-task-result s "YVuDZv")
+(current-task-result s "dsVoP1")
 
 (current-task-result s "nlavCI")
 

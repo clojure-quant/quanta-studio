@@ -50,6 +50,7 @@
           ;_ (info "algo-result-a: " algo-result-a)
         {:start-dt (now)
          :task-id task-id
+         :mode mode
          :template template
          :algo-result algo-result-a
          :viz-result viz-result-a
@@ -65,11 +66,12 @@
   (or (nil? viz-result)
       (nom/anomaly? @viz-result)))
 
-(defn summarize-task [algo-option-keys {:keys [task-id template start-dt] :as task}]
+(defn summarize-task [algo-option-keys {:keys [task-id template start-dt mode] :as task}]
   (let [{:keys [id algo]} template]
     {:task-id task-id
      :start-dt start-dt
      :template-id id
+     :mode mode
      :error?  (error? task)
      :algo (if algo-option-keys
              (select-keys algo algo-option-keys)
