@@ -46,7 +46,7 @@
                                  :opts opts
                                  :task task}))
     (catch Exception ex
-      (error "get-bars-safe " (select-keys opts [:task-id :asset :calendar :import]) 
+      (error "get-bars-safe " (select-keys opts [:task-id :asset :calendar :import])
              "task: " task "failed: reason import-provider get-bars exception: " ex)
       (nom/fail ::get-bars-safe {:message "import-provider get-bars has thrown an exception"
                                  :opts opts
@@ -68,14 +68,14 @@
 
 (defn run-import-task [state opts task]
   (let [bar-ds (get-bars-safe state opts task)]
-    (cond 
+    (cond
       (nil? bar-ds)
       (error "run-import-task " (select-keys opts [:task-id :asset :calendar :import]) "failed: imported bar-ds is nil.")
-      
+
       (nom/anomaly? bar-ds)
       (error "run-import-task " (select-keys opts [:task-id :asset :calendar :import]) " failed. anomaly: " bar-ds)
 
-      :else 
+      :else
       (append-bars-safe state opts task bar-ds))))
 
 (defn run-import-tasks [state opts tasks]
@@ -93,6 +93,6 @@
   (info "import-on-demand " (select-keys opts [:task-id :asset :calendar :import]) req-window)
   (let [tasks (tasks-for-request state opts req-window)]
     (when (import-needed? tasks)
-      (info "running import-tasks: " tasks)  
+      (info "running import-tasks: " tasks)
       (logger/import-on-demand opts req-window tasks)
       (run-import-tasks state opts tasks))))

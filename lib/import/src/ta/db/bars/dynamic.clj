@@ -5,11 +5,10 @@
    [ta.db.bars.dynamic.overview-db :as overview]
    [ta.db.bars.dynamic.import :refer [import-on-demand]]))
 
-
 (defrecord bardb-dynamic [bar-db importer overview-db]
   barsource
   (get-bars [this opts window]
-    (info "get-bars " (select-keys opts [:task-id :asset :calendar :import]) 
+    (info "get-bars " (select-keys opts [:task-id :asset :calendar :import])
           " window: " (select-keys window [:start :end]))
     (if (:import opts)
       (import-on-demand this opts window)

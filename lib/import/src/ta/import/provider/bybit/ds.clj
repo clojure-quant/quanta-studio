@@ -82,7 +82,7 @@
 
 (defn get-bars-req [{:keys [asset calendar] :as opts} window]
   (debug "get-bars-req: " (select-keys opts [:task-id :asset :calendar :import])
-        "window: "  (select-keys window [:start :end]))
+         "window: "  (select-keys window [:start :end]))
   (assert asset "bybit get-bars needs asset parameter")
   ;(assert calendar "bybit get-bars needs calendar parameter")
   (assert window "bybit get-bars needs window parameter")
@@ -129,7 +129,7 @@
    returns nil if last result is an anomaly, or
    if no more requests are needed."
   [calendar window bar-ds]
-  (info "next-request window: " window)
+  (debug "next-request window: " window)
   (when-not (nom/anomaly? bar-ds)
     (let [earliest-received-dt (-> bar-ds tc/first :date first)
           [calendar-kw interval-kw] calendar
