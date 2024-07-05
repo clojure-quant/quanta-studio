@@ -56,7 +56,7 @@
 (defn append-bars-safe [state opts task bar-ds]
   (try
     (when bar-ds
-      (info "dynamically received ds-bars! appending to db...")
+      (debug "dynamically received ds-bars! appending to db...")
       (b/append-bars (:bar-db state) opts bar-ds)
       (overview/update-range (:overview-db state) opts (:db task)))
     (catch AssertionError ex
@@ -92,7 +92,7 @@
 (defn import-on-demand [state {:keys [asset calendar] :as opts} req-window]
   (info "import-on-demand " (select-keys opts [:task-id :asset :calendar :import]) req-window)
   (let [tasks (tasks-for-request state opts req-window)]
-    (info "tasks: " tasks)
     (when (import-needed? tasks)
+      (info "running import-tasks: " tasks)  
       (logger/import-on-demand opts req-window tasks)
       (run-import-tasks state opts tasks))))

@@ -101,7 +101,7 @@
   (let [ds (sanitize-ds-before-append ds asset)
         table-name (bar-category->table-name calendar)
         ds-with-name (tc/set-dataset-name ds table-name)]
-    (info "duckdb append-bars # " (tc/row-count ds))
+    (info "duckdb append-bars asset: " asset " calendar: " calendar " bar:# " (tc/row-count ds))
     ;(info "duckdb append-bars ds-meta: " (tc/info ds))
     ;(info "session: " session)
     ;(info "ds: " ds)

@@ -1,7 +1,7 @@
 (ns ta.import.provider.bybit.ds
   (:require
    [clojure.string :as str]
-   [taoensso.timbre :refer [info error]]
+   [taoensso.timbre :refer [debug info error]]
    [de.otto.nom.core :as nom]
    [tick.core :as t] ; tick uses cljc.java-time
    [tech.v3.dataset :as tds]
@@ -81,7 +81,7 @@
          :end (instant->epoch-millisecond (:end window))))
 
 (defn get-bars-req [{:keys [asset calendar] :as opts} window]
-  (info "get-bars-req: " (select-keys opts [:task-id :asset :calendar :import])
+  (debug "get-bars-req: " (select-keys opts [:task-id :asset :calendar :import])
         "window: "  (select-keys window [:start :end]))
   (assert asset "bybit get-bars needs asset parameter")
   ;(assert calendar "bybit get-bars needs calendar parameter")
@@ -193,7 +193,7 @@
                             :opts opts
                             :range window}))
     (catch Exception ex
-      (error "get-barss calendar: " calendar " exception: " ex)
+      (error "get-bars calendar: " calendar " exception: " ex)
       (nom/fail ::compress {:message "exception in bybit get-bars"
                             :opts opts
                             :range window}))))
