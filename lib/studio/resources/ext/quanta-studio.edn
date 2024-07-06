@@ -4,6 +4,8 @@
                quanta.studio.view.options
                quanta.studio.view.live-result
                quanta.studio.page.algo
+               ; reval
+               quanta.studio.reval.text
                ; dev
                quanta.studio.page.dev
                quanta.studio.page.dev.color
