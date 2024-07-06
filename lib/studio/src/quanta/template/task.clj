@@ -66,13 +66,14 @@
   (or (nil? viz-result)
       (nom/anomaly? @viz-result)))
 
-(defn summarize-task [algo-option-keys {:keys [task-id template start-dt mode] :as task}]
-  (let [{:keys [id algo]} template]
+(defn summarize-task [{:keys [task-id template start-dt mode] :as task}]
+  (let [algo-option-keys nil
+        {:keys [id algo]} template]
     {:task-id task-id
      :start-dt start-dt
      :template-id id
      :mode mode
-     :error?  (error? task)
+     :error?  (if (error? task) true false)
      :algo (if algo-option-keys
              (select-keys algo algo-option-keys)
              ; if no specific keys are provide

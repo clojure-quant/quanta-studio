@@ -1,22 +1,36 @@
 (ns quanta.alert
   (:require
+   [tick.core :as t]
    [ta.viz.ds.edn :refer [edn-render-spec]]))
 
-(defn report-data  [opts data]
+(defn report-data
+  "provides data of the current state of an algo.
+   visualised in the web-ui.
+   - algo-opts: the opts from the algo
+   - data: optional data to display"
+  [algo-opts data]
   (edn-render-spec :alert/data
                    {:alert false
-                    :opts opts
+                    :opts algo-opts
                     :data data}))
 
-(defn trade-alert [opts data side]
+(defn trade-alert
+  "creates a trade alert
+   - side:long or :short
+   - algo-opts: the opts from the algo
+   - data: optional data to display"
+  [side algo-opts data]
   (edn-render-spec :alert
                    {:alert true
                     :side side
-                    :opts opts
+                    :opts algo-opts
                     :data data}))
 
 (defn alert? [{:keys [data spec]}]
   (= spec :alert))
+
+(defn alert-data? [{:keys [data spec]}]
+  (= spec :alert/data))
 
 (defn code [text]
   (str "<code>" text "</code>"))
@@ -34,12 +48,51 @@
   (str (bold (str side " " asset))
        (italic (str " " interval))))
 
-(defn alert->telegram-message [{:keys [data] :as render-data}]
-  (let [{:keys [opts data side]} data
-        {:keys [asset calendar data side]} data
-        [market interval] calendar]
+(defn render-spec->alert [{:keys [data spec]}]
+  data)
+
+(defn alert->telegram-message [algo-render-spec]
+  (let [a (render-spec->alert algo-render-spec)
+        {:keys [alert side opts data]} a
+        {:keys [asset calendar]} opts
+        [market interval] calendar
+        side (if alert side :debug)]
     {:html (str (header side asset interval)
-                (edn data)
-                (edn opts))}))
+                (italic " opts:")
+                (edn opts)
+                (italic " data:")
+                (edn data))}))
+
+(defn test-alert
+  "this function is to be used as a telegram command.
+   it returns a test alert."
+  [_]
+  (let [a (trade-alert :buy
+                       {:asset "TEST"
+                        :calendar [:crypto :m]
+                        :date (t/instant)}
+                       {:x 1
+                        :y [2 3 4]
+                        :z 5})]
+    (alert->telegram-message a)))
+
+(comment
+
+  (def a (trade-alert :buy
+                      {:asset "TEST"
+                       :calendar [:crypto :m]
+                       :date (t/instant)}
+                      {:x 1
+                       :y [2 3 4]
+                       :z 5}))
+
+  (render-spec->alert a)
+
+  (alert->telegram-message a)
+
+  (test-alert nil)
+
+; 
+  )
 
 

@@ -13,7 +13,7 @@
    [quanta.template :as qtempl]
    [quanta.template.task :refer [start-task stop-task summarize-task]]
    [quanta.template.db :as template-db]
-   [quanta.studio.publish :refer [push-viz-result]]))
+   [quanta.studio.task :refer [process-viz-result]]))
 
 (defn- requiring-resolve-safe [template-symbol]
   (try
@@ -36,13 +36,14 @@
     (info "adding templates: " template-symbols)
     (doall (map #(add-template this %) template-symbols))))
 
-(defn start-studio [{:keys [exts clj role bar-db env-live websocket]}]
+(defn start-studio [{:keys [exts clj role bar-db env-live websocket telegram]}]
   (info "starting quanta-studio..")
   (let [this {:bar-db bar-db
               :templates (atom {})
               :subscriptions-a (atom {})
               :env-live env-live
-              :websocket websocket}]
+              :websocket websocket
+              :telegram telegram}]
     (add-templates this exts)
     (if clj
       (do
@@ -113,10 +114,10 @@
    returns task-id or nom/anomaly"
   ([this template mode]
    (start-template this template mode (nano-id 6)))
-  ([{:keys [env-live subscriptions-a websocket] :as this} template mode task-id]
+  ([{:keys [env-live subscriptions-a websocket telegram] :as this} template mode task-id]
    (info "start template-id: " (:id template) "mode: " mode)
    (if env-live
-     (let [result-fn (partial push-viz-result websocket)
+     (let [result-fn (partial process-viz-result websocket telegram)
            {:keys [task-id] :as task} (start-task env-live template mode task-id result-fn)]
        (if (nom/anomaly? task)
          task
@@ -163,9 +164,26 @@
 
 ; task lists
 
+(defn task-included? [{:keys [error mode]
+                       :or {error :*
+                            mode :*} :as filter-options}
+                      {:keys [error?] :as task-summary}]
+  (let [task-mode (:mode task-summary)]
+    (and
+     (case error
+       :* true
+       :only-error error?
+       :only-valid (not error?)
+       true)
+     (case mode
+       :* true
+       (= mode task-mode)))))
+
 (defn task-summary
-  [{:keys [subscriptions-a] :as this} & [algo-option-keys]]
-  (let [tasks (vals @subscriptions-a)]
-    (map #(summarize-task algo-option-keys %) tasks)))
+  [{:keys [subscriptions-a] :as this} & [options]]
+  (let [tasks (vals @subscriptions-a)
+        options (or options {})
+        task-summaries (map summarize-task tasks)]
+    (filter #(task-included? options %) task-summaries)))
 
 

@@ -1,7 +1,7 @@
 (ns quanta.notebook.studio
   (:require
    [quanta.template.template-db :refer [get-options]]
-   [quanta.studio.publish :as sub]))
+   [quanta.studio.task :as sub]))
 
 (-> :watch-crypto get-options)
 
