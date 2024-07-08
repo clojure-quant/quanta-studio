@@ -24,6 +24,7 @@
 
 (backtest s :alex/bollinger {} :table)
 (backtest s :alex/bollinger {} :chart)
+(backtest s :alex/bollinger {} :backtest)
 
 ;; start/stop task (a realtime calculation)
 

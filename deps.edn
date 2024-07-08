@@ -11,7 +11,11 @@
 
   io.github.clojure-quant/vector-math {:git/url "https://github.com/clojure-quant/techml.vector-math.git"
                                        :sha "1d6e5d0ef3eba53e2afddb5ca0927385a9f62ece"}
-  io.github.clojure-quant/quanta {:mvn/version "0.4.826"}
+  io.github.clojure-quant/quanta {:mvn/version "0.4.827"}
+  ; quanta-studio should bring docs.
+  org.pinkgorilla/goldly-docs {:mvn/version "0.8.33"}
+  org.pinkgorilla/reval {:mvn/version "0.7.160"}
+
   ; projects belonging to studio here:
   ta/algo {:local/root "./lib/algo" :deps/manifest :deps}
   ta/db {:local/root "./lib/db" :deps/manifest :deps}

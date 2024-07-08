@@ -18,12 +18,12 @@
         (if (nom/anomaly? result)
           result
           (try
-            (info "calculating visualization:" id " .. ")
+            (info "calculating visualization mode:" mode " template: " id " .. ")
             ;(warn "result: " result)
             (let [r (if viz-options
                       (viz-fn viz-options result)
                       (viz-fn result))]
-              (debug "calculating visualization:" id " DONE!")
+              (debug "calculating visualization mode:" mode " template: " id " DONE! ")
               r)
             (catch Exception ex
               (let [filename (save-error-report "viz" template ex)]
