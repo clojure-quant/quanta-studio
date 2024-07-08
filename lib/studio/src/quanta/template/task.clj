@@ -10,8 +10,15 @@
 
 (defn create-viz-fn [{:keys [id] :as template} mode]
   ;(info "create-viz-fn: " viz)
-  (let [{:keys [viz viz-options]} (get template mode)
-        viz-fn (compile-symbol viz)]
+  (let [{:keys [viz viz-options]
+         :or {viz-options {}}} (get template mode)
+        viz-fn (compile-symbol viz)
+        algo-options (or (:algo template) {})
+        ; viz options are static. 
+        ; algo options can be changed in ui or code
+        ; therefore algo options need to be the second parameter
+        merged-options (merge viz-options algo-options)]
+    (warn "merged options: " merged-options)
     (if (nom/anomaly? viz-fn)
       viz-fn
       (fn [result]
@@ -20,9 +27,7 @@
           (try
             (info "calculating visualization mode:" mode " template: " id " .. ")
             ;(warn "result: " result)
-            (let [r (if viz-options
-                      (viz-fn viz-options result)
-                      (viz-fn result))]
+            (let [r (viz-fn merged-options result)]
               (debug "calculating visualization mode:" mode " template: " id " DONE! ")
               r)
             (catch Exception ex

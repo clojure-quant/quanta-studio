@@ -25,6 +25,12 @@
 (backtest s :alex/bollinger {} :table)
 (backtest s :alex/bollinger {} :chart)
 (backtest s :alex/bollinger {} :backtest)
+(backtest s :alex/bollinger {} :backtest-raw)
+
+
+(backtest s :alex/bollinger {:asset "LTCUSDT"
+                             :entry [:fixed-amount 1000] } :backtest-raw)
+
 
 ;; start/stop task (a realtime calculation)
 
