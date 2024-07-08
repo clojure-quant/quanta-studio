@@ -26,6 +26,7 @@
   ;ta/tradingview {:local/root "./lib/tradingview" :deps/manifest :deps}  
   ta/studio {:local/root "./lib/studio" :deps/manifest :deps}  
   ta/viz {:local/root "./lib/viz" :deps/manifest :deps}
+  quanta/notebook {:local/root "./lib/notebook" :deps/manifest :deps}
   }
  :aliases
  {; https://github.com/weavejester/cljfmt
