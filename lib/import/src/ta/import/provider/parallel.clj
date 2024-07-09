@@ -5,6 +5,7 @@
    [missionary.core :as m]
    [taoensso.timbre :refer [debug info error]]
    [ta.calendar.core :refer [fixed-window]]
+   [ta.db.bars.protocol :as b :refer [barsource]]
    [ta.import.provider.bybit.ds :refer [get-bars-req]]))
 
 (defn req-window [seq]
@@ -53,6 +54,21 @@
           "in parallel via " (count tasks) "requests ..")
     (m/?
      (apply m/join consolidate tasks))))
+
+#_(defn ds->map [ds]
+  ;(tc/rows :as-maps) ; this does not work, type of it is a reified dataset. 
+  ; this works in repl, but when sending data to the browser it fails.
+    (into []
+          (tds/mapseq-reader ds)))
+
+(defrecord import-bybit-parallel []
+  barsource
+  (get-bars [this {:keys [asset calendar] :as opts} window]
+    (let [{:keys [blocks ds]} (parallel-requests asset calendar window)]
+      ds)))
+
+(defn create-import-bybit-parallel []
+  (import-bybit-parallel.))
 
 (comment
   (require '[tick.core :as t])
