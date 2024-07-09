@@ -108,6 +108,79 @@
     (map (partial apply-options template) option-seq)))
 
 (comment
+
+  (apply-options {:algo {:x 1
+                         :y 2
+                         :users {:w "walter"}}}
+                 {:x 5
+                  [:users :w] "willy"})
+
+  (require '[modular.system])
+  (def s (modular.system/system :studio))
+  s
+
+  (require '[quanta.studio :refer [get-options load-with-options]])
+
+  (require '[quanta.template.db :as template-db])
+
+  (def t (template-db/load-template s :alex/bollinger))
+  t
+
+  (def t (get-options s :alex/bollinger))
+
+  (apply-options t {[:exit :loss-percent] 100,
+                    [:exit :profit-percent] 200})
+
+  (load-with-options
+   s
+   :alex/bollinger
+   {[:exit :loss-percent] 100,
+    [:exit :profit-percent] 200})
+
+  t
+
+  get-default-values [template options]
+
+  (def paths [:a [:b :c] :d])
+  (def data [{:a 1 :b {:c 22 :x 5} :d 55}
+             {:x 1 :i {:y 2 :x 5} :d 55}])
+
+      ; option-ui => algo
+  (specter/select [0 :b :c] data)
+  (specter/setval [0 :b :c] 555 data)
+
+  (specter/setval [0 :b :c] 555 [])
+
+  (specter/select [0 :b :c] data)
+
+  (defn no-path? [p]
+    (info "no-path: " p)
+    (not (contains? paths p)))
+
+  (defn path? [p]
+    (info "path: " p)
+    (contains? paths p))
+
+  (no-path? :d)
+
+  (specter/setval [:a specter/ALL] 4 data)
+
+  (specter/transform [0 :b :c]
+                     specter/NONE
+                     data)
+
+  (specter/select [:a :b] data)
+
+  (specter/setval [1 :asset]  "NZD/USD"
+                  [:day {:feed :fx
+                         :asset "EUR/USD"}
+                   :minute {:type :trailing-bar, :asset "EUR/USD", :import :kibot-http,
+                            :trailing-n 1440, :max-open-close-over-low-high 0.3, :volume-sma-n 30}
+                   :signal {:formula [:day :minute], :spike-atr-prct-min 0.5, :pivot-max-diff 0.001,
+                            :algo 'juan.algo.combined/daily-intraday-combined}])
+
+  ;; VARIATIONS
+
   (add-key {:calendar [:us :d]}
            [:asset ["a" "b" "c"]])
   (map-keys {:calendar [:us :d]}
@@ -147,44 +220,6 @@
   ;;     {:x 3, :y :b, :debug false}
   ;;     {:x 3, :y :c, :debug true}
   ;;     {:x 3, :y :c, :debug false})
-
-  (def paths [:a [:b :c] :d])
-  (def data [{:a 1 :b {:c 22 :x 5} :d 55}
-             {:x 1 :i {:y 2 :x 5} :d 55}])
-
-    ; option-ui => algo
-  (specter/select [0 :b :c] data)
-  (specter/setval [0 :b :c] 555 data)
-
-  (specter/setval [0 :b :c] 555 [])
-
-  (specter/select [0 :b :c] data)
-
-  (defn no-path? [p]
-    (info "no-path: " p)
-    (not (contains? paths p)))
-
-  (defn path? [p]
-    (info "path: " p)
-    (contains? paths p))
-
-  (no-path? :d)
-
-  (specter/setval [:a specter/ALL] 4 data)
-
-  (specter/transform [0 :b :c]
-                     specter/NONE
-                     data)
-
-  (specter/select [:a :b] data)
-
-  (specter/setval [1 :asset]  "NZD/USD"
-                  [:day {:feed :fx
-                         :asset "EUR/USD"}
-                   :minute {:type :trailing-bar, :asset "EUR/USD", :import :kibot-http,
-                            :trailing-n 1440, :max-open-close-over-low-high 0.3, :volume-sma-n 30}
-                   :signal {:formula [:day :minute], :spike-atr-prct-min 0.5, :pivot-max-diff 0.001,
-                            :algo 'juan.algo.combined/daily-intraday-combined}])
 
 ; 
   )
