@@ -29,9 +29,24 @@
        (partition 2)
        (map first)))
 
+(defn get-variation [template v]
+  (cond
+    (keyword? v)
+    [v (get template v)]
+
+    (vector? v)
+    [v (get-in template v)]
+
+    :else
+    []))
+
 (defn summarize [template variations]
-  (-> template :algo
-      (select-keys (variation-keys variations))))
+  ; the old version only was working for variations that were keywords
+  #_(-> template :algo
+        (select-keys (variation-keys variations)))
+  (->> (variation-keys variations)
+       (map #(get-variation (:algo template) %))
+       (into {})))
 
 (defn run-target-fn-safe [target-fn result]
   (if (nom/anomaly? result)
@@ -88,7 +103,8 @@
              ;"ETHUSDT"
              ;"BNBUSDT" 
              "TRXUSDT"]
-     :k1 [1.0 1.5]])
+     ;:k1 [1.0 1.5]
+     [:exit 1] [60 90]])
 
   (variation-keys variations)
 
@@ -116,7 +132,8 @@
         :options options
         :variations variations
         :target-fn get-pf
-        :show-fn show-fn})
+        ;:show-fn show-fn
+        })
       print-table)
 
 ;identity
