@@ -38,22 +38,31 @@
     0.0
     (target-fn result)))
 
-(defn create-algo-task [this variations mode target-fn template]
+(defn run-show-fn-safe [show-fn result]
+  (try
+    (show-fn result)
+    (catch Exception ex
+      {})))
+
+(defn create-algo-task [this variations mode target-fn show-fn template]
   ; needs to throw so it can fail.
   ; returned tasks will not be cpu intensive, so m/cpu.
   (m/via m/cpu
          (let [result (backtest-template this template mode)
-               summary (summarize template variations)]
-           (assoc summary :target (run-target-fn-safe target-fn result)))))
+               summary (summarize template variations)
+               target {:target (run-target-fn-safe target-fn result)}
+               show (run-show-fn-safe show-fn result)]
+           (merge summary target show))))
 
-(defn bruteforce [this {:keys [template-id mode options variations target-fn]}]
+(defn bruteforce [this {:keys [template-id mode options variations target-fn show-fn]
+                        :or {show-fn (fn [result] {})}}]
   ; from: https://github.com/leonoel/missionary/wiki/Rate-limiting#bounded-blocking-execution
   ; When using (via blk ,,,) It's important to remember that the blocking thread pool 
   ; is unbounded, which can potentially lead to out-of-memory exceptions. 
   ; A simple way to work around it is by using a semaphore to rate limit the execution:
   (let [sem (m/sem 10)
         template-seq (create-variations this template-id options variations)
-        tasks (map #(create-algo-task this variations mode target-fn %) template-seq)
+        tasks (map #(create-algo-task this variations mode target-fn show-fn %) template-seq)
         ;tasks-limited (map #(limit-task sem %) tasks)
         ]
     (info "brute force backtesting " (count tasks) " variations ..")
@@ -97,13 +106,17 @@
   (defn get-pf [r]
     (-> r :metrics :roundtrip :pf))
 
+  (defn show-fn [r]
+    (-> r :metrics :roundtrip (select-keys [:trades])))
+
   (-> (bruteforce
        s
        {:template-id :alex/bollinger
         :mode :backtest-raw
         :options options
         :variations variations
-        :target-fn get-pf})
+        :target-fn get-pf
+        :show-fn show-fn})
       print-table)
 
 ;identity
