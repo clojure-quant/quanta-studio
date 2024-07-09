@@ -86,16 +86,16 @@
   (-> (template-db/load-template this template-id)
       (qtempl/get-options)))
 
-(defn backtest
+(defn backtest-template
   "this runs a viz-task once and returns the viz-result.
    output is guaranteed to be always viz-spec format, so
    possible anomalies are converted to viz-spec"
-  ([this template-id template-options mode]
-   (backtest this template-id template-options mode (nano-id 6)))
-  ([{:keys [bar-db] :as this} template-id template-options mode task-id]
-   (info "backtest template:" template-id "mode: " mode)
-   (let [template (load-with-options this template-id template-options)
-         env (create-env-javelin bar-db)
+  ; backtest-template is required by bruteforce optimizer.
+  ; otherwise the template gets loaded and loaded and loaded again.
+  ([this template mode]
+   (backtest-template this template mode (nano-id 6)))
+  ([{:keys [bar-db] :as this} template mode task-id]
+   (let [env (create-env-javelin bar-db)
          {:keys [viz-result] :as task} (start-task env template mode task-id log-viz-result)
          window-or-dt (now)
          model (algo-env/get-model env)
@@ -107,6 +107,17 @@
      (if (nom/anomaly? result)
        (error-render-spec result)
        result))))
+
+(defn backtest
+  "this runs a viz-task once and returns the viz-result.
+   output is guaranteed to be always viz-spec format, so
+   possible anomalies are converted to viz-spec"
+  ([this template-id template-options mode]
+   (backtest this template-id template-options mode (nano-id 6)))
+  ([{:keys [bar-db] :as this} template-id template-options mode task-id]
+   (info "backtest template:" template-id "mode: " mode)
+   (let [template (load-with-options this template-id template-options)]
+     (backtest-template this template mode task-id))))
 
 (defn start-template
   "starts new algo via the web ui.
