@@ -1,6 +1,6 @@
 (ns ta.import.provider.bybit.raw
   (:require
-   [taoensso.timbre :refer [info]]
+   [taoensso.timbre :refer [info warn]]
    [tick.core :as t]
    [de.otto.nom.core :as nom]
    [cheshire.core :as cheshire] ; JSON Encoding
@@ -56,10 +56,14 @@
    ;(info "status: " status "headers: " headers)
    (if (= (:retCode result) 0)
      (let [bar-seq (parse-history result)]
-       (if (> (count bar-seq) 0)
-         bar-seq
-         (nom/fail ::bybit-get-history {:message "bar-seq has count 0"
-                                        :query-params query-params})))
+       (when (= (count bar-seq) 0)
+         (warn "no bybit data for params: " query-params))
+       bar-seq
+       #_(if (> (count bar-seq) 0)
+           bar-seq
+           (nom/fail ::bybit-get-history {:message "bar-seq has count 0"
+                                          :query-params query-params
+                                          :result result})))
      (nom/fail ::bybit-get-history {:message "returnCode is not 0"
                                     :ret-code (:retCode result)
                                     :query-params query-params}))))

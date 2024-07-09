@@ -32,9 +32,16 @@
    :end (-> b :date (tc/last) first)
    :size (-> b tc/row-count)})
 
+(defn concat-safe [reqs]
+  (try
+    (->> reqs reverse (apply tc/concat))
+    (catch Exception ex
+      (error "could not concat parallel responses exception: " ex)
+      nil)))
+
 (defn consolidate [& reqs]
   {:blocks reqs
-   :ds (->> reqs reverse (apply tc/concat))})
+   :ds (concat-safe reqs)})
 
 (defn limit-task [sem blocking-task]
   (m/sp

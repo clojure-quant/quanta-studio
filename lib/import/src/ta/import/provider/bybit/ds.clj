@@ -17,10 +17,12 @@
   (tc/order-by ds [:date] [:asc]))
 
 (defn bybit-result->dataset [result]
-  (-> result
-      (tds/->dataset)
-      (sort-ds) ; bybit returns last date in first row.
-      (tc/select-columns [:date :open :high :low :close :volume])))
+  (if (empty? result)
+    (tds/->dataset result)
+    (-> result
+        (tds/->dataset)
+        (sort-ds) ; bybit returns last date in first row.
+        (tc/select-columns [:date :open :high :low :close :volume]))))
 
 ;; REQUEST CONVERSION
 
@@ -98,13 +100,21 @@
                                                 :range window}))
     symbol-bybit (symbol->provider asset)
     category (symbol->provider-category asset)
-    range-bybit (range->parameter window)]
-   (-> (bybit/get-history-request (merge
-                                   {:symbol symbol-bybit
-                                    :interval frequency-bybit
-                                    :category category}
-                                   range-bybit))
-       (bybit-result->dataset))))
+    range-bybit (range->parameter window)
+    response (bybit/get-history-request (merge
+                                         {:symbol symbol-bybit
+                                          :interval frequency-bybit
+                                          :category category}
+                                         range-bybit))]
+   (try
+     (bybit-result->dataset response)
+     (catch Exception ex
+       (error "could not convert bybit bar response to dataset "
+              " asset: " asset " calendar: " calendar
+              " window: " window
+              " response: " response
+              " ex: " ex)
+       nil))))
 
 ;; PAGING REQUESTS
 
