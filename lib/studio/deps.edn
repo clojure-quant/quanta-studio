@@ -10,7 +10,11 @@
   ta/calendar {:local/root "../calendar" :deps/manifest :deps}
   ta/model {:local/root "../engine" :deps/manifest :deps}
   ta/db {:local/root "../db" :deps/manifest :deps}
-  ta/viz {:local/root "../viz" :deps/manifest :deps}}
+  ta/viz {:local/root "../viz" :deps/manifest :deps}
+  
+  ; docstrings
+  cider/orchard {:mvn/version "0.26.1"}
+  }
  :aliases
  {:test {:extra-paths ["test"]
          :extra-deps {io.github.cognitect-labs/test-runner {:git/url "https://github.com/cognitect-labs/test-runner.git"

@@ -69,8 +69,26 @@
                show (run-show-fn-safe show-fn result)]
            (merge summary target show))))
 
-(defn bruteforce [this {:keys [template-id mode options variations target-fn show-fn]
-                        :or {show-fn (fn [result] {})}}]
+(defn bruteforce
+  "runs all variations on a template
+   template-id is referring to a template that is added to quanta studio.
+   mode is the algo-mode from the template that gets run
+   options overrides the default options of the template (wil be done once on startup)
+   the base-options for the template
+   variations is a vector of [path value] tuples (partitions)
+   show-fn is a fn that receives the algo-mode-result and that must return a map 
+   with data that should be associated to the variation-row.
+   target-fn is a value calculated from the algo-mode-result. It represents
+   the value that we want to optimize (or are interested in)
+   example:
+   [:asset [\"BTCUSDT\" 
+            \"TRXUSDT\"]
+     ;:k1 [1.0 1.5]
+     [:exit 1] [60 90]]
+   "
+
+  [this {:keys [template-id mode options variations target-fn show-fn]
+         :or {show-fn (fn [result] {})}}]
   ; from: https://github.com/leonoel/missionary/wiki/Rate-limiting#bounded-blocking-execution
   ; When using (via blk ,,,) It's important to remember that the blocking thread pool 
   ; is unbounded, which can potentially lead to out-of-memory exceptions. 

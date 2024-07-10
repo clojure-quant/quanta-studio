@@ -1,0 +1,9 @@
+{:name "docy"
+ ; run-time
+ :sci-cljs-ns [docy.page]
+ :cljs-routes {"docy" {"" docy.page/docy-page
+                       ["/ns/" :nss] docy.page/docy-ns-page
+                       ["/ns/" :nss "/" :fun] docy.page/docy-fun-page}}
+
+;
+ }

@@ -1,4 +1,5 @@
 {:name "quanta-studio"
+ ; run-time
  :sci-cljs-ns [quanta.studio.page.main
                quanta.studio.view.state
                quanta.studio.view.options
@@ -24,4 +25,6 @@
                        "/layout2" quanta.studio.page.dev.layout/page-layout-2
                        "/assetpicker" quanta.studio.page.dev.assetpicker/assetpicker-page}
 
-               }}
+               }
+ 
+ }
