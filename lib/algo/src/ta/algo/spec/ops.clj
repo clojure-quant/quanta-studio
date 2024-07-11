@@ -57,11 +57,11 @@
           [global-opts spec] (if global-opts?
                                [(first spec) (rest spec)]
                                [{} spec])]
-      (info "global-opts: " global-opts)
+      ;(info "global-opts: " global-opts)
       (->> (reduce (fn [r [id spec]]
                      (let [spec (merge global-opts spec)
                            op (spec->op env spec)]
-                       (info "merged spec: " spec)
+                       ;(info "merged spec: " spec)
                        (cond
                          (nom/anomaly? r) r
                          (nom/anomaly? op) op
