@@ -10,14 +10,11 @@
 
 (defn describe-fun [nss fun]
   (let [data (orchard/info nss fun)]
-    {:ns (str (:ns data))
-     :name (str (:name data))
-     :doc (:doc data)
-     :file (:file data)
-     ; :arglists ([[calendar-kw interval-kw]]),
-     :arglists (:arglists data)
-     :line (:line data)
-     :column (:column data)}))
+    (merge
+     data
+     {:ns (str (:ns data))
+      :name (str (:name data))})))
+    
 
 (defn describe-ns [nss]
   (require [nss])
@@ -26,6 +23,7 @@
      :names (->> symbols
                  (map #(describe-fun nss %))
                  (filter :doc)
+                 (remove :deprecated ) 
                  (sort-by :name)
                  )}))
 
@@ -56,6 +54,21 @@
   namespaces)
 
 (comment
+  (orchard/info 'missionary.core 'amb>)
+  (describe-fun 'missionary.core 'amb>)
+
+  ; deprecated should be removed
+  ; so amb and amb= should exist, but amb> should not
+  (->> (describe-ns 'missionary.core)
+       :names
+       (map :name))
+  
+    (->> (describe-ns 'missionary.core)
+       :names 
+       (filter #(= "amb" (:name %)))  
+       )
+
+
   (describe-ns 'ta.calendar.core)
 
   (describe-ns 'ta.indicator.band)
@@ -67,4 +80,9 @@
 
   d
 
-  (build-namespaces d))
+  (build-namespaces d)
+
+  
+  
+  ;
+  )
