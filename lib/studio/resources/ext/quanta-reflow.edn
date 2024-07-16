@@ -1,0 +1,6 @@
+{:name "quanta-reflow"
+ :clj-services {:name "quanta-reflow"
+                :permission nil
+                :symbols [quanta.studio.calendar/calendar-time]}
+ :cljs-routes {"calendars" quanta.studio.page.calendar/calendar-page}
+}
