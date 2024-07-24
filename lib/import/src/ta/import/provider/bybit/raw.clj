@@ -76,8 +76,17 @@
        :list
        ;(map :symbol)
        ))
-
 (comment
+
+  (defn get-save [category]
+    (->> category
+        get-assets
+        (spit (str "/home/florian/repo/clojure-quant/quanta-market/resources/bybit-" category ".edn"))
+        ))
+  
+  (get-save "spot")
+  (get-save "linear")
+  (get-save "inverse")
 
   (count (get-assets "spot"))    ;; => 596
   (count (get-assets "linear"))  ;; => 432
@@ -89,6 +98,13 @@
   (->> (get-assets "spot")
        (map :symbol)
        (filter #(str/starts-with? %  "BTC")))
+  
+(->> (get-assets "spot")
+     (filter #(= "BTCUSDT" (:symbol %))))
+
+
+
+
 
  ; spot: "BTCUSDT" "BTCUSDC" 
  ; linear "BTC-02AUG24"
