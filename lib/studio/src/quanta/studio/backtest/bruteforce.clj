@@ -1,4 +1,4 @@
-(ns quanta.bruteforce
+(ns quanta.studio.backtest.bruteforce
   (:require
    [de.otto.nom.core :as nom]
    [taoensso.timbre :refer [info warn error]]
@@ -86,7 +86,6 @@
      ;:k1 [1.0 1.5]
      [:exit 1] [60 90]]
    "
-
   [this {:keys [template-id mode options variations target-fn show-fn]
          :or {show-fn (fn [result] {})}}]
   ; from: https://github.com/leonoel/missionary/wiki/Rate-limiting#bounded-blocking-execution

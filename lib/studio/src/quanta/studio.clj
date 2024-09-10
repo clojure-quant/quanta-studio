@@ -5,7 +5,8 @@
    [nano-id.core :refer [nano-id]]
    [extension :as ext]
    [clj-service.core :refer [expose-functions]]
-   [ta.helper.date :refer [now]]
+   [tick.core :as t]
+   ; [ta.helper.date :refer [now]]
    [ta.viz.error :refer [error-render-spec]]
    [ta.algo.env :refer [create-env-javelin]]
    [ta.algo.env.protocol :as algo-env]
@@ -97,7 +98,10 @@
   ([{:keys [bar-db] :as this} template mode task-id]
    (let [env (create-env-javelin bar-db)
          {:keys [viz-result] :as task} (start-task env template mode task-id log-viz-result)
-         window-or-dt (now)
+         ;window-or-dt  (-> (t/now) (t/in "UTC")) ; (now)
+         window-or-dt (get-in template [:algo :end-dt])
+         _ (warn "end-dt: " window-or-dt)
+         _ (warn "template full " template)
          model (algo-env/get-model env)
          result (if (nom/anomaly? task)
                   task
