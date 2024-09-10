@@ -4,7 +4,7 @@
    [modular.system]
    [quanta.template :refer [get-options make-variations apply-options]]
    [quanta.template.db :refer [load-template]]
-   [quanta.studio :refer [backtest
+   [quanta.studio :refer [calculate
                           start stop
                           current-task-result task-summary
                           start-variations]]))
@@ -20,15 +20,15 @@
 (-> (load-template s :alex/bollinger)
     (get-options))
 
-;; backtest
+;; calculate
 
-(backtest s :alex/bollinger {} :table)
-(backtest s :alex/bollinger {} :chart)
-(backtest s :alex/bollinger {} :backtest)
-(backtest s :alex/bollinger {} :backtest-raw)
+(calculate s :alex/bollinger {} :table)
+(calculate s :alex/bollinger {} :chart)
+(calculate s :alex/bollinger {} :backtest)
+(calculate s :alex/bollinger {} :backtest-raw)
 
 
-(backtest s :alex/bollinger {:asset "LTCUSDT"
+(calculate s :alex/bollinger {:asset "LTCUSDT"
                              :entry [:fixed-amount 1000] } :backtest-raw)
 
 

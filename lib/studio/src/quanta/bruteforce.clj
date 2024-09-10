@@ -5,7 +5,7 @@
    [missionary.core :as m]
    [quanta.template :as qtempl]
    [quanta.template.db :as template-db]
-   [quanta.studio :refer [backtest-template]]))
+   [quanta.studio :refer [calculate-template]]))
 
 (defn load-with-options [this template-id options]
   (let [template (template-db/load-template this template-id)
@@ -63,7 +63,7 @@
   ; needs to throw so it can fail.
   ; returned tasks will not be cpu intensive, so m/cpu.
   (m/via m/cpu
-         (let [result (backtest-template this template mode)
+         (let [result (calculate-template this template mode)
                summary (summarize template variations)
                target {:target (run-target-fn-safe target-fn result)}
                show (run-show-fn-safe show-fn result)]
