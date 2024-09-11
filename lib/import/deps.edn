@@ -13,8 +13,8 @@
         io.replikativ/datahike {:mvn/version "0.6.1542"
                                   ;:exclusions [[org.clojure/clojurescript]]
                                 }
-        ta/helper {:local/root "../helper" :deps/manifest :deps}
-        ta/db {:local/root "../db" :deps/manifest :deps}
-        ta/calendar {:local/root "../calendar" :deps/manifest :deps}
+        ;ta/helper {:local/root "../helper" :deps/manifest :deps}
+        ;ta/db {:local/root "../db" :deps/manifest :deps}
+        ;ta/calendar {:local/root "../calendar" :deps/manifest :deps}
         }}
 

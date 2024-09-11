@@ -5,7 +5,8 @@
   manifold/manifold {:mvn/version "0.4.2"} ; async channels
   io.github.clojure-quant/fix-engine {:git/sha "d25efeefd2db73dee622e826ae86248f74f38273"}
   org.pinkgorilla/modular {:mvn/version "0.2.56"}
-  ta/helper {:local/root "../helper" :deps/manifest :deps}}
+  ;ta/helper {:local/root "../helper" :deps/manifest :deps}
+  }
  :aliases
  {:test {:extra-paths ["test"]
          :extra-deps {io.github.cognitect-labs/test-runner {:git/url "https://github.com/cognitect-labs/test-runner.git"

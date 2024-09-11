@@ -5,7 +5,8 @@
   techascent/tech.io {:mvn/version "4.31"}
   com.techascent/tmducken {:mvn/version "0.10.0-2"}
   org.pinkgorilla/modular {:mvn/version "0.2.56"}
-  ta/helper {:local/root "../helper" :deps/manifest :deps}}
+  ;ta/helper {:local/root "../../../quanta/lib/helper" :deps/manifest :deps}
+  }
  :aliases
  {:test {:extra-paths ["test"]
          :extra-deps {io.github.cognitect-labs/test-runner {:git/url "https://github.com/cognitect-labs/test-runner.git"
