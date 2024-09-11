@@ -36,8 +36,6 @@
     {:options options
      :current (get-default-values template options)}))
 
-; TEST COERCE **************************************************************
-
 (defn get-option-by-path [template path]
   (let [options (or (:options template) [])]
     (->> (filter #(= (:path %) path) options)
@@ -52,10 +50,10 @@
   "returns a keyword if value in path should be coerced"
   [template path v]
   (if-let [c (coerce-to template path)]
-    (cond c
-          :int (parse-long v)
-          :double (parse-double v)
-          v)
+    (case c
+      :int (parse-long v)
+      :double (parse-double v)
+      v)
     v))
 
 (defn coerce-path-value [template [path v]]
@@ -65,9 +63,7 @@
   "sets options for a template. 
    returns a variation of the template"
   [template options]
-  (map #(coerce-path-value template %) options))
-
-; TEST COERCE **************************************************************
+  (into {} (map #(coerce-path-value template %) options)))
 
 (defn apply-options
   "sets options for a template. 
