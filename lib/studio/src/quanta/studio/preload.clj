@@ -37,7 +37,7 @@
          retries 5}}]
   (info "getting " label " for: " asset)
   (let [{:keys [import to] :as env} (bar-env bar-db import-manager to)
-        _ (info "env: " env)
+        ;_ (info "env: " env)
         opts {:asset asset
               :calendar calendar
               :import from}
@@ -67,7 +67,8 @@
    retries: optional, number of retries to import bars.
    this function is intended to be used to import data prior to doing backtests.
    the optional environment key settings are useful if you use a non-standard
-   modular config"
+   modular config
+   intended for usecase in notebook / repl"
   ([{:keys [asset calendar
             from to window
             label]
