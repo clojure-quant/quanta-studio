@@ -17,6 +17,7 @@
   ; quanta-studio should bring docs.
   org.pinkgorilla/goldly-docs {:mvn/version "0.8.34"}
   org.pinkgorilla/reval {:mvn/version "0.7.160"}
+  org.pinkgorilla/docy {:mvn/version "0.0.2"}
 
   ; projects belonging to studio here:
   ta/algo {:local/root "./lib/algo" :deps/manifest :deps}
@@ -28,8 +29,7 @@
   ;ta/tradingview {:local/root "./lib/tradingview" :deps/manifest :deps}  
   ta/studio {:local/root "./lib/studio" :deps/manifest :deps}  
   ta/viz {:local/root "./lib/viz" :deps/manifest :deps}
-  quanta/notebook {:local/root "./lib/notebook" :deps/manifest :deps}
-  docy/docy {:local/root "./lib/docy" :deps/manifest :deps}}
+  quanta/notebook {:local/root "./lib/notebook" :deps/manifest :deps}}
  :aliases
  {; https://github.com/weavejester/cljfmt
   :cljfmt
