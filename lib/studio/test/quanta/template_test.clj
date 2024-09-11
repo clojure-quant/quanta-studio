@@ -1,4 +1,4 @@
-(ns quanta.template
+(ns quanta.template-test
   (:require [clojure.test :refer :all]))
 
 (deftest template-test
