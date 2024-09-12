@@ -6,25 +6,8 @@
                quanta.studio.view.live-result
                quanta.studio.page.algo
                ; reval
-               quanta.studio.reval.text
-               ; dev
-               quanta.studio.page.dev
-               quanta.studio.page.dev.color
-               quanta.studio.page.dev.highchart
-               quanta.studio.page.dev.layout
-               quanta.studio.page.dev.assetpicker]
+               quanta.studio.reval.text]
  :cljs-routes {"quanta" quanta.studio.page.main/main-page
                "quanta/" {"algo" quanta.studio.page.algo/algo-page
                           ["algo/" :task-id] quanta.studio.page.algo/algo-task-page
-                          "tasks" quanta.studio.page.tasks/tasks-page}
-                "quanta/dev" {"" quanta.studio.page.dev/dev-page
-                       "/color" quanta.studio.page.dev.color/color-page
-                       "/highstock" quanta.studio.page.dev.highchart/highstock-page
-                       "/highchart" quanta.studio.page.dev.highchart/highchart-page
-                       "/layout1" quanta.studio.page.dev.layout/page-layout-1
-                       "/layout2" quanta.studio.page.dev.layout/page-layout-2
-                       "/assetpicker" quanta.studio.page.dev.assetpicker/assetpicker-page}
-
-               }
- 
- }
+                          "tasks" quanta.studio.page.tasks/tasks-page}}}

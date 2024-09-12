@@ -1,0 +1,19 @@
+{:name "quanta-studio-dev"
+ ; run-time
+ :sci-cljs-ns [; dev
+               quanta.studio.page.dev
+               quanta.studio.page.dev.color
+               quanta.studio.page.dev.highchart
+               quanta.studio.page.dev.layout
+               quanta.studio.page.dev.assetpicker]
+ :cljs-routes {"quanta/dev" {"" quanta.studio.page.dev/dev-page
+                       "/color" quanta.studio.page.dev.color/color-page
+                       "/highstock" quanta.studio.page.dev.highchart/highstock-page
+                       "/highchart" quanta.studio.page.dev.highchart/highchart-page
+                       "/layout1" quanta.studio.page.dev.layout/page-layout-1
+                       "/layout2" quanta.studio.page.dev.layout/page-layout-2
+                       "/assetpicker" quanta.studio.page.dev.assetpicker/assetpicker-page}
+
+               }
+ 
+ }
