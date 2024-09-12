@@ -1,4 +1,4 @@
-(ns quanta.notebook.viz
+(ns quanta.notebook.docs.viz
   (:require
    [tablecloth.api :as tc]
    [tick.core :as t]
