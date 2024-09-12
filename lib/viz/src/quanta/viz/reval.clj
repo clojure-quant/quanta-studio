@@ -1,4 +1,4 @@
-(ns quanta.studio.reval
+(ns quanta.viz.reval
   (:require
    [tech.v3.dataset.impl.dataset]
    [tech.v3.dataset.impl.column]
@@ -60,6 +60,6 @@
   (to-hiccup [self]
     (text-render self "techml dataset ")))
 
-(defn add-techml-render-ui []
+(defn quanta-default-reval-ui []
   ; this function is called just for the side-effects above.
   (println "adding techml render ui .."))
