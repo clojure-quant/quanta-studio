@@ -1,4 +1,4 @@
-(ns ta.viz.error
+(ns quanta.viz.plot.anomaly
   (:require
    [de.otto.nom.core :as nom]))
 
@@ -6,12 +6,9 @@
   ; [::nom/anomaly ::my-category {:some data}]
   [type category (dissoc data-map :ex)])
 
-(defn error-render-spec
-  "returns a render specification {:render-fn :spec :data}. 
-   spec must follow chart-pane format.
-   The ui shows a barchart with extra specified columns 
-   plotted with a specified style/position, 
-   created from the bar-algo-ds"
+(defn anomaly
+  "returns a plot specification {:render-fn :spec :data}. 
+   The ui shows the error message of a nom-anomaly."
   [nom-anomaly]
   ^{:render-fn 'ta.viz.renderfn/render-spec} ; needed for notebooks
   {:render-fn 'ta.viz.renderfn.error/nom-error

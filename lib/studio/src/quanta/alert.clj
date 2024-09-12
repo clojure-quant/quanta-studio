@@ -1,7 +1,7 @@
 (ns quanta.alert
   (:require
    [tick.core :as t]
-   [ta.viz.ds.edn :refer [edn-render-spec]]))
+   [quanta.viz.plot.edn :as plot]))
 
 (defn report-data
   "provides data of the current state of an algo.
@@ -9,10 +9,10 @@
    - algo-opts: the opts from the algo
    - data: optional data to display"
   [algo-opts data]
-  (edn-render-spec :alert/data
-                   {:alert false
-                    :opts algo-opts
-                    :data data}))
+  (plot/edn :alert/data
+            {:alert false
+             :opts algo-opts
+             :data data}))
 
 (defn trade-alert
   "creates a trade alert
@@ -20,11 +20,11 @@
    - algo-opts: the opts from the algo
    - data: optional data to display"
   [side algo-opts data]
-  (edn-render-spec :alert
-                   {:alert true
-                    :side side
-                    :opts algo-opts
-                    :data data}))
+  (plot/edn :alert
+            {:alert true
+             :side side
+             :opts algo-opts
+             :data data}))
 
 (defn alert? [{:keys [data spec]}]
   (= spec :alert))

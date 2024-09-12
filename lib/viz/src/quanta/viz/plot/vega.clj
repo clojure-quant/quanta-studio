@@ -1,4 +1,4 @@
-(ns ta.viz.ds.vega
+(ns quanta.viz.plot.vega
   (:require
    [tablecloth.api :as tc]
    [tech.v3.dataset :as tds]))
@@ -8,7 +8,11 @@
        (tds/mapseq-reader)
        (into [])))
 
-(defn vega-render-spec [{:keys [cols spec] :as vega-spec} bar-algo-ds]
+(defn vega
+  "returns a plot specification {:render-fn :spec :data}. 
+   plot shows a tml/dataset as a vega-chart 
+   vega-spec must follow vega-spec format."
+  [{:keys [cols spec] :as vega-spec} bar-algo-ds]
   (when bar-algo-ds
     ^{:render-fn 'ta.viz.renderfn/render-spec} ; needed for notebooks
     {:render-fn 'ta.viz.renderfn.vega/vega-lite

@@ -1,4 +1,4 @@
-(ns ta.viz.chart-spec)
+(ns quanta.viz.chart-spec)
 
 (defn chart-pane-spec? [spec]
   true)

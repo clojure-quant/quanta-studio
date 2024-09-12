@@ -2,7 +2,7 @@
   (:require
    [tech.v3.dataset :as tds]
    [de.otto.nom.core :as nom]
-   [ta.viz.error :refer [error-render-spec]]
+   [quanta.viz.plot.anomaly :as plot]
    [ta.viz.trade.nav-chart :refer [nav-chart]]
    [ta.viz.trade.roundtrip :refer [roundtrip-ui]]))
 
@@ -30,5 +30,5 @@
    (roundtrip-stats-ui {} metrics))
   ([spec metrics]
    (if (nom/anomaly? metrics)
-     (error-render-spec metrics)
+     (plot/anomaly metrics)
      (roundtrip-stats-ui-impl spec metrics))))

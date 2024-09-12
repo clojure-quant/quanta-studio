@@ -1,6 +1,6 @@
 (ns ta.viz.ds.highchart.spec.axes
   (:require
-   [ta.viz.chart-spec :refer [axes-count]]))
+   [quanta.viz.chart-spec :refer [axes-count]]))
 
 ;; AXES SPEC
 

@@ -1,6 +1,6 @@
 (ns ta.viz.ds.highchart.spec.series
   (:require
-   [ta.viz.chart-spec :refer [chart->series]]
+   [quanta.viz.chart-spec :refer [chart->series]]
    [ta.viz.ds.highchart.spec.color :refer [set-color]]))
 
 ;; FLAGS

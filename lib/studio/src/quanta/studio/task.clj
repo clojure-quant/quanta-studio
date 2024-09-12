@@ -5,7 +5,7 @@
    [modular.ws.core :refer [send-all!]]
    [quanta.alert :refer [alert? alert-data? alert->telegram-message]]
    [telegram.pubsub :as tpubsub]
-   [ta.viz.error :refer [error-render-spec]]))
+   [quanta.viz.plot.anomaly :as plot]))
 
 ;; result fns 
 
@@ -13,7 +13,7 @@
   (try
     (let [error? (nom/anomaly? result)
           result (if error?
-                   (error-render-spec result)
+                   (plot/anomaly result)
                    result)]
       (info "process viz-result template-id: " template-id " task-id: " task-id (if error? " anomaly!" " success"))
 

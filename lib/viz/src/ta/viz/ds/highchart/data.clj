@@ -6,7 +6,7 @@
    [tablecloth.api :as tc]
    [ta.indicator.returns :refer [diff]]
    [ta.trade.signal :refer [select-signal-contains]]
-   [ta.viz.chart-spec :refer [chart->series]]))
+   [quanta.viz.chart-spec :refer [chart->series]]))
 
 (defn- instant->epoch-millisecond [dt]
   (-> dt

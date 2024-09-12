@@ -1,6 +1,6 @@
 (ns ta.viz.trade.roundtrip
   (:require
-   [ta.viz.ds.rtable :refer [rtable-render-spec]]))
+   [quanta.viz.plot.rtable :as plot]))
 
 (def default-spec
   {:class "table-head-fixed padding-sm table-blue table-striped table-hover"
@@ -32,4 +32,4 @@
                      :as spec}
                     roundtrip-ds]
   (let [spec (assoc default-spec :columns (concat (:columns default-spec) extra-columns))]
-    (rtable-render-spec spec roundtrip-ds)))
+    (plot/rtable spec roundtrip-ds)))

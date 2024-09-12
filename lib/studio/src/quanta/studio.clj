@@ -7,7 +7,7 @@
    [clj-service.core :refer [expose-functions]]
    [tick.core :as t]
    ; [ta.helper.date :refer [now]]
-   [ta.viz.error :refer [error-render-spec]]
+   [quanta.viz.plot.anomaly :as plot]
    [ta.algo.env :refer [create-env-javelin]]
    [ta.algo.env.protocol :as algo-env]
    [quanta.model.backtest :refer [fire-backtest-events]]
@@ -109,7 +109,7 @@
                        @viz-result))]
 
      (if (nom/anomaly? result)
-       (error-render-spec result)
+       (plot/anomaly result)
        result))))
 
 (defn calculate
