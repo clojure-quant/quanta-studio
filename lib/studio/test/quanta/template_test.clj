@@ -1,6 +1,8 @@
 (ns quanta.template-test
   (:require [clojure.test :refer :all]
-            [quanta.template :as t]))
+            [quanta.template :as t]
+            [quanta.studio :as s]
+            ))
 
 (def template {:id :test/sample-algo
                :algo {:type :trailing-bar
@@ -50,7 +52,7 @@
                           :name "Band 3 multiplicator"}]})
 
 
-(deftest template-test
+(deftest coerce-options
   (let [coerced-options (t/coerce-options template
                                           {:band-type :rsi
                                            :band-len "20"
@@ -73,9 +75,60 @@
       (is (not= (:band3-mult coerced-options) 3.5)))
     ))
 
+;; option keys can be mixed: keyword or vector
+(deftest coerce-options-array-key
+  (let [coerced-options (t/coerce-options template
+                                          {[:band-type] :rsi
+                                           [:band-len] "20"
+                                           [:band1-mult] "1.5"
+                                           [:band2-mult] "2"
+                                           [:band3-mult] "3.5"})
+        band-type (get coerced-options [:band-type])
+        band-len (get coerced-options [:band-len])
+        band1-mult (get coerced-options [:band1-mult])
+        band2-mult (get coerced-options [:band2-mult])
+        band3-mult (get coerced-options [:band3-mult])]
+    (testing "coerce int"
+      (is (= band-len 20))
+      (is (not= band-len "20")))
+    (testing "coerce double"
+      (is (= band1-mult 1.5))
+      (is (not= band1-mult "1.5"))
+      (is (= band2-mult 2.0))
+      (is (not= band2-mult "2"))
+      (is (not= band2-mult "2.0")))
+    (testing "without coerce"
+      (is (= band-type :rsi))
+      (is (not= band-type :atr))
+      (is (= band3-mult "3.5"))
+      (is (not= band3-mult 3.5)))
+    ))
+
+(deftest coerce-options-non-string-values
+  (let [coerced-options (t/coerce-options template
+                                          {:band-type :rsi
+                                           :band-len 20
+                                           :band1-mult 1.5
+                                           :band2-mult 2
+                                           :band3-mult 3.5})]
+    (testing "coerce int"
+      (is (= (:band-len coerced-options) 20))
+      (is (not= (:band-len coerced-options) "20")))
+    (testing "coerce double"
+      (is (= (:band1-mult coerced-options) 1.5))
+      (is (not= (:band1-mult coerced-options) "1.5"))
+      (is (= (:band2-mult coerced-options) 2))            ; TODO: coerce non string values too? int => double etc.
+      (is (not= (:band2-mult coerced-options) "2.0")))
+    (testing "without coerce"
+      (is (= (:band3-mult coerced-options) 3.5))
+      (is (not= (:band3-mult coerced-options) "3.5")))
+    ))
+
 
 
 (comment
+
+  ;(s/load-with-options nil template)
 
   (t/coerce-options template
                     {:band-type :rsi
@@ -83,5 +136,19 @@
                      :band1-mult "1.5"
                      :band2-mult "2"
                      :band3-mult "3.5"})
+
+  (t/coerce-options template
+                    {[:band-type] :rsi
+                     [:band-len] "20"
+                     [:band1-mult] "1.5"
+                     [:band2-mult] "2"
+                     [:band3-mult] "3.5"})
+
+  (t/coerce-options template
+                    {:band-type :rsi
+                     :band-len 20
+                     :band1-mult 1.5
+                     :band2-mult 2
+                     :band3-mult 3.5})
 
  )

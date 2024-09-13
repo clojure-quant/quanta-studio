@@ -38,7 +38,8 @@
 
 (defn get-option-by-path [template path]
   (let [options (or (:options template) [])]
-    (->> (filter #(= (:path %) path) options)
+    (->> (filter #(or (= (:path %) path)
+                      (= [(:path %)] path)) options)
          first)))
 
 (defn coerce-to
@@ -60,10 +61,14 @@
   [path (coerce-value template path v)])
 
 (defn coerce-options
-  "sets options for a template. 
-   returns a variation of the template"
+  "converts option values when the :coerce keyword is defined.
+   returns the updated option map"
   [template options]
-  (into {} (map #(coerce-path-value template %) options)))
+  (into {} (map (fn [kv]
+                  (if (string? (last kv))
+                    (coerce-path-value template kv)
+                    kv))
+                options)))
 
 (defn apply-options
   "sets options for a template. 
