@@ -1,4 +1,4 @@
-(ns ta.viz.ds.highchart.data
+(ns quanta.viz.plot.highchart.data
   (:require
    [tick.core :as t]
    [tech.v3.dataset :as tds]

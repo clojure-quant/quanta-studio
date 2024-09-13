@@ -10,7 +10,7 @@
   "returns a plot specification {:render-fn :spec :data}. 
    The ui shows the error message of a nom-anomaly."
   [nom-anomaly]
-  ^{:render-fn 'ta.viz.renderfn/render-spec} ; needed for notebooks
-  {:render-fn 'ta.viz.renderfn.error/nom-error
+  ^{:render-fn 'quanta.viz.render.core/render-spec} ; needed for notebooks
+  {:render-fn 'quanta.viz.render.anomaly/nom-error
    :data (remove-ex nom-anomaly)
    :spec :whatever})

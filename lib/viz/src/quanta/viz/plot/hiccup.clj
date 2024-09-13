@@ -4,7 +4,7 @@
   "returns a plot specification {:render-fn :spec :data}. 
    plot shows hiccup structure."
   [hiccup]
-  ^{:render-fn 'ta.viz.renderfn/render-spec} ; needed for notebooks
-  {:render-fn 'ta.viz.renderfn.hiccup/hiccup
+  ^{:render-fn 'quanta.viz.render.core/render-spec} ; needed for notebooks
+  {:render-fn 'quanta.viz.render.hiccup/hiccup
    :data []
    :spec hiccup})

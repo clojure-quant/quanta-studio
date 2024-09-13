@@ -14,8 +14,8 @@
    vega-spec must follow vega-spec format."
   [{:keys [cols spec] :as vega-spec} bar-algo-ds]
   (when bar-algo-ds
-    ^{:render-fn 'ta.viz.renderfn/render-spec} ; needed for notebooks
-    {:render-fn 'ta.viz.renderfn.vega/vega-lite
+    ^{:render-fn 'quanta.viz.render.core/render-spec} ; needed for notebooks
+    {:render-fn 'quanta.viz.render.vega/vega-lite
      :data {:values (convert-data bar-algo-ds cols)}
      :spec spec}))
 

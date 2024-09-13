@@ -1,4 +1,4 @@
-(ns ta.viz.ds.highchart.spec.chart)
+(ns quanta.viz.plot.highchart.spec.chart)
 
 (def chart-default
   {;; our settings

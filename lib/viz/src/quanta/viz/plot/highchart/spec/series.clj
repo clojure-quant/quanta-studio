@@ -1,7 +1,7 @@
-(ns ta.viz.ds.highchart.spec.series
+(ns quanta.viz.plot.highchart.spec.series
   (:require
    [quanta.viz.chart-spec :refer [chart->series]]
-   [ta.viz.ds.highchart.spec.color :refer [set-color]]))
+   [quanta.viz.plot.highchart.spec.color :refer [set-color]]))
 
 ;; FLAGS
 ;; A flag series consists of flags marking events or points of interests. 

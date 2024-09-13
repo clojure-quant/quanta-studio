@@ -34,7 +34,7 @@
 (add-data-to-spec {:data data :spec spec})
 
 (def render-spec
-  {:render-fn 'ta.viz.renderfn.highcharts/highchart
+  {:render-fn 'quanta.viz.render.highcharts/highchart
    :data data
    :spec spec})
 

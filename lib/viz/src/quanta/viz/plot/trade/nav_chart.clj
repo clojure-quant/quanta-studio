@@ -1,4 +1,4 @@
-(ns ta.viz.trade.nav-chart
+(ns quanta.viz.plot.trade.nav-chart
   (:require
    [quanta.viz.plot.vega :as plot]))
 

@@ -3,7 +3,7 @@
    [tablecloth.api :as tc]
    [ta.trade.backtest.from-entry :refer [entry-signal->roundtrips]]
    [ta.trade.roundtrip.core :refer [roundtrip-stats]]
-   [ta.viz.trade.core :refer [roundtrip-stats-ui]]))
+   [quanta.viz.plot.trade.core :refer [roundtrip-stats-ui]]))
 
 (defn backtest-raw [backtest-opts bar-ds]
   ; we need to get the asset from the bar-ds, because

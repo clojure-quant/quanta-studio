@@ -13,23 +13,28 @@
 
   io.github.clojure-quant/vector-math {:git/url "https://github.com/clojure-quant/techml.vector-math.git"
                                        :sha "1d6e5d0ef3eba53e2afddb5ca0927385a9f62ece"}
-  io.github.clojure-quant/quanta {:mvn/version "0.4.853"}
+  io.github.clojure-quant/quanta {:mvn/version "0.4.854"}
   ; quanta-studio should bring docs.
   org.pinkgorilla/goldly-docs {:mvn/version "0.8.34"}
   org.pinkgorilla/reval {:mvn/version "0.7.160"}
   org.pinkgorilla/docy {:mvn/version "0.0.2"}
 
   ; projects belonging to studio here:
-  ta/algo {:local/root "./lib/algo" :deps/manifest :deps}
-  ta/db {:local/root "./lib/db" :deps/manifest :deps}
-  ta/import {:local/root "./lib/import" :deps/manifest :deps} ; series import
-  ta/live {:local/root "./lib/live" :deps/manifest :deps}
+  quanta/algo {:local/root "./lib/algo" :deps/manifest :deps}
   quanta/model {:local/root "./lib/model" :deps/manifest :deps} ; javelin formulas
-  ta/quote {:local/root "./lib/quote" :deps/manifest :deps} ; quotefeeds
-  ;ta/tradingview {:local/root "./lib/tradingview" :deps/manifest :deps}  
-  quanta/studio {:local/root "./lib/studio" :deps/manifest :deps}  
   quanta/viz {:local/root "./lib/viz" :deps/manifest :deps}
-  quanta/notebook {:local/root "./lib/notebook" :deps/manifest :deps}}
+  quanta/live {:local/root "./lib/live" :deps/manifest :deps}
+  quanta/studio {:local/root "./lib/studio" :deps/manifest :deps}  
+  quanta/notebook {:local/root "./lib/notebook" :deps/manifest :deps}
+  
+  ;; TODO: where should DB go ??
+  ta/db {:local/root "./lib/db" :deps/manifest :deps}
+  ;; IMPORT and QUOTE will go to quanta-markets
+  ta/import {:local/root "./lib/import" :deps/manifest :deps} ; series import
+  ta/quote {:local/root "./lib/quote" :deps/manifest :deps} ; quotefeeds
+  ;; TRADINGVIEW will go to quanta-tradingview
+  ;ta/tradingview {:local/root "./lib/tradingview" :deps/manifest :deps}  
+  }
  :aliases
  {; https://github.com/weavejester/cljfmt
   :cljfmt

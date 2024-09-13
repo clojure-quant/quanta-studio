@@ -1,4 +1,4 @@
-(ns ta.viz.trade.roundtrip
+(ns quanta.viz.plot.trade.roundtrip
   (:require
    [quanta.viz.plot.rtable :as plot]))
 

@@ -4,7 +4,7 @@
    [input]
    [ta.viz.lib.loader :refer [clj->p]]
    [ta.viz.lib.ui :refer [link-href]]
-   [ta.viz.renderfn :refer [render render-spec]]
+   [quanta.viz.render.core :refer [render render-spec]]
    [quanta.studio.view.live-result :refer [viz-result-view]]))
 
 

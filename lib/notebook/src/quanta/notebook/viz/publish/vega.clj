@@ -28,7 +28,7 @@
    {:nav 150.0 :index 8}])
 
 (p/publish nil {:topic :demo-vega}
-           {:render-fn 'ta.viz.renderfn.vega/vega-lite
+           {:render-fn 'quanta.viz.render.core.vega/vega-lite
             :data data
             :spec spec})
 

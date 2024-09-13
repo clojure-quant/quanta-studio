@@ -1,4 +1,4 @@
-(ns ta.viz.ds.highchart.spec.color)
+(ns  quanta.viz.plot.highchart.spec.color)
 
 ; https://tailwindcss.com/docs/customizing-colors
 ; https://github.com/tailwindlabs/tailwindcss/blob/next/packages/tailwindcss/src/utils/is-color.ts

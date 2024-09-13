@@ -1,10 +1,10 @@
-(ns ta.viz.trade.core
+(ns quanta.viz.plot.trade.core
   (:require
    [tech.v3.dataset :as tds]
    [de.otto.nom.core :as nom]
    [quanta.viz.plot.anomaly :as plot]
-   [ta.viz.trade.nav-chart :refer [nav-chart]]
-   [ta.viz.trade.roundtrip :refer [roundtrip-ui]]))
+   [quanta.viz.plot.trade.nav-chart :refer [nav-chart]]
+   [quanta.viz.plot.trade.roundtrip :refer [roundtrip-ui]]))
 
 (defn ds->map [ds]
   ;(tc/rows :as-maps) ; this does not work, type of it is a reified dataset. 
@@ -13,8 +13,8 @@
         (tds/mapseq-reader ds)))
 
 (defn- roundtrip-stats-ui-impl [spec {:keys [roundtrip-ds metrics]}]
-  ^{:render-fn 'ta.viz.renderfn/render-spec} ; needed for notebooks
-  {:render-fn 'ta.viz.trade.core/roundtrip-stats-ui
+  ^{:render-fn 'quanta.viz.render.core/render-spec} ; needed for notebooks
+  {:render-fn 'quanta.viz.render.trade.core/roundtrip-stats-ui
    :data {:metrics metrics
           :chart (nav-chart roundtrip-ds)
           :rt (roundtrip-ui {} roundtrip-ds)}

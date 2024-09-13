@@ -1,9 +1,9 @@
-(ns ta.viz.ds.highchart.spec
+(ns quanta.viz.plot.highchart.spec
   (:require
    [quanta.viz.chart-spec :refer [chart->series axes-count]]
-   [ta.viz.ds.highchart.spec.chart :refer [chart-default]]
-   [ta.viz.ds.highchart.spec.axes :refer [y-axis]]
-   [ta.viz.ds.highchart.spec.series :refer [series]]))
+   [quanta.viz.plot.highchart.spec.chart :refer [chart-default]]
+   [quanta.viz.plot.highchart.spec.axes :refer [y-axis]]
+   [quanta.viz.plot.highchart.spec.series :refer [series]]))
 
 ; todo:
 ; 1. pivot-points

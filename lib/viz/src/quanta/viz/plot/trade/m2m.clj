@@ -1,4 +1,4 @@
-(ns ta.viz.trade.m2m.core
+(ns quanta.viz.plot.trade.m2m
   (:require
    [tech.v3.dataset :as tds]))
 
@@ -13,4 +13,4 @@
   (with-meta
     (-> (update m2m-data :eff ds->map)
         :eff)
-    {:render-fn 'ta.viz.trade.m2m.vega/m2m-chart}))
+    {:render-fn 'quanta.viz.render.trade.m2m-vega/m2m-chart}))

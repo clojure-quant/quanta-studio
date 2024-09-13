@@ -5,7 +5,7 @@
    The ui shows a edn printout with pr-str
    data-edn must be printable to edn"
   [spec data-edn]
-  ^{:render-fn 'ta.viz.renderfn/render-spec} ; needed for notebooks
-  {:render-fn 'ta.viz.renderfn.edn/edn
+  ^{:render-fn 'quanta.viz.render.core/render-spec} ; needed for notebooks
+  {:render-fn 'quanta.viz.render.edn/edn
    :data data-edn
    :spec spec})
