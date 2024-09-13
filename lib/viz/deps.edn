@@ -5,6 +5,9 @@
  {org.clojure/clojure    {:mvn/version "1.11.3"}
   potemkin/potemkin {:mvn/version "0.4.6"} ; api namespace consolidation.
   tick/tick {:mvn/version "0.6.2"}
+  ;io.github.clojure-quant/quanta {:mvn/version "0.4.853"}
+  ta/algo {:local/root "../algo" :deps/manifest :deps}
+  ta/model {:local/root "../model" :deps/manifest :deps}
  }
   
  :aliases

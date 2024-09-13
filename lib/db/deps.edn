@@ -5,7 +5,7 @@
   techascent/tech.io {:mvn/version "4.31"}
   com.techascent/tmducken {:mvn/version "0.10.0-2"}
   org.pinkgorilla/modular {:mvn/version "0.2.56"}
-  ;ta/helper {:local/root "../../../quanta/lib/helper" :deps/manifest :deps}
+  io.github.clojure-quant/quanta {:mvn/version "0.4.853"}
   }
  :aliases
  {:test {:extra-paths ["test"]
