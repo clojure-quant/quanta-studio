@@ -74,7 +74,8 @@
 
 (defn load-with-options [this template-id options]
   (let [template (template-db/load-template this template-id)
-        template (qtempl/apply-options template options)]
+        coerced-options (qtempl/coerce-options template options)
+        template (qtempl/apply-options template coerced-options)]
     (info "template " template-id " options: " (:algo template))
     ;(warn "full template: " template)
     template))
