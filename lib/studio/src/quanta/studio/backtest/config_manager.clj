@@ -41,22 +41,21 @@
 
 (comment
   (write-config :alex/bollinger2 {:asset "BTCUSDT"
-                                 :source :nippy
-                                 :calendar [:crypto :m]
-                                 :trailing-n 200000
-                                 :n 120
-                                 :k1 1.0
-                                 :k2 2.0
-                                 :min-above-bars 6
-                                 :high-forward-bars 30 ; high-carry-forward-bars
-                                 :entry [:fixed-amount 10000]
-                                 :exit [:time 60
-                                        :loss-percent 0.5
-                                        :profit-percent 0.5]})
+                                  :source :nippy
+                                  :calendar [:crypto :m]
+                                  :trailing-n 200000
+                                  :n 120
+                                  :k1 1.0
+                                  :k2 2.0
+                                  :min-above-bars 6
+                                  :high-forward-bars 30 ; high-carry-forward-bars
+                                  :entry [:fixed-amount 10000]
+                                  :exit [:time 60
+                                         :loss-percent 0.5
+                                         :profit-percent 0.5]})
 
   (read-config "test.edn")
 
   (map str (load-files-by :x))
 
-  (load-files-by {:template-id :alex/bollinger})
-  )
+  (load-files-by {:template-id :alex/bollinger}))
