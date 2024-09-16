@@ -11,11 +11,7 @@
   io.github.clojure-quant/quanta {:mvn/version "0.4.853"}
   ta/model {:local/root "../model" :deps/manifest :deps}
   ta/db {:local/root "../db" :deps/manifest :deps}
-  ta/viz {:local/root "../viz" :deps/manifest :deps}
-  
-  ; docstrings
-  cider/orchard {:mvn/version "0.26.1"}
-  }
+  ta/viz {:local/root "../viz" :deps/manifest :deps}}
  :aliases
  {:test {:extra-paths ["test"]
          :extra-deps {io.github.cognitect-labs/test-runner {:git/url "https://github.com/cognitect-labs/test-runner.git"

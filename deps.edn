@@ -15,9 +15,9 @@
                                        :sha "1d6e5d0ef3eba53e2afddb5ca0927385a9f62ece"}
   io.github.clojure-quant/quanta {:mvn/version "0.4.854"}
   ; quanta-studio should bring docs.
-  org.pinkgorilla/goldly-docs {:mvn/version "0.8.34"}
-  org.pinkgorilla/reval {:mvn/version "0.7.160"}
-  org.pinkgorilla/docy {:mvn/version "0.0.2"}
+  org.pinkgorilla/goldly-docs {:mvn/version "0.8.37"}
+  org.pinkgorilla/reval {:mvn/version "0.7.163"}
+  org.pinkgorilla/docy {:mvn/version "0.0.4"}
 
   ; projects belonging to studio here:
   quanta/algo {:local/root "./lib/algo" :deps/manifest :deps}
