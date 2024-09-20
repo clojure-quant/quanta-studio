@@ -6,7 +6,8 @@
    [quanta.viz.plot.rtable]
    [quanta.viz.plot.vega]
    [quanta.viz.plot.highchart]
-   [quanta.viz.plot.anomaly]))
+   [quanta.viz.plot.anomaly]
+   [quanta.viz.plot.agtable]))
 
 ; consolidate various namespaces to one "api" namespace.
 
@@ -14,10 +15,11 @@
 ; https://github.com/xadecimal/expose-api
 
 (import-vars
+ quanta.viz.plot.anomaly/anomaly
  quanta.viz.plot.edn/edn
  quanta.viz.plot.hiccup/hiccup
  quanta.viz.plot.rtable/rtable
+ quanta.viz.plot.agtable/agtable
  quanta.viz.plot.vega/vega
- quanta.viz.plot.highchart/highstock
- quanta.viz.plot.anomaly/anomaly)
+ quanta.viz.plot.highchart/highstock)
 

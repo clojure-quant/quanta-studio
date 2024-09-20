@@ -1,0 +1,90 @@
+{:docy {:namespaces [; indicator
+                     ta.indicator
+                     ;ta.indicator.signal
+                     ;ta.indicator.volume
+                     ;ta.indicator.rolling
+                     ;ta.indicator.returns
+                     ;ta.indicator.fastmath
+                     ;ta.indicator.drawdown
+                     ;ta.indicator.candles
+                     ;ta.indicator.band
+        ; math
+                     ;ta.math.bin
+                     ;ta.math.stats
+                     ;ta.math.percentile
+        ; trade
+                     ;ta.trade.backtest.from-entry
+                     ;ta.trade.backtest.from-position
+                     ;quanta.alert
+        ; services 
+                     ;ta.db.bars.source
+                     ;quanta.studio
+                     ;quanta.studio.backtest.bruteforce
+                     ;quanta.template
+        ; calendar
+                     ;ta.calendar.core
+        ; studio
+                     quanta.viz.plot
+        ; external 
+                     tablecloth.api
+                     ;fastmath.core
+                     ;tech.v3.datatype.functional
+                     ;tech.v3.datatype.statistics
+                     missionary.core]
+        :snippets
+        [;; PLOT
+         ;; Symbols generated via potempkin do not work, we need to 
+         ;; use the underlying real function.
+         {:ns "quanta.snippet.plot.highstock"
+          :kernel :clj
+          :label "highstock simple"
+          :fns ["quanta.viz.plot.highchart/highstock"]}
+         {:ns "quanta.snippet.plot.rtable"
+          :kernel :clj
+          :label "rtable simple"
+          :fns ["quanta.viz.plot.rtable/rtable"]}
+         {:ns "quanta.snippet.plot.agtable"
+          :kernel :clj
+          :label "agtable simple"
+          :fns ["quanta.viz.plot.agtable/agtable"]}
+
+;; VIZ
+         {:ns "quanta.notebook.viz.highstock"
+          :kernel :cljs
+          :label "highstock-cljs"
+          :fns ["quanta.viz.render.highcharts/highstock"
+                "quanta.viz.plot.highchart/highstock"
+                "quanta.viz.render.rtable/rtable"]}
+         {:ns "quanta.notebook.viz.rtable"
+          :kernel :clj
+          :label "rtable"
+          :fns ["quanta.viz.render.rtable/rtable"
+                "quanta.viz.plot.rtable/rtable"
+                "quanta.viz.plot/rtable"]}
+         {:ns "quanta.notebook.viz.vega"
+          :kernel :clj
+          :label "vega"
+          :fns ["quanta.viz.render.vega/vega-lite"
+                "quanta.viz.plot.vega/vega"
+                "quanta.viz.render.rtable/rtable"]}
+
+         ;; INDICATOR
+         {:ns "quanta.snippet.indicator"
+          :kernel :clj
+          :label "indicator"
+          :fns ["ta.indicator/prior"
+                "ta.indicator/tr"
+                "ta.indicator/sma"
+                "ta.indicator/carry-forward"
+                "ta.indicator/carry-forward-for"]}
+         {:ns "quanta.snippet.indicator-band-bollinger"
+          :kernel :clj
+          :label "bollinger"
+          :fns ["ta.indicator.band/add-bollinger"]}
+         {:ns "quanta.snippet.indicator-band-atr"
+          :kernel :clj
+          :label "atr"
+          :fns ["ta.indicator.band/add-atr-band"]}]}
+
+;
+ }
