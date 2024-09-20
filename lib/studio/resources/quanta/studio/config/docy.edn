@@ -47,6 +47,11 @@
           :kernel :clj
           :label "agtable simple"
           :fns ["quanta.viz.plot.agtable/agtable"]}
+         {:ns "quanta.snippet.plot.agtable-unicode"
+          :kernel :clj
+          :label "agtable unicode"
+          :fns ["quanta.viz.plot.agtable/agtable"]}
+         
 
 ;; VIZ
          {:ns "quanta.notebook.viz.highstock"
