@@ -28,8 +28,6 @@
   ;; IMPORT and QUOTE will go to quanta-markets
   ta/import {:local/root "./lib/import" :deps/manifest :deps} ; series import
   ta/quote {:local/root "./lib/quote" :deps/manifest :deps} ; quotefeeds
-  ;; TRADINGVIEW will go to quanta-tradingview
-  ;ta/tradingview {:local/root "./lib/tradingview" :deps/manifest :deps}  
   }
  :aliases
  {; https://github.com/weavejester/cljfmt
