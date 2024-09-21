@@ -8,15 +8,41 @@
    [ta.trade.signal :refer [select-signal-contains]]
    [quanta.viz.chart-spec :refer [chart->series]]))
 
+;; epoch
+
 (defn- instant->epoch-millisecond [dt]
   (-> dt
       (t/long)
       (* 1000)))
 
+(defn- not-instant->epoch-millisecond [dt]
+  (-> dt
+      (t/instant)
+      (t/long)
+      (* 1000)))
+
+(defn col-datatype [ds col]
+  (-> ds (get col) (meta) :datatype))
+
+(defn date-col-instant? [ds]
+  (let [t (col-datatype ds :date)]
+    (or (= t :packed-instant) (= t :instant))))
+
 (defn- epoch
   "add epoch column to ds"
   [bar-ds]
-  (dtype/emap instant->epoch-millisecond :long (:date bar-ds)))
+  (if (date-col-instant? bar-ds)
+    (dtype/emap instant->epoch-millisecond :long (:date bar-ds))
+    (dtype/emap not-instant->epoch-millisecond :long (:date bar-ds))))
+
+(comment
+  (-> (tc/dataset {:date [(t/instant) (t/instant)]})
+      (epoch))
+
+  (-> (tc/dataset {:date [(t/zoned-date-time) (t/zoned-date-time)]})
+      (epoch))
+;  
+  )
 
 (defn- series-col
   "extracts one column from ds 

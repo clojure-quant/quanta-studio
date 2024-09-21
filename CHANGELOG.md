@@ -10,7 +10,7 @@
   ther is one drawdown: if the current date is part of the algo-opts, 
   then it is easier to make a link to an algo at a specific date.
 
-
 - studio template ui visualizations are now 100% arbitrary.
   the keywords used to give names to vizualisations do not have any requirements.
 
+- viz/highstock: date col of zoned-date-time supported.
