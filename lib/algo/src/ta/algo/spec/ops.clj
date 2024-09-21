@@ -10,7 +10,9 @@
     fun
     (fn [& args]
       (try
-        (warn "running fn args: " args)
+        ; args could be just the current date, 
+        ; or an entire dataset, so DO NOT LOG.
+        ;(warn "running fn args: " args)
         (if fun
           (apply fun env spec args)
           (nom/fail ::algo-calc {:message "algo fn is nil (compile error)"

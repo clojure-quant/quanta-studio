@@ -4,9 +4,8 @@
    [taoensso.timbre :refer [info warn error]]
    [nano-id.core :refer [nano-id]]
    [extension :as ext]
-   [clj-service.core :refer [expose-functions]]
    [tick.core :as t]
-   ; [ta.helper.date :refer [now]]
+   [clj-service.core :refer [expose-functions]]
    [quanta.viz.plot.anomaly :as plot]
    [ta.algo.env :refer [create-env-javelin]]
    [ta.algo.env.protocol :as algo-env]
@@ -73,10 +72,14 @@
   nil)
 
 (defn load-with-options [this template-id options]
+  (assert options "options may not be nil")
+  (assert (map? options) "options needs to be a map")
   (let [template (template-db/load-template this template-id)
-        coerced-options (qtempl/coerce-options template options)
+        ;coerced-options (qtempl/coerce-options template options)
+        ; multitimeframe options get fucked up by coerciaon.
+        coerced-options options
         template (qtempl/apply-options template coerced-options)]
-    (info "template " template-id " options: " (:algo template))
+    (info "template id: " template-id "load-with-options result" (:algo template))
     ;(warn "full template: " template)
     template))
 
@@ -101,6 +104,8 @@
          {:keys [viz-result] :as task} (start-task env template mode task-id log-viz-result)
          ;window-or-dt  (-> (t/now) (t/in "UTC")) ; (now)
          window-or-dt (get-in template [:algo :end-dt])
+         window-or-dt (or window-or-dt
+                          (-> "2024-09-05T00:00:00Z" t/instant))
          _ (warn "end-dt: " window-or-dt)
          _ (warn "template full " template)
          model (algo-env/get-model env)
@@ -121,6 +126,7 @@
    (calculate this template-id template-options mode (nano-id 6)))
   ([{:keys [bar-db] :as this} template-id template-options mode task-id]
    (info "calculate template:" template-id "mode: " mode)
+   (warn "template options: " template-options)
    (let [template (load-with-options this template-id template-options)]
      (calculate-template this template mode task-id))))
 

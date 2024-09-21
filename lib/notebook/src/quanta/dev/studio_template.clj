@@ -1,10 +1,11 @@
-(ns quanta.notebook.studio-template
+(ns quanta.dev.studio-template
   (:require
    [clojure.pprint :refer [print-table]]
    [modular.system]
    [quanta.template :refer [get-options make-variations apply-options]]
    [quanta.template.db :refer [load-template]]
-   [quanta.studio :refer [calculate
+   [quanta.studio :refer [load-with-options
+                          calculate
                           start stop
                           current-task-result task-summary
                           start-variations]]))
@@ -15,14 +16,41 @@
 
 ;; template - load and get options.
 
-(load-template s :alex/bollinger)
+(load-template s :juan-fx)
 
-(-> (load-template s :alex/bollinger)
+(-> (load-template s :juan-fx)
     (get-options))
+
+
+(load-with-options s :juan-fx nil)
+;; => Execution error (AssertionError) at quanta.studio/load-with-options (REPL:76).
+;;    Assert failed: options may not be nil
+;;    options
+
+(load-with-options s :juan-fx [])
+;; => Execution error (AssertionError) at quanta.studio/load-with-options (REPL:77).
+;;    Assert failed: options needs to be a map
+;;    (map? options)
+
+(load-with-options s :juan-fx {}) 
+
+
+(load-with-options s :juan-fx {[2 :asset] "GBP/JPY"})
+
+
+(load-with-options s :juan-fx {[0 :dummy] "99"})
+
+
+
 
 ;; calculate
 
-(calculate s :alex/bollinger {} :table)
+(calculate s :juan-fx {} :agtable)
+
+(calculate s :juan-fx {[0 :dummy] "9999"} :agtable)
+
+
+
 (calculate s :alex/bollinger {} :chart)
 (calculate s :alex/bollinger {} :backtest)
 (calculate s :alex/bollinger {} :backtest-raw)

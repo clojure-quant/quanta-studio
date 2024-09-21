@@ -1,7 +1,8 @@
 (ns quanta.template
   (:require
    [taoensso.timbre :refer [debug info warn error]]
-   [com.rpl.specter :as specter]))
+   [com.rpl.specter :as specter]
+   [ta.algo.error-report :refer [save-error-report]]))
 
 (defn get-default-value [template path]
   (debug "getting default value template: " (:id template) " path: " path)
@@ -19,7 +20,7 @@
     [k v]))
 
 (defn get-default-values [template options]
-  (info "getting default values options: " options)
+  ;(info "getting default values options: " options)
   (let [paths (map :path options)]
     ;(info "paths: " paths)
     (->> (map #(get-default-value template %) paths)
@@ -37,7 +38,8 @@
   (let [options (or (:options template) [])
         options (if (vector? options)
                   options
-                  (options))]
+                  (options) ; options could be a function, in which case we need to execute it.
+                  )]
     {:options options
      :current (get-default-values template options)
      :views (into [] (get-views template))}))
@@ -85,16 +87,23 @@
   ; but if we can have hierarchical paths, then we 
   ; need to set them via specter, so type gets
   ; preserved. 
-  (assoc template :algo
-         (reduce
-          (fn [r [path v]]
-            (let [path (if (keyword? path)
-                         [path]
-                         path)]
-              (debug "setting path: " path " to val: " v)
-              (specter/setval path v r)))
-          (:algo template)
-          options)))
+  (try (assoc template :algo
+              (reduce
+               (fn [r [path v]]
+                 (let [path (if (keyword? path)
+                              [path]
+                              path)]
+                   (debug "setting path: " path " to val: " v)
+                   (specter/setval path v r)))
+               (:algo template)
+               options))
+
+       (catch Exception ex
+         (save-error-report "template:apply-options"
+                            {:template template
+                             :options options}
+                            ex)
+         (ex-info "options-apply-ex" {:options options}))))
 
 (defn- add-key [m [k seq]]
   (map #(assoc m k %) seq))
