@@ -1,4 +1,4 @@
-(ns quanta.notebook.model-calendar
+(ns quanta.dev.model.model-calendar
   (:require
    [quanta.model.javelin.calendar :as ecal]
    [quanta.model.javelin :as je]))

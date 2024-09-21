@@ -1,4 +1,4 @@
-(ns quanta.notebook.model-direct
+(ns quanta.dev.model.model-direct
   (:require
    [quanta.model.javelin :refer [create-model-javelin]]
    [quanta.model.protocol :as p]))

@@ -1,4 +1,4 @@
-(ns quanta.notebook.model-ops
+(ns quanta.dev.model.model-ops
   (:require
    [quanta.model.javelin :refer [create-model-javelin]]
    [quanta.model.ops :refer [add-ops]]

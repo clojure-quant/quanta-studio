@@ -1,4 +1,4 @@
-(ns quanta.notebook.bardb-performance-test
+(ns quanta.dev.bardb.bardb-performance-test
   (:require
    [taoensso.timbre :refer [trace debug info warn error]]
    [clojure.string :as str]

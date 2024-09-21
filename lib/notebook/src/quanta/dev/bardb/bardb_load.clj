@@ -1,4 +1,4 @@
-(ns quanta.notebook.bardb-load
+(ns quanta.dev.bardb.bardb-load
   (:require
    [tick.core :as t]
    [tablecloth.api :as tc]

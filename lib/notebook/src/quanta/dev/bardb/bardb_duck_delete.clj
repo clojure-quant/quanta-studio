@@ -1,4 +1,4 @@
-(ns quanta.notebook.bardb-duck-delete
+(ns quanta.dev.bardb.bardb-duck-delete
   (:require
    [tick.core :as t]
    [tablecloth.api :as tc]
