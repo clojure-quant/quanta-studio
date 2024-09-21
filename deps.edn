@@ -43,7 +43,6 @@
                "./lib/model/src"
                "./lib/quote/src"
                "./lib/studio/src"
-               "./lib/tradingview/src"
                "./lib/viz/src"]}
 
   :cljfmt-fix
@@ -58,7 +57,6 @@
                "./lib/model/src"
                "./lib/quote/src"
                "./lib/studio/src"
-               "./lib/tradingview/src"
                "./lib/viz/src"]}
 
 ; https://github.com/clj-kondo/clj-kondo/blob/master/doc/jvm.md
@@ -75,7 +73,6 @@
                "./lib/model/src"
                "./lib/quote/src"
                "./lib/studio/src"
-               ;"./lib/tradingview/src"
                "./lib/viz/src"]}
 
   :cloverage
