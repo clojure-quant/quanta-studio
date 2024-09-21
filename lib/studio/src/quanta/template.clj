@@ -28,9 +28,13 @@
     #_(:algo template)))
 
 (defn get-views [template]
-  (-> template
-      (dissoc :id :options :algo)
-      (keys)))
+  (let [views (-> template
+                  (dissoc :id :options :algo)
+                  (keys)
+                  sort)]
+    (->> views
+         (concat [:select-viz])
+         (into []))))
 
 (defn get-options
   "returns the options (what a user can edit) for a template-id"
@@ -42,7 +46,7 @@
                   )]
     {:options options
      :current (get-default-values template options)
-     :views (into [] (get-views template))}))
+     :views (get-views template)}))
 
 (defn get-option-by-path [template path]
   (let [options (or (:options template) [])]
