@@ -13,7 +13,8 @@
    [quanta.template :as qtempl]
    [quanta.template.task :refer [start-task stop-task summarize-task]]
    [quanta.template.db :as template-db]
-   [quanta.studio.task :refer [process-viz-result]]))
+   [quanta.studio.task :refer [process-viz-result]]
+   [clojure.string :as str]))
 
 (defn- requiring-resolve-safe [template-symbol]
   (try
@@ -97,15 +98,12 @@
    possible anomalies are converted to viz-spec"
   ; calculate-template is required by bruteforce optimizer.
   ; otherwise the template gets loaded and loaded and loaded again.
-  ([this template mode]
-   (calculate-template this template mode (nano-id 6)))
-  ([{:keys [bar-db] :as this} template mode task-id]
+  ([this template mode dt]
+   (calculate-template this template mode dt (nano-id 6)))
+  ([{:keys [bar-db] :as this} template mode dt task-id]
    (let [env (create-env-javelin bar-db)
          {:keys [viz-result] :as task} (start-task env template mode task-id log-viz-result)
-         ;window-or-dt  (-> (t/now) (t/in "UTC")) ; (now)
-         window-or-dt (get-in template [:algo :end-dt])
-         window-or-dt (or window-or-dt
-                          (-> "2024-09-05T00:00:00Z" t/instant))
+         window-or-dt (or dt (t/instant))
          _ (warn "end-dt: " window-or-dt)
          _ (warn "template full " template)
          model (algo-env/get-model env)
@@ -118,17 +116,29 @@
        (plot/anomaly result)
        result))))
 
+(defn safe-date [dt]
+  (cond
+    (nil? dt) (t/instant)
+    (str/blank? dt) (t/instant)
+    (string? dt)
+    (try
+      (t/instant dt)
+      (catch Exception ex
+        (warn "could not parse dt, using now: " dt)))
+    :else (t/instant)))
+
 (defn calculate
   "this runs a viz-task once and returns the viz-result.
    output is guaranteed to be always viz-spec format, so
    possible anomalies are converted to viz-spec"
-  ([this template-id template-options mode]
-   (calculate this template-id template-options mode (nano-id 6)))
-  ([{:keys [bar-db] :as this} template-id template-options mode task-id]
-   (info "calculate template:" template-id "mode: " mode)
+  ([this template-id template-options mode dt]
+   (calculate this template-id template-options mode dt (nano-id 6)))
+  ([{:keys [bar-db] :as this} template-id template-options mode dt task-id]
+   (info "calculate template:" template-id "mode: " mode "dt: " dt)
    (warn "template options: " template-options)
-   (let [template (load-with-options this template-id template-options)]
-     (calculate-template this template mode task-id))))
+   (let [dt (safe-date dt)
+         template (load-with-options this template-id template-options)]
+     (calculate-template this template mode dt task-id))))
 
 (defn start-template
   "starts new algo via the web ui.

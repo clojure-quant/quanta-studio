@@ -1,6 +1,7 @@
 (ns quanta.studio.backtest.bruteforce
   (:require
    [de.otto.nom.core :as nom]
+   [tick.core :as t]
    [taoensso.timbre :refer [info warn error]]
    [missionary.core :as m]
    [quanta.template :as qtempl]
@@ -59,11 +60,11 @@
     (catch Exception ex
       {})))
 
-(defn create-algo-task [this variations mode target-fn show-fn template]
+(defn create-algo-task [this variations mode dt target-fn show-fn template]
   ; needs to throw so it can fail.
   ; returned tasks will not be cpu intensive, so m/cpu.
   (m/via m/cpu
-         (let [result (calculate-template this template mode)
+         (let [result (calculate-template this template mode dt)
                summary (summarize template variations)
                target {:target (run-target-fn-safe target-fn result)}
                show (run-show-fn-safe show-fn result)]
@@ -86,15 +87,16 @@
      ;:k1 [1.0 1.5]
      [:exit 1] [60 90]]
    "
-  [this {:keys [template-id mode options variations target-fn show-fn]
-         :or {show-fn (fn [result] {})}}]
+  [this {:keys [template-id mode dt options variations target-fn show-fn]
+         :or {show-fn (fn [result] {})
+              dt (t/instant)}}]
   ; from: https://github.com/leonoel/missionary/wiki/Rate-limiting#bounded-blocking-execution
   ; When using (via blk ,,,) It's important to remember that the blocking thread pool 
   ; is unbounded, which can potentially lead to out-of-memory exceptions. 
   ; A simple way to work around it is by using a semaphore to rate limit the execution:
   (let [sem (m/sem 10)
         template-seq (create-variations this template-id options variations)
-        tasks (map #(create-algo-task this variations mode target-fn show-fn %) template-seq)
+        tasks (map #(create-algo-task this variations mode dt target-fn show-fn %) template-seq)
         ;tasks-limited (map #(limit-task sem %) tasks)
         ]
     (info "brute force backtesting " (count tasks) " variations ..")
