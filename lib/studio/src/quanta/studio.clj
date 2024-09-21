@@ -118,14 +118,28 @@
 
 (defn safe-date [dt]
   (cond
+    ; nil -> current date
     (nil? dt) (t/instant)
-    (str/blank? dt) (t/instant)
+
+    ; use instant / zoned-date-time
+    (t/instant? dt) dt
+    (t/zoned-date-time? dt) (t/instant dt)
+
+    ; string -> possibly parse it
     (string? dt)
     (try
-      (t/instant dt)
-      (catch Exception ex
+      (if (str/blank? dt)
+        (t/instant)
+        (t/instant dt))
+      (catch Exception _ex
         (warn "could not parse dt, using now: " dt)))
-    :else (t/instant)))
+    ; we expect either a time class or a string, 
+    ; if we get something else (which should never happen).
+    ; then log it and use current date.
+    :else
+    (do
+      (warn "safe-date unsupported type: " (type dt))
+      (t/instant))))
 
 (defn calculate
   "this runs a viz-task once and returns the viz-result.
