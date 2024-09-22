@@ -1,8 +1,8 @@
 {:deps
  {org.clojure/clojure    {:mvn/version "1.11.3"}
-   ; http get in kibot-http
   aleph/aleph {:mvn/version "0.8.1"}
-  io.netty/netty-transport-native-epoll {:mvn/version "4.1.100.Final"}}
+  ;io.netty/netty-transport-native-epoll {:mvn/version "4.1.100.Final"}
+  }
 
  :aliases
  {:info {:jvm-opts ["-Dmaven.wagon.rto=90000"
