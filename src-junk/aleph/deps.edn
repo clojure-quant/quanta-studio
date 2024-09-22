@@ -1,7 +1,7 @@
 {:deps
  {org.clojure/clojure    {:mvn/version "1.11.3"}
    ; http get in kibot-http
-  
+  aleph/aleph {:mvn/version "0.8.1"}
   io.netty/netty-transport-native-epoll {:mvn/version "4.1.100.Final"}}
 
  :aliases
@@ -9,7 +9,9 @@
                     "-Dio.netty.transport.noNative=true"]
          :exec-fn demo2/show-props}
   
-  :curl {:extra-deps {aleph/aleph {:mvn/version "0.7.1"}}
+  :curl {:extra-deps {aleph/aleph {:mvn/version "0.8.1"}
+                      ;aleph/aleph {:mvn/version "0.7.1"}
+                      }
          :jvm-opts ["-Dmaven.wagon.rto=90000"
                     "-Dio.netty.transport.noNative=true"]
          :exec-fn demo/download-link
