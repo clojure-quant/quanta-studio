@@ -1,0 +1,9 @@
+{:deps
+ {org.clojure/clojure    {:mvn/version "1.11.3"}
+  aleph/aleph {:mvn/version "0.7.1"} ; http get in kibot-http
+  }
+
+ :aliases
+ {:curl {:extra-deps {}
+         :exec-fn demo/download-link
+         :exec-args {}}}}
