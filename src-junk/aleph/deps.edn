@@ -4,6 +4,7 @@
   }
 
  :aliases
- {:curl {:extra-deps {}
+ {:curl {
+         :jvm-opts ["-Dmaven.wagon.rto=90000"]
          :exec-fn demo/download-link
          :exec-args {}}}}
