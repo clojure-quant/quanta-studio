@@ -63,51 +63,47 @@
   "returns a keyword if value in path should be coerced"
   [template path v]
   (if-let [c (coerce-to template path)]
-    (case c
-      :int (parse-long v)
-      :double (parse-double v)
+    (if (string? v)
+      (do (info "coercing value in path: " path " coercer: " c)
+          (case c
+            :int (parse-long v)
+            :double (parse-double v)
+            v))
       v)
     v))
-
-(defn coerce-path-value [template [path v]]
-  [path (coerce-value template path v)])
-
-(defn coerce-options
-  "converts option values when the :coerce keyword is defined.
-   returns the updated option map"
-  [template options]
-  (into {} (map (fn [kv]
-                  (if (string? (last kv))
-                    (coerce-path-value template kv)
-                    kv))
-                options)))
 
 (defn apply-options
   "sets options for a template. 
    returns a variation of the template"
-  [template options]
+  ([template options]
+   ; this path is used by bruteforcer
+   (apply-options template options false))
+  ([template options coerce-enabled?]
   ; if all paths are keys, this is really simple.
   ; (update template :algo merge options)
   ; but if we can have hierarchical paths, then we 
   ; need to set them via specter, so type gets
   ; preserved. 
-  (try (assoc template :algo
-              (reduce
-               (fn [r [path v]]
-                 (let [path (if (keyword? path)
-                              [path]
-                              path)]
-                   (debug "setting path: " path " to val: " v)
-                   (specter/setval path v r)))
-               (:algo template)
-               options))
+   (try (assoc template :algo
+               (reduce
+                (fn [r [path v]]
+                  (let [path (if (keyword? path)
+                               [path]
+                               path)
+                        v (if coerce-enabled?
+                            (coerce-value template path v)
+                            v)]
+                    (debug "setting path: " path " to val: " v)
+                    (specter/setval path v r)))
+                (:algo template)
+                options))
 
-       (catch Exception ex
-         (save-error-report "template:apply-options"
-                            {:template template
-                             :options options}
-                            ex)
-         (ex-info "options-apply-ex" {:options options}))))
+        (catch Exception ex
+          (save-error-report "template:apply-options"
+                             {:template template
+                              :options options}
+                             ex)
+          (ex-info "options-apply-ex" {:options options})))))
 
 (defn- add-key [m [k seq]]
   (map #(assoc m k %) seq))
@@ -161,6 +157,12 @@
     (map (partial apply-options template) option-seq)))
 
 (comment
+
+  (apply-options {:algo {:x 1
+                         :y 2
+                         :users {:w "walter"}}}
+                 {:x 5
+                  [:users :w] "willy"})
 
   (apply-options {:algo {:x 1
                          :y 2

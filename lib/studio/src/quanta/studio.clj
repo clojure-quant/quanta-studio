@@ -79,7 +79,7 @@
         ;coerced-options (qtempl/coerce-options template options)
         ; multitimeframe options get fucked up by coerciaon.
         coerced-options options
-        template (qtempl/apply-options template coerced-options)]
+        template (qtempl/apply-options template coerced-options true)]
     (info "template id: " template-id "load-with-options result" (:algo template))
     ;(warn "full template: " template)
     template))
