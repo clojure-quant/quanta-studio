@@ -11,7 +11,7 @@
                                        :sha "1d6e5d0ef3eba53e2afddb5ca0927385a9f62ece"}
   io.github.clojure-quant/quanta {:mvn/version "0.4.854"}
   ; quanta-studio should bring docs.
-  org.pinkgorilla/goldly-docs {:mvn/version "0.9.40"}
+  org.pinkgorilla/goldly-docs {:mvn/version "0.9.41"}
   ;org.pinkgorilla/reval {:mvn/version "0.7.163"} already part of docs
   org.pinkgorilla/docy {:mvn/version "0.0.5"}
 
