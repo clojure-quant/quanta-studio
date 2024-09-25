@@ -15,9 +15,10 @@
     t
     (name t)))
 
-(defn one-series [{:keys [type column axis color title]
+(defn one-series [{:keys [type column axis color title opacity]
                    :or {color "blue"
-                        title (str column)}}]
+                        title (str column)
+                        opacity 0.75}}]
   (let [series {:type (type->str type)
                 :id (str column)
                 :name title
@@ -67,6 +68,7 @@
                  (assoc series
                         :type "arearange"
                         :color (set-color color)
+                        :fillOpacity opacity
                         :animation false)
 
                  (or (= type :ohlc) (= type :candlestick) (= type :hollowcandlestick))
