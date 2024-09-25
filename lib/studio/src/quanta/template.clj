@@ -63,13 +63,11 @@
   "returns a keyword if value in path should be coerced"
   [template path v]
   (if-let [c (coerce-to template path)]
-    (if (string? v)
-      (do (info "coercing value in path: " path " coercer: " c)
-          (case c
-            :int (parse-long v)
-            :double (parse-double v)
-            v))
-      v)
+    (do (info "coercing value in path: " path " coercer: " c " v: " v)
+        (case c
+          :int (parse-long (str v))
+          :double (parse-double (str v))
+          v))
     v))
 
 (defn apply-options
@@ -276,5 +274,5 @@
   ;;     {:x 3, :y :c, :debug true}
   ;;     {:x 3, :y :c, :debug false})
 
-; 
+;
   )
