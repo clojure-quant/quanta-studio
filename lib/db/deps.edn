@@ -5,7 +5,7 @@
   techascent/tech.io {:mvn/version "4.31"}
   com.techascent/tmducken {:mvn/version "0.10.0-2"}
   org.pinkgorilla/modular {:mvn/version "0.2.56"}
-  io.github.clojure-quant/quanta {:mvn/version "0.4.853"}
+  io.github.clojure-quant/quanta {:mvn/version "0.4.857"}
   }
  :aliases
  {:test {:extra-paths ["test"]

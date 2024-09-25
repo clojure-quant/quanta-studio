@@ -5,7 +5,7 @@
   manifold/manifold {:mvn/version "0.4.2"} ; async channels
   org.pinkgorilla/modular {:mvn/version "0.2.56"}
   io.github.clojure-quant/fix-engine {:git/sha "d25efeefd2db73dee622e826ae86248f74f38273"}
-  io.github.clojure-quant/quanta {:mvn/version "0.4.853"}
+  io.github.clojure-quant/quanta {:mvn/version "0.4.857"}
   ta/model {:local/root "../model" :deps/manifest :deps}
   ta/db {:local/root "../db" :deps/manifest :deps}
   }

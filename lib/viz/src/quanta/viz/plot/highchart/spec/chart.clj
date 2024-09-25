@@ -38,7 +38,8 @@
                      }
            :panKey "ctrl" ; "alt"" "shift"  "meta"
            ; animation
-           :animation false}
+           :animation false
+           :time {:useUTC true}}
    :plotOptions {:series {:animation 0
                             ;:label {;:pointStart 2010
                             ;        :connectorAllowed false}
