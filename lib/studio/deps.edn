@@ -8,7 +8,7 @@
   org.pinkgorilla/extension {:mvn/version "0.0.12"}
   org.pinkgorilla/clj-service {:mvn/version "0.3.20"}
   io.github.clojure-quant/telegram {:mvn/version "0.2.22"}
-  io.github.clojure-quant/quanta {:mvn/version "0.4.857"}
+  io.github.clojure-quant/quanta {:mvn/version "0.4.858"}
   ta/model {:local/root "../model" :deps/manifest :deps}
   ta/db {:local/root "../db" :deps/manifest :deps}
   ta/viz {:local/root "../viz" :deps/manifest :deps}}

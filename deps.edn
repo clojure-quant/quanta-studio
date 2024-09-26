@@ -9,7 +9,7 @@
 
   io.github.clojure-quant/vector-math {:git/url "https://github.com/clojure-quant/techml.vector-math.git"
                                        :sha "1d6e5d0ef3eba53e2afddb5ca0927385a9f62ece"}
-  io.github.clojure-quant/quanta {:mvn/version "0.4.857"}
+  io.github.clojure-quant/quanta {:mvn/version "0.4.858"}
   ; quanta-studio should bring docs.
   ;org.pinkgorilla/goldly-docs {:mvn/version "0.9.41"}
   org.pinkgorilla/goldly-docs {:mvn/version "0.9.42"}

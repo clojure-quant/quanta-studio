@@ -1,7 +1,7 @@
 {:paths ["src" "resources"]
  :deps
  {org.clojure/clojure    {:mvn/version "1.11.3"}
-  io.github.clojure-quant/quanta {:mvn/version "0.4.857"}
+  io.github.clojure-quant/quanta {:mvn/version "0.4.858"}
   ta/db {:local/root "../db" :deps/manifest :deps} ; bar-db
   ta/model {:local/root "../model" :deps/manifest :deps} ; engine (javelin) used by algo-env
  }
