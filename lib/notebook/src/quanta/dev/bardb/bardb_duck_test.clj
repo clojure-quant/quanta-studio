@@ -6,7 +6,7 @@
    [ta.calendar.core :as cal]
    [ta.db.bars.protocol :as b]
    [ta.db.bars.duckdb :as duck]
-   [ta.db.bars.dynamic :as dynamic]))
+   [quanta.studio.bars.transform.dynamic :as dynamic]))
 
 ;; Test if duckdb get/append works
 

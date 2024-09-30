@@ -3,7 +3,7 @@
    [tablecloth.api :as tc]
    [ta.helper.random :refer [random-series]]
    [ta.helper.date-ds :refer [days-ago]]
-   [ta.db.bars.shuffle :refer [shuffle-bar-series]]
+   [quanta.studio.bars.transform.shuffle :refer [shuffle-bar-series]]
    [ta.db.bars.protocol :as b]))
 
 (defn add-open-high-low-volume [ds]

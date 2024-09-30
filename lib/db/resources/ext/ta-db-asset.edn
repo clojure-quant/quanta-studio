@@ -2,8 +2,6 @@
  ; run-time
  :clj-services {:name "ta-db-asset-bars"
                 :permission  nil ; #{}
-                :symbols [ta.db.asset.db/search
-                          ta.db.bars.source/get-bars-source
-                          ]}
+                :symbols [ta.db.asset.db/search]}
  :cljs-routes {"series" ta.viz.page.series/series-page}
  }

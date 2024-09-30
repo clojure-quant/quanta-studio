@@ -1,9 +1,12 @@
 
-(ns ta.db.bars.shuffle
+(ns quanta.studio.bars.transform.shuffle
   (:require
+   [de.otto.nom.core :as nom]
+   [taoensso.timbre :as timbre :refer [debug info warn error]]
    [tech.v3.datatype.functional :as dfn]
    [tablecloth.api :as tc]
-   [ta.indicator.returns :refer [forward-shift-col]]))
+   [ta.indicator.returns :refer [forward-shift-col]]
+   [ta.db.bars.protocol :refer [barsource] :as b]))
 
 (defn shuffle-bar-series [ds]
   (let [open  (-> ds :open dfn/log)
@@ -57,6 +60,20 @@
         (tc/add-column :date (:date ds)))
     ;open-log-0
     ))
+
+(defrecord transform-shuffle []
+  barsource
+  (get-bars [this opts window]
+    (let [engine (:engine opts)
+          opts-clean (dissoc opts :engine)
+          bar-ds (b/get-bars engine opts-clean window)]
+      (if (nom/anomaly? bar-ds)
+        bar-ds
+        (shuffle-bar-series bar-ds)))))
+
+(defn start-transform-shuffle []
+  (transform-shuffle.))
+
 (comment
   (as-> (tc/dataset {:date (range 11)
                      :open [2.0  3 4 5 6 7 8 9 10 11 10]
