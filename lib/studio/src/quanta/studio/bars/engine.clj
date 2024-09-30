@@ -32,11 +32,8 @@
       (if db
         (b/append-bars db opts-clean bar-ds)
         (do (error "could not save " opts " bar-db unknown!")
-           (nom/fail :bar-loader-db-not-found
-                   {:message (str "bar-loader unknown bardb: " bardb)})  
-          )
-        ))))
-
+            (nom/fail :bar-loader-db-not-found
+                      {:message (str "bar-loader unknown bardb: " bardb)}))))))
 
 (defn start-bar-engine
   "implements barsource and bardb protocols to load and save bars.
