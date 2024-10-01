@@ -39,10 +39,8 @@
                "check"
                "./lib/algo/src"
                "./lib/db/src"
-               "./lib/import/src"
                "./lib/live/src"
                "./lib/model/src"
-               "./lib/quote/src"
                "./lib/studio/src"
                "./lib/viz/src"]}
 
@@ -53,10 +51,8 @@
                "fix"
                "./lib/algo/src"
                "./lib/db/src"
-               "./lib/import/src"
                "./lib/live/src"
                "./lib/model/src"
-               "./lib/quote/src"
                "./lib/studio/src"
                "./lib/viz/src"]}
 
@@ -69,10 +65,8 @@
                "--lint"
                "./lib/algo/src"
                "./lib/db/src"
-               "./lib/import/src"
                "./lib/live/src"
                "./lib/model/src"
-               "./lib/quote/src"
                "./lib/studio/src"
                "./lib/viz/src"]}
 
