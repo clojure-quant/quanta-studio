@@ -1,8 +1,6 @@
-(ns quanta.algo.demo.m
-   (:require
-   [missionary.core :as m]
-  ))
-
+(ns dev.m
+  (:require
+   [missionary.core :as m]))
 
 (defn sleep-emit [delays]
   (m/reductions {} 0
@@ -25,8 +23,7 @@
           ;(delay-each 50)
           (m/reduce conj)))
 
-
-(def non-0-sleep-emit 
+(def non-0-sleep-emit
   (m/eduction (remove #(= 0 %)) (sleep-emit [1 5 10 2])))
 
 (m/? (->> non-0-sleep-emit

@@ -1,4 +1,4 @@
-(ns quanta.algo.demo.timbre
+(ns dev.timbre
   (:require
    [taoensso.telemere :as t]
    ))

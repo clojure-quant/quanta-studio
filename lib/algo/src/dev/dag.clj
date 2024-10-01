@@ -1,4 +1,4 @@
-(ns quanta.algo.demo.dag
+(ns dev.dag
   (:require
    [missionary.core :as m]
    [tick.core :as t]
