@@ -5,8 +5,7 @@
    [quanta.dag.algo.calendar.live :refer [get-calendar-flow]]
    [ta.import.provider.bybit.ds :as bybit]
    [quanta.dag.env.bars :refer [get-trailing-bars]]
-   [quanta.dag.env.dag :refer [log]]
-   ))
+   [quanta.dag.env.dag :refer [log]]))
 
 (def dag-rt
   (-> (dag/create-dag {:log-dir ".data/"})
@@ -17,7 +16,6 @@
                                      {:asset asset
                                       :dt dt
                                       :price (rand 100)}) [:asset :dt])))
-
 
 (dag/start-log-cell dag-rt :dt)
 (dag/start-log-cell dag-rt :quote)
@@ -44,7 +42,6 @@ bar-db
                                     {:asset (:asset opts)
                                      :dt dt
                                      :bars (get-trailing-bars opts dt)}) [:opts :dt])))
-
 
 dag-rt-bars
 

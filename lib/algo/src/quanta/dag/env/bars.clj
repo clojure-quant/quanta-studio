@@ -25,16 +25,16 @@
 (defn get-bars-aligned-filled
   "returns bars for asset/calendar/window"
   [{:keys [asset calendar] :as opts} calendar-seq]
-    (assert *bar-db* "environment does not provide bar-db!")
-    (assert asset "cannot get-bars for unknown asset!")
-    (assert calendar "cannot get-bars for unknown calendar!")
-    (assert calendar-seq "cannot get-bars-aligned for unknown window!")
-    (aligned/get-bars-aligned-filled *bar-db* opts calendar-seq))
+  (assert *bar-db* "environment does not provide bar-db!")
+  (assert asset "cannot get-bars for unknown asset!")
+  (assert calendar "cannot get-bars for unknown calendar!")
+  (assert calendar-seq "cannot get-bars-aligned for unknown window!")
+  (aligned/get-bars-aligned-filled *bar-db* opts calendar-seq))
 
 #_(defn get-calendar-time [env calendar]
-  (let [calendar-time (:calendar-time env)]
-    (assert calendar-time "environment does not provide calendar-time!")
-    (get @calendar-time calendar)))
+    (let [calendar-time (:calendar-time env)]
+      (assert calendar-time "environment does not provide calendar-time!")
+      (get @calendar-time calendar)))
 
 (defn calendar-seq->window [calendar-seq]
   (let [dend  (first calendar-seq)
@@ -53,14 +53,14 @@
     (get-bars spec window)))
 
 #_(defn get-bars-lower-timeframe [env spec lower-timeframe]
-  (let [calendar (s/get-calendar spec)
-        market (first calendar)
-        calendar-lower [market lower-timeframe]
-        asset (s/get-asset spec)
-        time (get-calendar-time env calendar)
-        window (get-bar-window calendar time)]
-    (get-bars {:asset asset
-               :calendar calendar-lower} window)))
+    (let [calendar (s/get-calendar spec)
+          market (first calendar)
+          calendar-lower [market lower-timeframe]
+          asset (s/get-asset spec)
+          time (get-calendar-time env calendar)
+          window (get-bar-window calendar time)]
+      (get-bars {:asset asset
+                 :calendar calendar-lower} window)))
 
 (defn get-multiple-bars [{:keys [assets] :as opts} cal-seq]
   (let [get-bars (fn [asset]

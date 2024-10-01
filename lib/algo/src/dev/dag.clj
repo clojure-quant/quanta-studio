@@ -35,7 +35,6 @@
 ; ({} nil 3)
 ; ({} 3 4)
 
-
 (def dag-rt
   (-> (dag/create-dag {:log-dir ".data/"})
       (dag/add-constant-cell :asset "QQQ")
@@ -56,7 +55,6 @@
 
 (dag/get-current-valid-value dag-rt :dt)
 (dag/get-current-valid-value dag-rt :quote)
-
 
 (dag/start-log-cell dag-rt :dt)
 (dag/start-log-cell dag-rt :quote)

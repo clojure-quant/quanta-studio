@@ -1,6 +1,6 @@
 (ns quanta.dag.env.dag
   (:require
-    [quanta.dag.trace :as trace]))
+   [quanta.dag.trace :as trace]))
 
 (def ^:dynamic *dag* nil)
 
@@ -8,6 +8,6 @@
   @(:opts *dag*))
 
 (defn log [label v]
-  (trace/write-edn-raw(:logger *dag*) label v))
+  (trace/write-edn-raw (:logger *dag*) label v))
 
- 
+

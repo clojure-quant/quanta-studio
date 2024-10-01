@@ -7,17 +7,14 @@
    [quanta.dag.env.bars :refer [get-trailing-bars]]
    [quanta.dag.algo.spec :as spec]
    [quanta.dag.algo.create :as create]
-   [ta.import.provider.bybit.ds :as bybit]
-   ))
+   [ta.import.provider.bybit.ds :as bybit]))
 
 (defn bollinger-calc [opts dt]
   {:bollinger-opts opts
    :dt dt}
-   (->> (get-trailing-bars opts dt)
+  (->> (get-trailing-bars opts dt)
        ;(band/add-bollinger {:n 2 :k 3.0})
-       
        ))
-
 (defn bollinger-signal [opts d m]
   (vector d m))
 
@@ -39,12 +36,12 @@
 
 (def bar-db (bybit/create-import-bybit))
 
-(def dag-bollinger 
-   (create/create-dag-snapshot 
-    {:log-dir ".data/"
-     :env {#'quanta.dag.env.bars/*bar-db* bar-db}}
-    bollinger-algo
-    (t/instant)))
+(def dag-bollinger
+  (create/create-dag-snapshot
+   {:log-dir ".data/"
+    :env {#'quanta.dag.env.bars/*bar-db* bar-db}}
+   bollinger-algo
+   (t/instant)))
 
 (dag/start-log-cell dag-bollinger :day)
 (dag/start-log-cell dag-bollinger :min)

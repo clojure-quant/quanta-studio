@@ -6,7 +6,7 @@
    [quanta.dag.algo.spec :as spec]))
 
 (defn- add-cell [d time-fn [cell-id {:keys [calendar formula
-                                           algo-fn opts]}]]
+                                            algo-fn opts]}]]
   (let [algo-fn-with-opts (partial algo-fn opts)]
     (cond
       calendar
@@ -33,5 +33,4 @@
         d (dag/create-dag dag-env)]
     (write-edn-raw (:logger d) "mode: snapshot\r\nalgo-spec:" cell-spec)
     (add-cells d time-fn cell-spec)
-    d
-    ))
+    d))

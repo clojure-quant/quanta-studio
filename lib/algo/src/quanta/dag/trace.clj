@@ -6,7 +6,7 @@
    [tick.core :as t]))
 
 (defn ex->str [ex]
- (str
+  (str
    "\r\n" "\r\n" "\r\n"
    "ex cause: " (ex-cause ex) "\r\n" "\r\n" "\r\n"
    "ex message: " (ex-message ex) "\r\n" "\r\n" "\r\n"
@@ -33,5 +33,4 @@
         filename (str path (t/format dtformat dt) "-" id ".txt")]
     (info "dag " id " logged to: " filename)
     (write-text filename (str "dag id: " id))
-    filename
-    ))
+    filename))

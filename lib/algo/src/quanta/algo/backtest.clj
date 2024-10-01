@@ -22,5 +22,5 @@
     ))
 
 #_(defn backtest-ui [backtest-opts bar-ds]
-  (->> (backtest backtest-opts bar-ds)
-       (roundtrip-stats-ui backtest-opts)))
+    (->> (backtest backtest-opts bar-ds)
+         (roundtrip-stats-ui backtest-opts)))
