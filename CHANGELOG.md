@@ -1,7 +1,4 @@
 
-
-
-
 2024-09-21
 
 - studio template ui always has a dt selector
@@ -14,7 +11,6 @@
   the keywords used to give names to vizualisations do not have any requirements.
 
 - viz/highstock: date col of zoned-date-time supported.
-
 
 2024-10-01
 
@@ -35,5 +31,8 @@
     algo-fn expects [opts dt]
     formula-fn expects [opts & args]
 
+
+- CALENDAR BUG?
+  sleeping for ms:  79036000  until:  #time/zoned-date-time "2024-10-02T17:01-04:00[America/New_York]"
 
   

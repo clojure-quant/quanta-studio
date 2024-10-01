@@ -14,15 +14,15 @@
   (vector d m))
 
 (def bollinger-algo
-  [{:asset "BTCUSDT"}
+  [{:asset "BTCUSDT"} ; this options are global
    :day {:calendar [:forex :d]
          :algo  bollinger-calc
          :trailing-n 20
          :atr-n 10
          :atr-m 0.6}
    :min {:calendar [:forex :m]
-         :algo bollinger-calc
-         :trailing-n 20
+         :algo bollinger-calc   ; min gets the global option :asset 
+         :trailing-n 20         ; on top of its own local options 
          :atr-n 5
          :atr-m 0.3}
    :signal {:formula [:day :min]

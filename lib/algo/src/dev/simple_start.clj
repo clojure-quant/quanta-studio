@@ -27,3 +27,5 @@
    algo-simple))
 
 (dag/start-log-cell dag-simple-rt :algo)
+
+dag-simple-rt
