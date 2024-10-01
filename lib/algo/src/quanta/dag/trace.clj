@@ -1,4 +1,4 @@
-(ns quanta.algo.dag.trace
+(ns quanta.dag.trace
   (:require
    [clojure.string :as str]
    [taoensso.timbre :as timbre :refer [debug info warn error]]

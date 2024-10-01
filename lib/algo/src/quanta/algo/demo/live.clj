@@ -1,20 +1,12 @@
 (ns quanta.algo.demo.live
   (:require
    [missionary.core :as m]
-   [quanta.algo.dag :as dag]
-   [quanta.algo.mode.live.scheduler :refer [get-calendar-flow]]
+   [quanta.dag.core :as dag]
+   [quanta.dag.calendar.live :refer [get-calendar-flow]]
    [ta.import.provider.bybit.ds :as bybit]
-   [quanta.algo.env.bars :refer [get-trailing-bars]]
-   [quanta.algo.env.dag :refer [log]]
+   [quanta.dag.env.bars :refer [get-trailing-bars]]
+   [quanta.dag.env.dag :refer [log]]
    ))
-
-
-(m/? (->> (get-calendar-flow [:forex :m])
-          (m/eduction
-           (remove dag/is-no-val?))
-          (m/eduction
-           (take 2))
-          (m/reduce conj)))
 
 (def dag-rt
   (-> (dag/create-dag {:log-dir ".data/"})

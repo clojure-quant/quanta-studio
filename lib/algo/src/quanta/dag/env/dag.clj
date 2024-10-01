@@ -1,6 +1,6 @@
-(ns quanta.algo.env.dag
+(ns quanta.dag.env.dag
   (:require
-    [quanta.algo.dag.trace :as trace]))
+    [quanta.dag.trace :as trace]))
 
 (def ^:dynamic *dag* nil)
 

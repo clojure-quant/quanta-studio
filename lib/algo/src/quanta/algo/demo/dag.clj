@@ -2,8 +2,8 @@
   (:require
    [missionary.core :as m]
    [tick.core :as t]
-   [quanta.algo.dag :as dag]
-   [quanta.algo.dag.util :as util2]))
+   [quanta.dag.core :as dag]
+   [quanta.dag.util :as util2]))
 
 (def model
   (-> (dag/create-dag {:log-dir ".data/"})

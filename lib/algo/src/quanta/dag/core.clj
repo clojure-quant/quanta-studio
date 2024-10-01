@@ -1,10 +1,10 @@
-(ns quanta.algo.dag
+(ns quanta.dag.core
   (:require
    [missionary.core :as m]
    [nano-id.core :refer [nano-id]]
-   [quanta.algo.dag.util :as util]
-   [quanta.algo.dag.trace :as trace]
-   [quanta.algo.env.dag]
+   [quanta.dag.util :as util]
+   [quanta.dag.trace :as trace]
+   [quanta.dag.env.dag]
    ))
 
 ; no value
@@ -125,7 +125,7 @@
               :logger (when log-dir
                         (trace/setup log-dir id))
               :tasks (atom {})}]
-     (assoc dag :env (merge {#'quanta.algo.env.dag/*dag* dag}
+     (assoc dag :env (merge {#'quanta.dag.env.dag/*dag* dag}
                             env)))))
 
 
