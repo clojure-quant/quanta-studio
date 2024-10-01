@@ -1,8 +1,10 @@
 (ns quanta.algo.demo.live
   (:require
-    [missionary.core :as m]
-    [quanta.algo.dag :as dag]
-    [quanta.algo.mode.live.scheduler :refer [get-calendar-flow]]))
+   [missionary.core :as m]
+   [quanta.algo.dag :as dag]
+   [quanta.algo.mode.live.scheduler :refer [get-calendar-flow]]
+   [ta.import.provider.bybit.ds :as bybit]
+   [quanta.algo.env.bars :refer [get-trailing-bars]]))
 
 (m/? (->> (get-calendar-flow [:forex :m])
           (m/eduction
@@ -20,7 +22,6 @@
                                       :dt dt
                                       :price (rand 100)}) [:asset :dt])))
 
-
 (dag/start-log-cell dag-rt :dt)
 (dag/start-log-cell dag-rt :quote)
 (dag/start-log-cell dag-rt :asset)
@@ -30,3 +31,26 @@
 (dag/stop-log-cell dag-rt :asset)
 
 dag-rt
+
+(def bar-db (bybit/create-import-bybit))
+
+bar-db
+
+(with-bindings {#'quanta.algo.env.bars/*bar-db* bar-db}
+  quanta.algo.env.bars/*bar-db*)
+
+(def dag-rt-bars
+  (-> (dag/create-dag {:log-dir ".data/"
+                       :env {#'quanta.algo.env.bars/*bar-db* bar-db}})
+      (dag/add-constant-cell :asset "BTCUSDT")
+      (dag/add-cell :dt (get-calendar-flow [:forex :m]))
+      (dag/add-formula-cell :bars (fn [asset dt]
+                                    {:asset asset
+                                     :dt dt
+                                     :bars (get-trailing-bars {:asset asset
+                                                               :calendar [:forex :m]
+                                                               :trailing-n 5} dt)}) [:asset :dt])))
+
+dag-rt-bars
+
+(dag/start-log-cell dag-rt-bars :bars)

@@ -217,6 +217,8 @@
   (import-bybit.))
 
 (comment
+
+  (type (create-import-bybit))
   (bybit-frequency :d)
   (bybit-frequency :h)
   (bybit-frequency :m)

@@ -91,7 +91,8 @@
                                  (create-no-val cell-id)
                              (try
                                (let [start (. System (nanoTime))
-                                     result (apply formula-fn args)
+                                     result (with-bindings (:env dag)
+                                              (apply formula-fn args))
                                      stime (str "\r\ncell " cell-id
                                                 " calculated in "
                                                 (/ (double (- (. System (nanoTime)) start)) 1000000.0)
@@ -110,14 +111,16 @@
 (defn create-dag
   ([]
    (create-dag {}))
-  ([{:keys [id log-dir]
-     :or {id (nano-id 5)}}]
+  ([{:keys [id log-dir env]
+     :or {id (nano-id 5)
+          env {}}}]
    {:id id
     :cells (atom {})
     :inputs (atom {})
     :logger (when log-dir
               (trace/setup log-dir id))
     :tasks (atom {})
+    :env env
     }))
 
 
