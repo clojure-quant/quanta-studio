@@ -165,8 +165,6 @@
   (let [cell (get-cell dag cell-id)]
     (m/? (current-valid-val cell))))
 
-
-
 (defn start!
   "starts a missionary task
    task can be stopped with (stop! task-id).
