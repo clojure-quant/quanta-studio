@@ -19,6 +19,10 @@
   (write-text filename (str "\r\ncell-id: " cell-id "\r\n"
                             (ex->str ex))))
 
+(defn write-edn-raw [filename label v]
+  (write-text filename (str "\r\n" label "\r\n"
+                            (pr-str v))))
+
 (defn write-edn [filename cell-id v]
   (write-text filename (str "\r\ncell-id: " cell-id "\r\n"
                             (pr-str v))))

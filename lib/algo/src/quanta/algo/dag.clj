@@ -3,7 +3,9 @@
    [missionary.core :as m]
    [nano-id.core :refer [nano-id]]
    [quanta.algo.dag.util :as util]
-   [quanta.algo.dag.trace :as trace]))
+   [quanta.algo.dag.trace :as trace]
+   [quanta.algo.env.dag]
+   ))
 
 ; no value
 
@@ -86,6 +88,7 @@
   (assert dag "dag needs to be non nil")
   (assert (vector? input-cell-id-vec) "input-cell-id-vec needs to be a vector")
   (let [input-cells (map #(get-cell-or-throw dag %) input-cell-id-vec)
+        _ (println "all input cells are good!")
         formula-fn-wrapped (fn [& args]
                              (if (some-input-no-value? args)
                                  (create-no-val cell-id)
@@ -111,17 +114,19 @@
 (defn create-dag
   ([]
    (create-dag {}))
-  ([{:keys [id log-dir env]
+  ([{:keys [id log-dir env opts]
      :or {id (nano-id 5)
-          env {}}}]
-   {:id id
-    :cells (atom {})
-    :inputs (atom {})
-    :logger (when log-dir
-              (trace/setup log-dir id))
-    :tasks (atom {})
-    :env env
-    }))
+          env {}
+          opts {}}}]
+   (let [dag {:id id
+              :cells (atom {})
+              :inputs (atom {})
+              :opts (atom opts)
+              :logger (when log-dir
+                        (trace/setup log-dir id))
+              :tasks (atom {})}]
+     (assoc dag :env (merge {#'quanta.algo.env.dag/*dag* dag}
+                            env)))))
 
 
 (defn get-current-value [dag cell-id]

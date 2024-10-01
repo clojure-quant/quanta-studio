@@ -4,7 +4,10 @@
    [quanta.algo.dag :as dag]
    [quanta.algo.mode.live.scheduler :refer [get-calendar-flow]]
    [ta.import.provider.bybit.ds :as bybit]
-   [quanta.algo.env.bars :refer [get-trailing-bars]]))
+   [quanta.algo.env.bars :refer [get-trailing-bars]]
+   [quanta.algo.env.dag :refer [log]]
+   ))
+
 
 (m/? (->> (get-calendar-flow [:forex :m])
           (m/eduction
@@ -18,9 +21,11 @@
       (dag/add-constant-cell :asset "QQQ")
       (dag/add-cell :dt (get-calendar-flow [:forex :m]))
       (dag/add-formula-cell :quote (fn [asset dt]
+                                     (log "I go into the dag log" {:message "super"})
                                      {:asset asset
                                       :dt dt
                                       :price (rand 100)}) [:asset :dt])))
+
 
 (dag/start-log-cell dag-rt :dt)
 (dag/start-log-cell dag-rt :quote)
