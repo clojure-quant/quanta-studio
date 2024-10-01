@@ -1,7 +1,8 @@
 (ns ta.import.provider.bybit.ds
   (:require
    [clojure.string :as str]
-   [taoensso.timbre :refer [debug info error]]
+   ;[taoensso.timbre :refer [debug info error]]
+   [taoensso.telemere :as tm]
    [de.otto.nom.core :as nom]
    [tick.core :as t] ; tick uses cljc.java-time
    [tech.v3.dataset :as tds]
@@ -83,8 +84,11 @@
          :end (instant->epoch-millisecond (:end window))))
 
 (defn get-bars-req [{:keys [asset calendar] :as opts} window]
-  (debug "get-bars-req: " (select-keys opts [:task-id :asset :calendar :import])
-         "window: "  (select-keys window [:start :end]))
+  (tm/log! :debug
+    (str
+           "get-bars-req: " (select-keys opts [:task-id :asset :calendar :import])
+           "window: "  (select-keys window [:start :end])))
+  
   (assert asset "bybit get-bars needs asset parameter")
   ;(assert calendar "bybit get-bars needs calendar parameter")
   (assert window "bybit get-bars needs window parameter")
@@ -109,11 +113,14 @@
    (try
      (bybit-result->dataset response)
      (catch Exception ex
-       (error "could not convert bybit bar response to dataset "
+       (tm/log! :error
+        ;error 
+                (str
+                 "could not convert bybit bar response to dataset "
               " asset: " asset " calendar: " calendar
               " window: " window
               " response: " response
-              " ex: " ex)
+              " ex: " ex))
        nil))))
 
 ;; PAGING REQUESTS
@@ -139,7 +146,8 @@
    returns nil if last result is an anomaly, or
    if no more requests are needed."
   [calendar window bar-ds]
-  (debug "next-request window: " window)
+  (tm/log!  :debug ;debug 
+   (str "next-request window: " window))
   (when-not (nom/anomaly? bar-ds)
     (let [earliest-received-dt (-> bar-ds tc/first :date first)
           [calendar-kw interval-kw] calendar
@@ -182,28 +190,39 @@
                                       :range window})))
 
 (defn get-bars [{:keys [asset calendar] :as opts} {:keys [start end] :as window}]
-  (info "get-bars: " (select-keys opts [:task-id :asset :calendar :import])
-        "window: " (select-keys window [:start :end]))
+  (tm/log! :info
+   ;info 
+   (str 
+           "get-bars: " (select-keys opts [:task-id :asset :calendar :import])
+        "window: " (select-keys window [:start :end])))
   (try
     (let [page-size 1000 ; 200
         ; dates need to be instant, because only instant can be converted to unix-epoch-ms
           start (if (t/instant? start) start (t/instant start))
           end (if (t/instant? end) end (t/instant end))
           window (assoc window :limit page-size :start start :end end)]
-      (info "initial-page start: " start " end: " end)
+      (tm/log! :info
+       ;info 
+               (str "initial-page start: " start " end: " end))
       (->> (iteration (fn [window]
-                        (info "new page window: " (select-keys window [:start :end]))
+                        (tm/log! :info 
+                                 ;info 
+                                 (str "new page window: " (select-keys window [:start :end])))
                         (get-bars-req opts window))
                       :initk window
                       :kf  (partial next-request calendar window))
            (consolidate-datasets opts window)))
     (catch AssertionError ex
-      (error "get-bars: " calendar " assert-error: " ex)
+      (tm/log! :error
+       ;error 
+             (str   "get-bars: " calendar " assert-error: " ex))
       (nom/fail ::compress {:message "assert-error in compressing ds-higher"
                             :opts opts
                             :range window}))
     (catch Exception ex
-      (error "get-bars calendar: " calendar " exception: " ex)
+      (tm/log! :error 
+               ;error 
+               (str "get-bars calendar: " calendar " exception: " ex))
       (nom/fail ::compress {:message "exception in bybit get-bars"
                             :opts opts
                             :range window}))))

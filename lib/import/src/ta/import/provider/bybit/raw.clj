@@ -1,6 +1,7 @@
 (ns ta.import.provider.bybit.raw
   (:require
-   [taoensso.timbre :refer [info warn]]
+   ;[taoensso.timbre :refer [info warn]]
+   [taoensso.telemere :as tm]
    [tick.core :as t]
    [de.otto.nom.core :as nom]
    [cheshire.core :as cheshire] ; JSON Encoding
@@ -36,7 +37,9 @@
 (defn http-get-json [url query-params]
   (nom/let-nom> [res (http-get url query-params)
                  {:keys [status headers body]} res]
-                (info "status:" status "headers: " headers)
+                (tm/log! :info
+                         ;info 
+                         (str "status:" status "headers: " headers))
                 (cheshire/parse-string body true)))
 
 (defn get-history-request
@@ -49,7 +52,9 @@
    start: epoch-millisecond
    limit: between 1 and 200 (maximum)"
   [query-params]
-  (info "get-history: " query-params)
+  (tm/log! :info
+           ;info 
+           (str "get-history: " query-params))
   (nom/let-nom>
    [res (http-get "https://api.bybit.com/v5/market/kline" query-params)
     {:keys [status headers body]} res
@@ -58,7 +63,9 @@
    (if (= (:retCode result) 0)
      (let [bar-seq (parse-history result)]
        (when (= (count bar-seq) 0)
-         (warn "no bybit data for params: " query-params))
+         (tm/log! :warn
+          ;warn 
+                  (str "no bybit data for params: " query-params)))
        bar-seq
        #_(if (> (count bar-seq) 0)
            bar-seq

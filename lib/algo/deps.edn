@@ -5,6 +5,7 @@
   ta/db {:local/root "../db" :deps/manifest :deps} ; bar-db
   ta/model {:local/root "../model" :deps/manifest :deps} ; engine (javelin) used by algo-env
   ta/import {:local/root "../import" :deps/manifest :deps} 
+  com.taoensso/telemere {:mvn/version "1.0.0-beta25"}
  }
  :aliases
  {:test {:extra-paths ["test"]
