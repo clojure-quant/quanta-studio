@@ -25,7 +25,7 @@
   [spec]
   (if (map? spec)
     ; convert map syntax to vector syntax
-    (spec->ops [1 spec]) ; [[1 (spec->op env spec)]]
+    (spec->ops [:algo spec]) 
     ; process vector syntax
     (let [global-opts? (and (odd? (count spec))
                             (map? (first spec)))

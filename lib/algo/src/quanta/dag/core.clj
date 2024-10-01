@@ -188,12 +188,13 @@
    can be stopped with (stop! id) 
    useful for working in the repl with flows."
   [dag cell-id]
-  (let [cell (get-cell dag cell-id)
-        log-task (m/reduce (fn [r v]
-                             (trace/write-edn (:logger dag) cell-id v)
-                             nil)
-                           nil cell)]
-    (start! dag cell-id log-task)))
+  (if-let [cell (get-cell dag cell-id)]
+     (let [ log-task (m/reduce (fn [r v]
+                                (trace/write-edn (:logger dag) cell-id v)
+                                nil)
+                              nil cell)]
+        (start! dag cell-id log-task))
+    (str "cell " cell-id " not found - cannot start!")))
 
 (defn stop-log-cell [dag cell-id]
   (stop! dag cell-id))

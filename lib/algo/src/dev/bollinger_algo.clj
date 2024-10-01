@@ -1,19 +1,14 @@
 (ns dev.bollinger-algo
   (:require
-    [tick.core :as t]
-    [tablecloth.api :as tc]
     [ta.indicator.band :as band]
-    [quanta.dag.core :as dag]
     [quanta.dag.env.bars :refer [get-trailing-bars]]
     [quanta.dag.algo.spec :as spec]))
-  
 
 (defn bollinger-calc [opts dt]
-  {:bollinger-opts opts
-   :dt dt}
-  (->> (get-trailing-bars opts dt)
-       ;(band/add-bollinger {:n 2 :k 3.0})
-       ))
+  (let [n (or (:atr-n opts) 2)
+        k (or (:atr-k opts) 1.0)]
+    (->> (get-trailing-bars opts dt)
+         (band/add-bollinger {:n n :k k}))))
 
 (defn bollinger-signal [opts d m]
   (vector d m))
@@ -27,10 +22,21 @@
          :atr-m 0.6}
    :min {:calendar [:forex :m]
          :algo bollinger-calc
-         :trailing-n 20}
+         :trailing-n 20
+         :atr-n 5
+         :atr-m 0.3}
    :signal {:formula [:day :min]
             :algo bollinger-signal
             :carry-n 2}])
 
 
 (spec/spec->ops bollinger-algo)
+;; => [[:day {:calendar [:forex :d],
+;;            :algo-fn #function[dev.bollinger-algo/bollinger-calc],
+;;            :opts {:asset "BTCUSDT", :calendar [:forex :d], :trailing-n 20, :atr-n 10, :atr-m 0.6}}]
+;;     [:min {:calendar [:forex :m],
+;;            :algo-fn #function[dev.bollinger-algo/bollinger-calc],
+;;           :opts {:asset "BTCUSDT", :calendar [:forex :m], :trailing-n 20, :atr-n 5, :atr-m 0.3}}]
+;;     [:signal {:formula [:day :min],
+;;               :algo-fn #function[dev.bollinger-algo/bollinger-signal],
+;;               :opts {:asset "BTCUSDT", :formula [:day :min], :carry-n 2}}]]

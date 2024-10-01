@@ -2,20 +2,28 @@
    (:require
     [quanta.dag.core :as dag]
     [quanta.dag.algo.spec :as spec]
-    [quanta.dag.algo.spec-options :refer [apply-options]]
-    ))
+    [quanta.dag.algo.spec-options :refer [apply-options]]))
+
+(defn calc-simple [opts dt]
+  {:result dt
+   :opts opts})
 
 (def algo-simple 
-  {:calendar [:forex :d]
-   :algo  identity
-   :bardb :nippy
-   :asset "EUR/USD"
-   :trailing-n 2000
-   ; algo specific parameters
-   :atr-m 0.75
-   :atr-n 10})
+  {:calendar [:forex :m]
+   :algo  calc-simple
+   :x 3
+   :y :b
+   :z nil})
 
+(spec/spec->ops algo-simple)
 
+(apply-options algo-simple {[:x] 2
+                            [:z] 5
+                            })
+;; => {:calendar [:forex :m], 
+;;     :algo #function[dev.simple-algo/calc-simple], 
+;;     :x 2, 
+;;     :y :b, 
+;;     :z 5}
 
-(apply-options algo-simple {[:atr-m] 2})
 
