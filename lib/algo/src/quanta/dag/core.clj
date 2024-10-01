@@ -4,8 +4,7 @@
    [nano-id.core :refer [nano-id]]
    [quanta.dag.util :as util]
    [quanta.dag.trace :as trace]
-   [quanta.dag.env.dag]
-   ))
+   [quanta.dag.env.dag]))
 
 ; no value
 
@@ -20,7 +19,7 @@
 ; cell db
 
 (defn add-cell [dag cell-id cell]
-  (swap! (:cells dag) assoc cell-id cell 
+  (swap! (:cells dag) assoc cell-id cell
          ;(m/stream cell)
          )
   dag)
@@ -31,39 +30,37 @@
 (defn cell-ids [dag]
   (-> @(:cells dag) keys))
 
-
 #_(defn- msg-flow [!-a]
-   (m/observe
-    (fn [!]
-      (reset! !-a !)
-      (fn []
-        (reset! !-a nil)))))
+    (m/observe
+     (fn [!]
+       (reset! !-a !)
+       (fn []
+         (reset! !-a nil)))))
 
 #_(defn- flow-sender
-  "returns {:flow f
+    "returns {:flow f
             :send s}
     (s v) pushes v to f."
-  [initial-v]
-  (let [!-a (atom initial-v)]
-    {:flow (msg-flow !-a)
-     :send (fn [v]
-             (when-let [! @!-a]
-               (! v)))}))
+    [initial-v]
+    (let [!-a (atom initial-v)]
+      {:flow (msg-flow !-a)
+       :send (fn [v]
+               (when-let [! @!-a]
+                 (! v)))}))
 
 (defn add-constant-cell [dag cell-id initial-v]
-   (add-cell dag cell-id (m/seed [initial-v])))
+  (add-cell dag cell-id (m/seed [initial-v])))
 
 #_(defn add-input-cell [dag cell-id initial-v]
-  (let [{:keys [flow send]} (flow-sender initial-v)]
-    (swap! (:inputs dag) assoc cell-id send) 
+    (let [{:keys [flow send]} (flow-sender initial-v)]
+      (swap! (:inputs dag) assoc cell-id send)
     ;(add-cell dag cell-id (m/seed [input]))
-    (add-cell dag cell-id flow)))
-
+      (add-cell dag cell-id flow)))
 
 #_(defn modify-input-cell [dag cell-id new-v]
-   (if-let [send-fn (get @(:inputs dag) cell-id)]
-     (send-fn new-v)
-     (throw (ex-info "cannot modify non-existing input cell" {:cell-id cell-id}))))
+    (if-let [send-fn (get @(:inputs dag) cell-id)]
+      (send-fn new-v)
+      (throw (ex-info "cannot modify non-existing input cell" {:cell-id cell-id}))))
 
 (defn- get-cell-or-throw [dag cell-id]
   (let [cell (get-cell dag cell-id)]
@@ -72,13 +69,11 @@
                                         :msg "cell not found in dag."})))
     cell))
 
-
 (defn some-input-no-value? [args]
-  (some is-no-val? args)
-  )
+  (some is-no-val? args))
 
-(comment 
-   (some-input-no-value? [1 2 3])
+(comment
+  (some-input-no-value? [1 2 3])
   (some-input-no-value? [1 2 3 nil])
   (some-input-no-value? [1 2 3 nil (create-no-val :34)])
  ; 
@@ -91,25 +86,24 @@
         _ (println "all input cells are good!")
         formula-fn-wrapped (fn [& args]
                              (if (some-input-no-value? args)
-                                 (create-no-val cell-id)
-                             (try
-                               (let [start (. System (nanoTime))
-                                     result (with-bindings (:env dag)
-                                              (apply formula-fn args))
-                                     stime (str "\r\ncell " cell-id
-                                                " calculated in "
-                                                (/ (double (- (. System (nanoTime)) start)) 1000000.0)
-                                                " msecs")]
-                                 (when (:logger dag)
-                                   (trace/write-text (:logger dag) stime))
-                                 result)
-                               (catch Exception ex
-                                 (when (:logger dag)
-                                   (trace/write-ex (:logger dag) cell-id ex))
-                                 (throw ex)))))
+                               (create-no-val cell-id)
+                               (try
+                                 (let [start (. System (nanoTime))
+                                       result (with-bindings (:env dag)
+                                                (apply formula-fn args))
+                                       stime (str "\r\ncell " cell-id
+                                                  " calculated in "
+                                                  (/ (double (- (. System (nanoTime)) start)) 1000000.0)
+                                                  " msecs")]
+                                   (when (:logger dag)
+                                     (trace/write-text (:logger dag) stime))
+                                   result)
+                                 (catch Exception ex
+                                   (when (:logger dag)
+                                     (trace/write-ex (:logger dag) cell-id ex))
+                                   (throw ex)))))
         formula-cell (apply m/latest formula-fn-wrapped input-cells)]
     (add-cell dag cell-id formula-cell)))
-
 
 (defn create-dag
   ([]
@@ -128,11 +122,9 @@
      (assoc dag :env (merge {#'quanta.dag.env.dag/*dag* dag}
                             env)))))
 
-
 (defn get-current-value [dag cell-id]
   (let [cell (get-cell dag cell-id)]
     (m/? (util/current-v cell))))
-
 
 (defn -listen
   ; from ribelo/praxis
@@ -152,7 +144,6 @@
   [>flow f]
   (m/ap
    (m/?> (m/eduction (comp (map (fn [[e v]] (f e v)))) >flow))))
-
 
 (defn take-first-non-noval [f]
   ; flows dont implement deref
@@ -192,8 +183,7 @@
     (dispose!)
     (println "cannot stop task - not existing!" task-id)))
 
-
-(defn start-log-cell 
+(defn start-log-cell
   "starts logging a missionary flow to a file.
    can be stopped with (stop! id) 
    useful for working in the repl with flows."
@@ -206,4 +196,4 @@
     (start! dag cell-id log-task)))
 
 (defn stop-log-cell [dag cell-id]
-   (stop! dag cell-id))
+  (stop! dag cell-id))

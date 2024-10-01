@@ -6,6 +6,7 @@
   ta/model {:local/root "../model" :deps/manifest :deps} ; engine (javelin) used by algo-env
   ta/import {:local/root "../import" :deps/manifest :deps} 
   com.taoensso/telemere {:mvn/version "1.0.0-beta25"}
+  io.github.clojure-quant/quanta-market {:mvn/version "0.1.106"}
  }
  :aliases
  {:test {:extra-paths ["test"]
