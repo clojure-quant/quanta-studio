@@ -33,12 +33,9 @@ dag-rt
 
 bar-db
 
-(with-bindings {#'quanta.algo.env.bars/*bar-db* bar-db}
-  quanta.algo.env.bars/*bar-db*)
-
 (def dag-rt-bars
   (-> (dag/create-dag {:log-dir ".data/"
-                       :env {#'quanta.algo.env.bars/*bar-db* bar-db}})
+                       :env {#'quanta.dag.env.bars/*bar-db* bar-db}})
       (dag/add-constant-cell :opts {:asset "BTCUSDT"
                                     :calendar [:forex :m]
                                     :trailing-n 5})

@@ -1,6 +1,9 @@
 (ns ta.algo.spec.parser.multi
   (:require
-   [ta.algo.parser.chain :refer [make-chain]]))
+   [ta.algo.spec.parser.chain :refer [make-chain]]))
+
+;; 2024 10 01 awb99: the make-chane reference cme from a wrong namespace.
+;; I assume it is abandoned.
 
 (defn- combined?  [[calendar interval]]
   (and (= calendar :*) (= interval :*)))
