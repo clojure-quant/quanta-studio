@@ -28,8 +28,7 @@
   ta/db {:local/root "./lib/db" :deps/manifest :deps}
   ;; IMPORT and QUOTE will go to quanta-markets
   ta/import {:local/root "./lib/import" :deps/manifest :deps} ; series import
-  
-  io.github.clojure-quant/quanta-market {:mvn/version "0.1.106"}
+  io.github.clojure-quant/quanta-market {:mvn/version "0.1.108"}
   }
  :aliases
  {; https://github.com/weavejester/cljfmt
