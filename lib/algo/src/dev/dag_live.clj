@@ -1,8 +1,8 @@
-(ns quanta.algo.demo.live
+(ns dev.dag-live
   (:require
    [missionary.core :as m]
    [quanta.dag.core :as dag]
-   [quanta.dag.calendar.live :refer [get-calendar-flow]]
+   [quanta.dag.algo.calendar.live :refer [get-calendar-flow]]
    [ta.import.provider.bybit.ds :as bybit]
    [quanta.dag.env.bars :refer [get-trailing-bars]]
    [quanta.dag.env.dag :refer [log]]

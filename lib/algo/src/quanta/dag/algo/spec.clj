@@ -6,12 +6,12 @@
       ; time-algo
       calendar
       {:calendar calendar
-       :fn (:algo spec) 
+       :algo-fn (:algo spec) 
        :opts (dissoc spec :algo)}
       ; formula (uses other cells)
       formula
       {:formula formula 
-       :fn (:algo spec) 
+       :algo-fn (:algo spec) 
        :opts (dissoc spec :algo)}
       ; value (create imput cell)
       value
