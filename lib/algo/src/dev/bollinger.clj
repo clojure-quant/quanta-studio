@@ -46,6 +46,13 @@
     bollinger-algo
     (t/instant)))
 
-
 (dag/start-log-cell dag-bollinger :day)
 (dag/start-log-cell dag-bollinger :min)
+
+(def dag-bollinger-rt
+  (create/create-dag-live
+   {:log-dir ".data/"
+    :env {#'quanta.dag.env.bars/*bar-db* bar-db}}
+   bollinger-algo))
+
+(dag/start-log-cell dag-bollinger-rt :min)
