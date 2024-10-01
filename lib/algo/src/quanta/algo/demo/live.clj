@@ -42,14 +42,15 @@ bar-db
 (def dag-rt-bars
   (-> (dag/create-dag {:log-dir ".data/"
                        :env {#'quanta.algo.env.bars/*bar-db* bar-db}})
-      (dag/add-constant-cell :asset "BTCUSDT")
+      (dag/add-constant-cell :opts {:asset "BTCUSDT"
+                                    :calendar [:forex :m]
+                                    :trailing-n 5})
       (dag/add-cell :dt (get-calendar-flow [:forex :m]))
-      (dag/add-formula-cell :bars (fn [asset dt]
-                                    {:asset asset
+      (dag/add-formula-cell :bars (fn [opts dt]
+                                    {:asset (:asset opts)
                                      :dt dt
-                                     :bars (get-trailing-bars {:asset asset
-                                                               :calendar [:forex :m]
-                                                               :trailing-n 5} dt)}) [:asset :dt])))
+                                     :bars (get-trailing-bars opts dt)}) [:opts :dt])))
+
 
 dag-rt-bars
 
