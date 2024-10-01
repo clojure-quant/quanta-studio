@@ -58,6 +58,11 @@
 (dag/get-current-valid-value dag-rt :quote)
 
 
+(dag/start-log-cell dag-rt :dt)
+(dag/start-log-cell dag-rt :quote)
+
+(dag/stop-log-cell dag-rt :dt)
+(dag/stop-log-cell dag-rt :quote)
 
 (m/? (->> dt-every-10-seconds
           (m/eduction

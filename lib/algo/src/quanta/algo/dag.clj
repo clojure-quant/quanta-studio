@@ -116,7 +116,9 @@
     :cells (atom {})
     :inputs (atom {})
     :logger (when log-dir
-              (trace/setup log-dir id))}))
+              (trace/setup log-dir id))
+    :tasks (atom {})
+    }))
 
 
 (defn get-current-value [dag cell-id]
@@ -163,3 +165,39 @@
   (let [cell (get-cell dag cell-id)]
     (m/? (current-valid-val cell))))
 
+
+
+(defn start!
+  "starts a missionary task
+   task can be stopped with (stop! task-id).
+   useful for working in the repl with tasks"
+  [dag cell-id task]
+  (let [dispose! (task
+                  #(println "task completed: " %)
+                  #(println "task crashed: " %))]
+    (swap! (:tasks dag) assoc cell-id dispose!)
+    (str "use (stop! " cell-id ") to stop this task.")))
+
+(defn stop!
+  "stops a missionary task that has been started with start!
+    useful for working in the repl with tasks"
+  [dag task-id]
+  (if-let [dispose! (get @(:tasks dag) task-id)]
+    (dispose!)
+    (println "cannot stop task - not existing!" task-id)))
+
+
+(defn start-log-cell 
+  "starts logging a missionary flow to a file.
+   can be stopped with (stop! id) 
+   useful for working in the repl with flows."
+  [dag cell-id]
+  (let [cell (get-cell dag cell-id)
+        log-task (m/reduce (fn [r v]
+                             (trace/write-edn (:logger dag) cell-id v)
+                             nil)
+                           nil cell)]
+    (start! dag cell-id log-task)))
+
+(defn stop-log-cell [dag cell-id]
+   (stop! dag cell-id))

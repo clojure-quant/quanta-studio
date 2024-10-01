@@ -19,9 +19,9 @@
   (write-text filename (str "\r\ncell-id: " cell-id "\r\n"
                             (ex->str ex))))
 
-(defn write-edn [filename cell-id ex]
+(defn write-edn [filename cell-id v]
   (write-text filename (str "\r\ncell-id: " cell-id "\r\n"
-                            (pr-str ex))))
+                            (pr-str v))))
 
 (defn setup [path id]
   (let [dt (-> (t/zoned-date-time) (t/in "UTC"))
