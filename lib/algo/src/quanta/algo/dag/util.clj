@@ -20,3 +20,21 @@
               (println "current v: " v " r: " r)
               v) nil
             (take-first-non-nil f)))
+
+(defn cont
+  "converts a discrete flow to a continuous flow. 
+    returns nil in the beginning."
+  [flow]
+  (->> flow
+       (m/reductions (fn [r v]
+                       (if v v r)) nil)
+       (m/relieve {})))
+
+(defn first-match [predicate flow]
+  (m/reduce (fn [_r v]
+              (info "first-match check: " v)
+              (when (predicate v)
+                (info "success! returning: " v)
+                (reduced v)))
+            nil
+            flow))

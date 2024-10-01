@@ -5,22 +5,39 @@
    [quanta.algo.dag.util :as util]
    [quanta.algo.dag.trace :as trace]))
 
+; no value
+
+(defrecord no-val [cell-id])
+
+(defn create-no-val [cell-id]
+  (no-val. cell-id))
+
+(defn is-no-val? [v]
+  (instance? no-val v))
+
+; cell db
+
 (defn add-cell [dag cell-id cell]
-  (swap! (:cells dag) assoc cell-id  (m/stream cell))
+  (swap! (:cells dag) assoc cell-id cell 
+         ;(m/stream cell)
+         )
   dag)
 
 (defn get-cell [dag cell-id]
   (get @(:cells dag) cell-id))
 
+(defn cell-ids [dag]
+  (-> @(:cells dag) keys))
 
-(defn- msg-flow [!-a]
+
+#_(defn- msg-flow [!-a]
    (m/observe
     (fn [!]
       (reset! !-a !)
       (fn []
         (reset! !-a nil)))))
 
-(defn- flow-sender
+#_(defn- flow-sender
   "returns {:flow f
             :send s}
     (s v) pushes v to f."
@@ -34,14 +51,14 @@
 (defn add-constant-cell [dag cell-id initial-v]
    (add-cell dag cell-id (m/seed [initial-v])))
 
-(defn add-input-cell [dag cell-id initial-v]
+#_(defn add-input-cell [dag cell-id initial-v]
   (let [{:keys [flow send]} (flow-sender initial-v)]
     (swap! (:inputs dag) assoc cell-id send) 
     ;(add-cell dag cell-id (m/seed [input]))
     (add-cell dag cell-id flow)))
 
 
-(defn modify-input-cell [dag cell-id new-v]
+#_(defn modify-input-cell [dag cell-id new-v]
    (if-let [send-fn (get @(:inputs dag) cell-id)]
      (send-fn new-v)
      (throw (ex-info "cannot modify non-existing input cell" {:cell-id cell-id}))))
@@ -53,11 +70,25 @@
                                         :msg "cell not found in dag."})))
     cell))
 
+
+(defn some-input-no-value? [args]
+  (some is-no-val? args)
+  )
+
+(comment 
+   (some-input-no-value? [1 2 3])
+  (some-input-no-value? [1 2 3 nil])
+  (some-input-no-value? [1 2 3 nil (create-no-val :34)])
+ ; 
+  )
+
 (defn add-formula-cell [dag cell-id formula-fn input-cell-id-vec]
   (assert dag "dag needs to be non nil")
   (assert (vector? input-cell-id-vec) "input-cell-id-vec needs to be a vector")
   (let [input-cells (map #(get-cell-or-throw dag %) input-cell-id-vec)
         formula-fn-wrapped (fn [& args]
+                             (if (some-input-no-value? args)
+                                 (create-no-val cell-id)
                              (try
                                (let [start (. System (nanoTime))
                                      result (apply formula-fn args)
@@ -71,9 +102,10 @@
                                (catch Exception ex
                                  (when (:logger dag)
                                    (trace/write-ex (:logger dag) cell-id ex))
-                                 (throw ex))))
+                                 (throw ex)))))
         formula-cell (apply m/latest formula-fn-wrapped input-cells)]
     (add-cell dag cell-id formula-cell)))
+
 
 (defn create-dag
   ([]
@@ -86,7 +118,48 @@
     :logger (when log-dir
               (trace/setup log-dir id))}))
 
+
 (defn get-current-value [dag cell-id]
   (let [cell (get-cell dag cell-id)]
     (m/? (util/current-v cell))))
+
+
+(defn -listen
+  ; from ribelo/praxis
+  "[pure] creates a `listener` for the [[Node]] of the `dag`, every time the
+  value of a [[Node]] changes the function is called.
+
+
+  function `f` should take two arguments, the first is the listener `id`, the
+  second is the [[Node]] value. returns a function that allows to delete a
+  `listener`
+
+
+  use as event
+  ```clojure
+  (emit ::listen! id f)
+  ```"
+  [>flow f]
+  (m/ap
+   (m/?> (m/eduction (comp (map (fn [[e v]] (f e v)))) >flow))))
+
+
+(defn take-first-non-noval [f]
+  ; flows dont implement deref
+  (m/eduction
+   (remove is-no-val?)
+   (take 1)
+   f))
+
+(defn current-valid-val
+  "gets the first non-nil value from the flow"
+  [f]
+  (m/reduce (fn [r v]
+              (println "current v: " v " r: " r)
+              v) nil
+            (take-first-non-noval f)))
+
+(defn get-current-valid-value [dag cell-id]
+  (let [cell (get-cell dag cell-id)]
+    (m/? (current-valid-val cell))))
 
