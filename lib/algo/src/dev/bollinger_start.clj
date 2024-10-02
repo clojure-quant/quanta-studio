@@ -6,15 +6,16 @@
    [quanta.algo.create :as create]
    [ta.import.provider.bybit.ds :as bybit]
    [ta.db.bars.protocol :as b]
+   [ta.calendar.core :refer [trailing-window]]
    [dev.bollinger-algo :refer [bollinger-algo]]
-   [ta.calendar.core :refer [trailing-window]]))
+   ))
 
 (def bar-db (bybit/create-import-bybit))
 
 (def dag-bollinger
   (create/create-dag-snapshot
    {:log-dir ".data/"
-    :env {#'quanta.dag.env.bars/*bar-db* bar-db}}
+    :env {#'quanta.algo.env.bars/*bar-db* bar-db}}
    bollinger-algo
    (t/instant)))
 
@@ -24,7 +25,7 @@
 (def dag-bollinger-rt
   (create/create-dag-live
    {:log-dir ".data/"
-    :env {#'quanta.dag.env.bars/*bar-db* bar-db}}
+    :env {#'quanta.algo.env.bars/*bar-db* bar-db}}
    bollinger-algo))
 
 (dag/start-log-cell dag-bollinger-rt :day)
@@ -40,15 +41,15 @@
 
 
 
-(with-bindings [quanta.dag.env.bars/*bar-db* bar-db]
- (quanta.dag.env.bars/get-trailing-bars 
+(with-bindings [quanta.algo.env.bars/*bar-db* bar-db]
+ (quanta.algo.env.bars/get-trailing-bars 
   {:asset "BTCUSDT"
    :calendar [:forex :m]
    :trailing-n 10}
    (t/instant)))
 
-(with-bindings [quanta.dag.env.bars/*bar-db* bar-db]
-  (quanta.dag.env.bars/get-trailing-bars
+(with-bindings [quanta.algo.env.bars/*bar-db* bar-db]
+  (quanta.algo.env.bars/get-trailing-bars
    {:asset "BTCUSDT"
     :calendar [:forex :m]
     :trailing-n 10}

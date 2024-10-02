@@ -1,7 +1,12 @@
 (ns quanta.algo.template
   (:require
    [taoensso.timbre :refer [debug info warn error]]
-   [quanta.algo.options :as algo-opts]))
+   [nano-id.core :refer [nano-id]]
+   [quanta.dag.core :refer [get-current-valid-value]]
+   [quanta.algo.options :as algo-opts]
+   [quanta.algo.create :as create]))
+
+;; TEMPLATE INFO
 
 (defn get-views 
   "returns all vizualisation-ids of a template
@@ -53,6 +58,8 @@
      :current (get-default-values template options)
      :views (get-views template)}))
 
+;; APPLY OPTIONS
+
 (defn- get-option-by-path [template path]
   (let [options (or (:options template) [])]
     (->> (filter #(or (= (:path %) path)
@@ -103,6 +110,23 @@
                               :options options}
                              ex)
           (throw (ex-info "options-apply-ex" {:options options}))))))
+
+;; CALCULATE
+
+(defn calculate
+  "this runs a viz-task once and returns the viz-result.
+   output is guaranteed to be always viz-spec format, so
+   possible anomalies are converted to viz-spec"
+  ([dag-env template viz-mode dt]
+   (calculate dag-env template viz-mode dt (nano-id 6)))
+  ([dag-env template viz-mode dt task-id]
+   (let [{:keys [dag add-cell]} (create/create-dag-snapshot dag-env (:algo template) dt)
+         {:keys [viz viz-options key]
+          :or {key :algo}} (get template viz-mode)]
+         (add-cell :viz {:formula [key]
+                         :algo-fn viz
+                         :opts viz-options})
+   (get-current-valid-value dag :viz))))
 
 
 (comment
