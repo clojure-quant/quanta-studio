@@ -5,6 +5,7 @@
    [quanta.algo.create :as create]
    [dev.algo-simple :refer [simple-algo]]))
 
+
 (def simple
   (create/create-dag-snapshot
    {:log-dir ".data/"
@@ -13,7 +14,11 @@
    (t/instant)))
 
 (dag/cell-ids (:dag simple))
-;; => ([:forex :m] :algo)
+;; => ([:crypto :m] :algo)
+
+;; when the algo-spec does only specify ONE algo, then
+;; the algo result cell is called :algo
+
 
 ;; this gets written to the logfile of the dag.
 (dag/start-log-cell (:dag simple) [:crypto :m])
