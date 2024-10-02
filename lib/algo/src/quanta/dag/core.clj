@@ -219,7 +219,6 @@
         (trace/write-text (:logger dag) (str "\r\nSTOP " task-id))
         (dispose-fn))
       (println "cannot stop task - not existing!" task-id)))
-  
 
 
 (defn stop-all!
