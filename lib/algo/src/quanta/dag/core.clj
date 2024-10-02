@@ -102,8 +102,10 @@
                                    (when (:logger dag)
                                      (trace/write-ex (:logger dag) cell-id ex))
                                    (throw ex)))))
-        formula-cell (apply m/latest formula-fn-wrapped input-cells)]
-    (add-cell dag cell-id formula-cell)))
+        formula-cell (apply m/latest formula-fn-wrapped input-cells)
+        formula-cell-wrapped (m/stream formula-cell)
+        ]
+    (add-cell dag cell-id formula-cell-wrapped)))
 
 (defn create-dag
   ([]
