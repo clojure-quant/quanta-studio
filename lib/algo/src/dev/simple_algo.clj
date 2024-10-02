@@ -9,7 +9,7 @@
    :opts opts})
 
 (def algo-simple 
-  {:calendar [:forex :m]
+  {:calendar [:crypto :m]
    :algo  calc-simple
    :x 3
    :y :b

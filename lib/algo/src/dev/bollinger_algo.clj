@@ -15,12 +15,12 @@
 
 (def bollinger-algo
   [{:asset "BTCUSDT"} ; this options are global
-   :day {:calendar [:forex :d]
+   :day {:calendar [:crypto :d]
          :algo  bollinger-calc
          :trailing-n 20
          :atr-n 10
          :atr-m 0.6}
-   :min {:calendar [:forex :m]
+   :min {:calendar [:crypto :m]
          :algo bollinger-calc   ; min gets the global option :asset 
          :trailing-n 20         ; on top of its own local options 
          :atr-n 5
@@ -28,7 +28,6 @@
    :signal {:formula [:day :min]
             :algo bollinger-signal
             :carry-n 2}])
-
 
 (spec/spec->ops bollinger-algo)
 ;; => [[:day {:calendar [:forex :d],

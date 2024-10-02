@@ -14,21 +14,22 @@
    (m/ap
     (println "starting scheduler for calendar: " calendar)
     (let [[market-kw interval-kw] calendar
-          dt (t/now)
+          dt (t/instant)
           current-close (current-close market-kw interval-kw dt)]
+      (println "live-calendar " calendar " starting with: " current-close)
       (m/amb current-close)
       (loop [dt dt
              current-dt current-close]
         (let [current-dt-inst (t/instant current-dt)
               diff-ms (* 1000 (- (t/long current-dt-inst) (t/long dt)))]
           (when (> diff-ms 0)
-            (println "sleeping for ms: " diff-ms " until: " current-dt)
+            (println "live-calendar " calendar " sleeping for ms: " diff-ms " until: " current-dt)
             (m/? (m/sleep diff-ms current-dt))
-            (println "finished sleeping")
+            (println "live-calendar " calendar " finished sleeping")
             :bongo)
           (m/amb
            current-dt
-           (recur (t/now)
+           (recur (t/instant)
                   (next-close market-kw interval-kw current-dt)))))))))
 
 (defn all-calendars []
@@ -45,6 +46,21 @@
 
 (comment
 
+  (t/now)
+  (t/instant)
+
+  (current-close :crypto :m)
+  ;; => #time/zoned-date-time "2024-10-02T00:19Z[UTC]"
+  
+  (next-close :crypto :m 
+              (current-close :crypto :m))
+  ;; => #time/zoned-date-time "2024-10-02T00:20Z[UTC]"
+
+
+
+  (class (t/now))
+  (class (t/instant))
+
   (m/? (->> (scheduler [:us :d])
             (m/eduction (take 1))
             (m/reduce conj)))
@@ -52,6 +68,11 @@
   (m/? (->> (scheduler [:forex :m])
             (m/eduction (take 2))
             (m/reduce conj)))
+  
+   (m/? (->> (scheduler [:crypto :m])
+          (m/eduction (take 2))
+          (m/reduce conj)))
+
 
   (get-calendar-flow [:forex :m])
   (get-calendar-flow [:forex :m333])
