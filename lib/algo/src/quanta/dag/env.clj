@@ -1,4 +1,4 @@
-(ns quanta.dag.env.dag
+(ns quanta.dag.env
   (:require
    [quanta.dag.trace :as trace]))
 

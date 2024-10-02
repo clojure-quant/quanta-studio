@@ -2,8 +2,8 @@
   (:require
    [tick.core :as t]
    [quanta.dag.core :as dag]
-   [quanta.dag.env.bars]
-   [quanta.dag.algo.create :as create]
+   [quanta.algo.env.bars]
+   [quanta.algo.create :as create]
    [ta.import.provider.bybit.ds :as bybit]
    [ta.db.bars.protocol :as b]
    [dev.bollinger-algo :refer [bollinger-algo]]

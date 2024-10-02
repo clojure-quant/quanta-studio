@@ -1,4 +1,4 @@
-(ns quanta.dag.env.bars
+(ns quanta.algo.env.bars
   (:require
    [taoensso.timbre :refer [trace debug info warn error]]
    [de.otto.nom.core :as nom]

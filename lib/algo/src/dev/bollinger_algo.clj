@@ -1,8 +1,8 @@
 (ns dev.bollinger-algo
   (:require
     [ta.indicator.band :as band]
-    [quanta.dag.env.bars :refer [get-trailing-bars]]
-    [quanta.dag.algo.spec :as spec]))
+    [quanta.algo.env.bars :refer [get-trailing-bars]]
+    [quanta.algo.spec :as spec]))
 
 (defn bollinger-calc [opts dt]
   (let [n (or (:atr-n opts) 2)

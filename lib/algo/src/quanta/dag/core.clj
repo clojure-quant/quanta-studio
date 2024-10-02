@@ -4,7 +4,7 @@
    [nano-id.core :refer [nano-id]]
    [quanta.dag.util :as util]
    [quanta.dag.trace :as trace]
-   [quanta.dag.env.dag]))
+   [quanta.dag.env]))
 
 ; no value
 

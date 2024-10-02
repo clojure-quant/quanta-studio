@@ -1,6 +1,6 @@
 (ns dev.bollinger-options
   (:require
-   [quanta.dag.algo.spec-options :refer [apply-options]]
+   [quanta.algo.options :refer [apply-options]]
    [dev.bollinger-algo :refer [bollinger-algo]]))
 
 

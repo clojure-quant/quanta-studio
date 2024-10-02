@@ -1,9 +1,9 @@
-(ns quanta.dag.algo.create
+(ns quanta.algo.create
   (:require
    [quanta.dag.core :as dag]
    [quanta.dag.trace :refer [write-edn-raw]]
-   [quanta.dag.algo.calendar.core :as cal]
-   [quanta.dag.algo.spec :as spec]))
+   [quanta.algo.calendar.core :as cal]
+   [quanta.algo.spec :as spec]))
 
 (defn- add-cell [d time-fn [cell-id {:keys [calendar formula
                                             algo-fn opts]}]]

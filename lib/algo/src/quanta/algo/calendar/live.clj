@@ -1,4 +1,4 @@
-(ns quanta.dag.algo.calendar.live
+(ns quanta.algo.calendar.live
   (:require
    [tick.core :as t]
    [missionary.core :as m]
