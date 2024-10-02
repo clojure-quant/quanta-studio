@@ -1,4 +1,4 @@
-(ns dev.bollinger-algo
+(ns dev.algo-bollinger
   (:require
     [ta.indicator.band :as band]
     [quanta.algo.dag.spec :refer [spec->ops]]
@@ -44,8 +44,6 @@
 ;;     [:signal {:formula [:day :min],
 ;;               :algo-fn #function[dev.bollinger-algo/bollinger-signal],
 ;;               :opts {:asset "BTCUSDT", :formula [:day :min], :carry-n 2}}]]
-
-
 
 (-> bollinger-algo
     (apply-options {[0 :asset] "ETHUSDT"

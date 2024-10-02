@@ -1,15 +1,15 @@
-(ns dev.simple-start
+(ns dev.algo-simple-start
   (:require
    [tick.core :as t]
    [quanta.dag.core :as dag]
    [quanta.algo.create :as create]
-   [dev.simple-algo :refer [algo-simple]]))
+   [dev.algo-simple :refer [simple-algo]]))
 
 (def simple
   (create/create-dag-snapshot
    {:log-dir ".data/"
     :env {}}
-   algo-simple
+   simple-algo
    (t/instant)))
 
 (dag/cell-ids (:dag simple))
@@ -24,7 +24,7 @@
   (create/create-dag-live
    {:log-dir ".data/"
     :env {}}
-   algo-simple))
+   simple-algo))
 
 
 (dag/start-log-cell (:dag simple-rt) :algo)

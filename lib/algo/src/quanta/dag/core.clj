@@ -169,18 +169,25 @@
    task can be stopped with (stop! task-id).
    useful for working in the repl with tasks"
   [dag cell-id task]
-  (let [dispose! (task
-                  #(println "task completed: " %)
-                  #(println "task crashed: " %))]
+  (let [on-complete (fn [& args]
+                      (println "TASK COMPLETED " cell-id " args: " args)
+                      (swap! (:tasks dag) dissoc cell-id))
+        on-crash (fn [& args]
+                   (println "TASK CRASHED " cell-id " args: " args)
+                   (swap! (:tasks dag) dissoc cell-id))
+        dispose! (task on-complete on-crash)]
     (swap! (:tasks dag) assoc cell-id dispose!)
-    (str "use (stop! " cell-id ") to stop this task.")))
+    (str "TASK started - use (stop! " cell-id ") to stop this task.")))
 
 (defn stop!
   "stops a missionary task that has been started with start!
     useful for working in the repl with tasks"
   [dag task-id]
   (if-let [dispose! (get @(:tasks dag) task-id)]
-    (dispose!)
+    (do 
+      (trace/write-text (:logger dag) (str "STOP " task-id))
+      (dispose!)
+      (swap! (:tasks dag) dissoc task-id))
     (println "cannot stop task - not existing!" task-id)))
 
 (defn start-log-cell
@@ -189,12 +196,15 @@
    useful for working in the repl with flows."
   [dag cell-id]
   (if-let [cell (get-cell dag cell-id)]
-     (let [ log-task (m/reduce (fn [r v]
+     (let [log-task (m/reduce (fn [r v]
                                 (trace/write-edn (:logger dag) cell-id v)
                                 nil)
                               nil cell)]
+        (trace/write-text (:logger dag) (str "START " cell-id ))
         (start! dag cell-id log-task))
-    (str "cell " cell-id " not found - cannot start!")))
+    (do
+       (trace/write-text (:logger dag) (str "START FAILED" cell-id " does not exist."))
+       (str "cell " cell-id " not found - cannot start!"))))
 
 (defn stop-log-cell [dag cell-id]
   (stop! dag cell-id))

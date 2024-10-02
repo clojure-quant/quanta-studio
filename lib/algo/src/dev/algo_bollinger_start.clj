@@ -1,4 +1,4 @@
-(ns dev.bollinger-start
+(ns dev.algo-bollinger-start
   (:require
    [tick.core :as t]
    [quanta.dag.core :as dag]
@@ -7,7 +7,7 @@
    [ta.import.provider.bybit.ds :as bybit]
    [ta.db.bars.protocol :as b]
    [ta.calendar.core :refer [trailing-window]]
-   [dev.bollinger-algo :refer [bollinger-algo]]
+   [dev.algo-bollinger :refer [bollinger-algo]]
    ))
 
 
