@@ -20,7 +20,6 @@
 ;; when the algo-spec does only specify ONE algo, then
 ;; the algo result cell is called :algo
 
-
 ;; this gets written to the logfile of the dag.
 (dag/start-log-cell simple [:crypto :m])
 (dag/start-log-cell simple :algo)
@@ -34,6 +33,16 @@
     :env {}}
    simple-algo))
 
-
 (dag/start-log-cell simple-rt :algo)
+(dag/shutdown! simple-rt)
 
+;; TEST A SECOND DAG at the same time. 
+
+(def simple-rt2
+  (create/create-dag-live
+   {:log-dir ".data/"
+    :env {}}
+   simple-algo))
+
+(dag/start-log-cell simple-rt2 :algo)
+(dag/shutdown! simple-rt2)
