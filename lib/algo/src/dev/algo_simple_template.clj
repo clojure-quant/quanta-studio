@@ -1,8 +1,8 @@
 (ns dev.algo-simple-template
   (:require
+    [tick.core :as t]
     [quanta.algo.template :as templ]
-    [dev.algo-simple :refer [simple-algo]]
-   ))
+    [dev.algo-simple :refer [simple-algo]]))
 
 (defn viz-print [opts data]
   (println "algo-viz: " (pr-str data) "viz options: " opts)
@@ -63,3 +63,11 @@
 ;;     [{:type :select, :path [:x], :name "x param", :spec [200 500 1000 2000]}
 ;;      {:type :string, :path [:z], :name "z param (with coercion)", :coerce :double}],
 ;;     :print {:viz #function[dev.algo-simple-template/viz-print], :viz-options {:print-mode :simple}}}
+
+
+(templ/calculate 
+ {:log-dir ".data/"
+  :env {}} 
+ simple-template
+ :print
+ (t/instant))

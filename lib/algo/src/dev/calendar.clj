@@ -1,6 +1,7 @@
 (ns dev.calendar
   (:require
-   [ta.calendar.core :as cal]))
+   [ta.calendar.core :as cal]
+   [tick.core :as t]))
 
 (cal/current-close :forex :m)
 ;; => #time/zoned-date-time "2024-10-01T19:27-04:00[America/New_York]"
@@ -30,5 +31,32 @@
      (take 2))
 ;; => (#time/zoned-date-time "2024-10-01T23:51Z[UTC]" 
 ;;     #time/zoned-date-time "2024-10-01T23:52Z[UTC]")
+
+
+;; 
+(cal/current-close :forex :d)
+;; => #time/zoned-date-time "2024-10-01T16:30-04:00[America/New_York]"
+
+
+
+(t/instant)
+;; => #time/instant "2024-10-02T15:58:55.337424726Z"
+
+(t/zoned-date-time)
+;; => #time/zoned-date-time "2024-10-02T10:59:06.569410757-05:00[America/Panama]"
+
+(cal/current-close :crypto :d)
+;; => #time/zoned-date-time "2024-10-01T23:59:59Z[UTC]"
+
+(cal/current-close :crypto :d (t/zoned-date-time))
+;; => #time/zoned-date-time "2024-10-01T23:59:59Z[UTC]"
+
+(cal/current-close :crypto :d (t/instant))
+;; => #time/zoned-date-time "2024-10-01T23:59:59Z[UTC]"
+
+
+
+
+
 
 

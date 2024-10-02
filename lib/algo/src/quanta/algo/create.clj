@@ -28,7 +28,7 @@
         d (dag/create-dag dag-env)]
     (write-edn-raw (:logger d) "mode: live\r\nalgo-spec:" cell-spec)
     (add-cells d time-fn cell-spec)
-    {:dag d :add-cell (partial add-cell d time-fn)}))
+    (assoc d :time-fn time-fn :dt-mode :live)))
 
 (defn create-dag-snapshot 
   "creates a dag from an algo-spec
@@ -40,4 +40,4 @@
         d (dag/create-dag dag-env)]
     (write-edn-raw (:logger d) "mode: snapshot\r\nalgo-spec:" cell-spec)
     (add-cells d time-fn cell-spec)
-    {:dag d :add-cell (partial add-cell d time-fn)}))
+    (assoc d :time-fn time-fn :dt-mode dt)))

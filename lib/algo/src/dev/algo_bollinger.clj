@@ -3,13 +3,18 @@
     [ta.indicator.band :as band]
     [quanta.algo.dag.spec :refer [spec->ops]]
     [quanta.algo.options :refer [apply-options]]
+    [quanta.dag.env :refer [log]]
     [quanta.algo.env.bars :refer [get-trailing-bars]]))
 
 (defn bollinger-calc [opts dt]
   (println "bollinger-calc dt: " dt " opts: " opts)
+  (log "bollinger-dt: " dt)
+  (log "bollinger-opts: " opts)
   (let [n (or (:atr-n opts) 2)
-        k (or (:atr-k opts) 1.0)]
-    (->> (get-trailing-bars opts dt)
+        k (or (:atr-k opts) 1.0)
+        ds-bars (get-trailing-bars opts dt)]
+    (log "trailing-bars: " ds-bars)
+    (->> ds-bars
          (band/add-bollinger {:n n :k k}))))
 
 (defn bollinger-signal [opts d m]

@@ -116,17 +116,24 @@
 (defn calculate
   "this runs a viz-task once and returns the viz-result.
    output is guaranteed to be always viz-spec format, so
-   possible anomalies are converted to viz-spec"
-  ([dag-env template viz-mode dt]
-   (calculate dag-env template viz-mode dt (nano-id 6)))
-  ([dag-env template viz-mode dt task-id]
-   (let [{:keys [dag add-cell]} (create/create-dag-snapshot dag-env (:algo template) dt)
+   possible anomalies are converted to viz-spec.
+   dag-env {:env :log-dir}
+   template {:algo :viz-as-per-viz-mode}
+   viz-mode: the vizualisation that should be returned
+   dt: the as-of-date-time"
+  [dag-env template viz-mode dt]
+   (let [algo (:algo template)
+         s (create/create-dag-snapshot dag-env algo dt)
+         {:keys [dag add-cell]} s
+         _ (info "dag: " dag)
          {:keys [viz viz-options key]
           :or {key :algo}} (get template viz-mode)]
+         _ (info "adding cell: " algo)
          (add-cell :viz {:formula [key]
                          :algo-fn viz
-                         :opts viz-options})
-   (get-current-valid-value dag :viz))))
+                         :opts viz-options}) 
+     (info "starting viz: " s)
+   (get-current-valid-value dag :viz)))
 
 
 (comment
