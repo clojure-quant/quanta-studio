@@ -24,12 +24,14 @@
    bollinger-algo
    (t/instant)))
 
+
 (dag/cell-ids bollinger)
 
 (dag/start-log-cell bollinger [:crypto :d])
 (dag/start-log-cell bollinger [:crypto :m])
 (dag/start-log-cell bollinger :day)
 (dag/start-log-cell bollinger :min)
+(dag/start-log-cell bollinger :signal)
 
 ;; LIVE
 
@@ -46,13 +48,9 @@
 (dag/start-log-cell bollinger-rt [:crypto :d])
 (dag/start-log-cell bollinger-rt [:crypto :m])
 (dag/stop-log-cell  bollinger-rt [:crypto :m])
-
 (dag/start-log-cell bollinger-rt :day)
-; undefined continuous flow.
-
 (dag/start-log-cell bollinger-rt :min)
-; undefined continuous flow.
-
+(dag/start-log-cell bollinger-rt :signal)
 
 
 

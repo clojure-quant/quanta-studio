@@ -39,17 +39,19 @@
     :env {}}
    multi-algo))
 
-
+; you just start whatever you want to log.
+; you can start :signal only, which automatically will calculate
+; all the cells in the dag, but will only log signal.
 (dag/start-log-cell multi-rt [:crypto :m])
 (dag/start-log-cell multi-rt [:crypto :d])
 (dag/start-log-cell multi-rt :day)
 (dag/start-log-cell multi-rt :min)
+(dag/start-log-cell multi-rt :signal)
 
 (dag/running-tasks multi-rt)
 (dag/stop-all! multi-rt)
 
-; signal fails when the other 4 are started.
-; but it works when it is the only 1.
-(dag/start-log-cell multi-rt :signal)
+
+
 
 

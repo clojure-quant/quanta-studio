@@ -1,6 +1,7 @@
 (ns dev.algo-bollinger
   (:require
     [ta.indicator.band :as band]
+    [tablecloth.api :as tc]
     [quanta.algo.dag.spec :refer [spec->ops]]
     [quanta.algo.options :refer [apply-options]]
     [quanta.dag.env :refer [log]]
@@ -17,9 +18,15 @@
     (->> ds-bars
          (band/add-bollinger {:n n :k k}))))
 
-(defn bollinger-signal [opts d m]
+(defn bollinger-signal [opts ds-d ds-m]
   (println "bollinger-singal opts: " opts)
-  (vector d m))
+  (let [day-mid (-> ds-d :bollinger-mid last )
+        min-mid (-> ds-m :bollinger-mid last )]
+  {:day-dt (-> ds-d :date last)
+   :day-mid day-mid
+   :min-dt (-> ds-m :date last)
+   :min-mid min-mid
+   :diff (- min-mid day-mid)}))
 
 (def bollinger-algo
   [{:asset "BTCUSDT"} ; this options are global
@@ -27,15 +34,15 @@
          :algo  bollinger-calc
          :trailing-n 20
          :atr-n 10
-         :atr-m 0.6}
+         :atr-k 0.6}
    :min {:calendar [:crypto :m]
          :algo bollinger-calc   ; min gets the global option :asset 
          :trailing-n 20         ; on top of its own local options 
          :atr-n 5
-         :atr-m 0.3}
-   ;:signal {:formula [:day :min]
-   ;         :algo bollinger-signal
-   ;         :carry-n 2}
+         :atr-k 0.3}
+   :signal {:formula [:day :min]
+            :algo bollinger-signal
+            :carry-n 2}
    ])
 
 
