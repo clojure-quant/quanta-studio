@@ -1,4 +1,4 @@
-(ns quanta.algo.spec)
+(ns quanta.algo.dag.spec)
 
 (defn spec->op [spec]
   (let [{:keys [calendar formula value]} spec]

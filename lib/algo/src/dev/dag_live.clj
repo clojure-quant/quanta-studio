@@ -2,7 +2,7 @@
   (:require
    [missionary.core :as m]
    [quanta.dag.core :as dag]
-   [quanta.algo.calendar.live :refer [get-calendar-flow]]
+   [quanta.algo.dag.calendar.live :refer [get-calendar-flow]]
    [ta.import.provider.bybit.ds :as bybit]
    [quanta.algo.env.bars :refer [get-trailing-bars]]
    [quanta.dag.env :refer [log]]))

@@ -1,7 +1,7 @@
 (ns dev.simple-algo
    (:require
     [quanta.dag.core :as dag]
-    [quanta.algo.spec :refer [spec->ops]]
+    [quanta.algo.dag.spec :refer [spec->ops]]
     [quanta.algo.options :refer [apply-options]]))
 
 

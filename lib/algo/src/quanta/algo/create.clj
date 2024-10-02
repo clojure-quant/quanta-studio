@@ -2,8 +2,8 @@
   (:require
    [quanta.dag.core :as dag]
    [quanta.dag.trace :refer [write-edn-raw]]
-   [quanta.algo.calendar.core :refer [live-calendar calculate-calendar]]
-   [quanta.algo.spec :refer [spec->ops]]))
+   [quanta.algo.dag.calendar.core :refer [live-calendar calculate-calendar]]
+   [quanta.algo.dag.spec :refer [spec->ops]]))
 
 (defn- add-cell [d time-fn [cell-id {:keys [calendar formula
                                             algo-fn opts]}]]

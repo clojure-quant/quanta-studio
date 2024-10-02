@@ -1,4 +1,4 @@
-(ns quanta.algo.calendar.historic
+(ns quanta.algo.dag.calendar.historic
   (:require
    [ta.calendar.combined :refer [combined-event-seq]]))
 

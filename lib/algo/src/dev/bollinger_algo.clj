@@ -1,7 +1,7 @@
 (ns dev.bollinger-algo
   (:require
     [ta.indicator.band :as band]
-    [quanta.algo.spec :refer [spec->ops]]
+    [quanta.algo.dag.spec :refer [spec->ops]]
     [quanta.algo.options :refer [apply-options]]
     [quanta.algo.env.bars :refer [get-trailing-bars]]))
 

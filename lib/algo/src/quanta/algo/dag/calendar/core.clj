@@ -1,8 +1,8 @@
-(ns quanta.algo.calendar.core
+(ns quanta.algo.dag.calendar.core
   (:require
    [missionary.core :as m]
    [ta.calendar.core :refer [current-close]]
-   [quanta.algo.calendar.live :as live]))
+   [quanta.algo.dag.calendar.live :as live]))
 
 (defn calculate-calendar [dt]
   (fn [cal]
