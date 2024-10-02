@@ -6,10 +6,6 @@
   net.cgrand/xforms      {:mvn/version "0.19.2"} ; transducers for timeseries (ema sma)
   ;org.clojure/algo.generic {:mvn/version "0.1.3"} ; ???
   missionary/missionary {:mvn/version "b.39"} ; reactive framework.
-
-  io.github.clojure-quant/vector-math {:git/url "https://github.com/clojure-quant/techml.vector-math.git"
-                                       :sha "1d6e5d0ef3eba53e2afddb5ca0927385a9f62ece"}
-  io.github.clojure-quant/quanta {:mvn/version "0.4.858"}
   ; quanta-studio should bring docs.
   ;org.pinkgorilla/goldly-docs {:mvn/version "0.9.41"}
   org.pinkgorilla/goldly-docs {:mvn/version "0.9.42"}
@@ -25,10 +21,14 @@
   quanta/notebook {:local/root "./lib/notebook" :deps/manifest :deps}
   
   ;; TODO: where should DB go ??
-  ta/db {:local/root "./lib/db" :deps/manifest :deps}
-  ;; IMPORT and QUOTE will go to quanta-markets
-  ta/import {:local/root "./lib/import" :deps/manifest :deps} ; series import
+  io.github.clojure-quant/quanta {:mvn/version "0.4.858"}
   io.github.clojure-quant/quanta-market {:mvn/version "0.1.108"}
+  io.github.clojure-quant/quanta-asset-db {:local/root "./lib/asset-db" :deps/manifest :deps}
+  io.github.clojure-quant/quanta-bar-warehouse {:local/root "./lib/bar-warehouse" :deps/manifest :deps}
+  io.github.clojure-quant/vector-math {:git/url "https://github.com/clojure-quant/techml.vector-math.git"
+                                       :sha "1d6e5d0ef3eba53e2afddb5ca0927385a9f62ece"}
+
+
   }
  :aliases
  {; https://github.com/weavejester/cljfmt

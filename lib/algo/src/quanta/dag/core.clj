@@ -119,7 +119,7 @@
               :logger (when log-dir
                         (trace/setup log-dir id))
               :tasks (atom {})}]
-     (assoc dag :env (merge {#'quanta.dag.env.dag/*dag* dag}
+     (assoc dag :env (merge {#'quanta.dag.env/*dag* dag}
                             env)))))
 
 (defn get-current-value [dag cell-id]

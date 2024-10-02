@@ -1,8 +1,9 @@
 (ns dev.simple-algo
    (:require
     [quanta.dag.core :as dag]
-    [quanta.algo.spec :as spec]
-    [quanta.algo.options [apply-options]]))
+    [quanta.algo.spec :refer [spec->ops]]
+    [quanta.algo.options :refer [apply-options]]))
+
 
 (defn calc-simple [opts dt]
   {:result dt
@@ -15,7 +16,7 @@
    :y :b
    :z nil})
 
-(spec/spec->ops algo-simple)
+(spec->ops algo-simple)
 
 (apply-options algo-simple {[:x] 2
                             [:z] 5

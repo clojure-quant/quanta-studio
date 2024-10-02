@@ -3,41 +3,54 @@
    [tick.core :as t]
    [quanta.dag.core :as dag]
    [quanta.algo.env.bars]
-   [quanta.algo.create :as create]
+   [quanta.algo.create :refer [create-dag-live create-dag-snapshot]]
    [ta.import.provider.bybit.ds :as bybit]
    [ta.db.bars.protocol :as b]
    [ta.calendar.core :refer [trailing-window]]
    [dev.bollinger-algo :refer [bollinger-algo]]
    ))
 
+
 (def bar-db (bybit/create-import-bybit))
 
-(def dag-bollinger
-  (create/create-dag-snapshot
+(def bollinger
+  (create-dag-snapshot
    {:log-dir ".data/"
     :env {#'quanta.algo.env.bars/*bar-db* bar-db}}
    bollinger-algo
    (t/instant)))
 
-(dag/start-log-cell dag-bollinger :day)
-(dag/start-log-cell dag-bollinger :min)
+(dag/start-log-cell (:dag bollinger) :day)
+(dag/start-log-cell (:dag bollinger) :min)
 
-(def dag-bollinger-rt
-  (create/create-dag-live
+(def bollinger-rt
+  (create-dag-live
    {:log-dir ".data/"
     :env {#'quanta.algo.env.bars/*bar-db* bar-db}}
    bollinger-algo))
 
-(dag/start-log-cell dag-bollinger-rt :day)
-
-(dag/start-log-cell dag-bollinger-rt :min)
-
-
-(dag/cell-ids dag-bollinger-rt)
+(dag/cell-ids (:dag bollinger-rt))
 ;; => ([:crypto :d] :day [:crypto :m] :min :signal)
 
-(dag/get-current-valid-value dag-bollinger-rt [:crypto :m])
-(dag/get-current-valid-value dag-bollinger-rt :min)
+
+(dag/start-log-cell (:dag bollinger-rt) [:crypto :d])
+(dag/start-log-cell (:dag bollinger-rt) [:crypto :m])
+(dag/stop-log-cell (:dag bollinger-rt) [:crypto :m])
+
+(dag/start-log-cell (:dag bollinger-rt) :day)
+; undefined continuous flow.
+
+(dag/start-log-cell (:dag bollinger-rt) :min)
+; undefined continuous flow.
+
+
+
+
+(dag/cell-ids (:dag bollinger-rt))
+;; => ([:crypto :d] :day [:crypto :m] :min :signal)
+
+(dag/get-current-valid-value (:dag bollinger-rt) [:crypto :m])
+(dag/get-current-valid-value (:dag bollinger-rt) :min)
 
 
 
