@@ -2,8 +2,7 @@
   (:require
    [taoensso.timbre :refer [debug info warnf error]]
    [tick.core :as t]
-   [tablecloth.api :as tc]
-   [ta.warehouse :refer [load-symbol]]))
+   [tablecloth.api :as tc]))
 
 (defn range-filter [dt-begin dt-end]
   (fn [dt]
@@ -26,7 +25,7 @@
                                (rf date)))))
 
 (comment
-  (-> (load-symbol :crypto "D" "ETHUSD")
+  (-> bar-ds
       (filter-date-range
        (t/date-time "2021-04-01T00:00:00")
        (t/date-time "2021-05-01T00:00:00")))

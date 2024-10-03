@@ -34,7 +34,7 @@
    simple-algo))
 
 (dag/start-log-cell simple-rt :algo)
-(dag/shutdown! simple-rt)
+(dag/stop-all! simple-rt)
 
 ;; TEST A SECOND DAG at the same time. 
 
@@ -45,4 +45,4 @@
    simple-algo))
 
 (dag/start-log-cell simple-rt2 :algo)
-(dag/shutdown! simple-rt2)
+(dag/stop-all! simple-rt2)

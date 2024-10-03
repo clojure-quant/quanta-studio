@@ -3,7 +3,6 @@
  {org.clojure/clojure    {:mvn/version "1.11.3"}
   com.rpl/specter {:mvn/version "1.1.4"}
   com.taoensso/telemere {:mvn/version "1.0.0-beta25"}
-  ta/model {:local/root "../model" :deps/manifest :deps} ; engine (javelin) used by algo-env
   io.github.clojure-quant/quanta {:mvn/version "0.4.858"}
   io.github.clojure-quant/quanta-market {:mvn/version "0.1.109"}}
  :aliases

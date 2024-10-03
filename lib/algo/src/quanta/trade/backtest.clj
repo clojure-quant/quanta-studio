@@ -2,17 +2,14 @@
   (:require
    [tablecloth.api :as tc]
    [ta.trade.backtest.from-entry :refer [entry-signal->roundtrips]]
-   [ta.trade.roundtrip.core :refer [roundtrip-stats]]
-   ;[quanta.viz.plot.trade.core :refer [roundtrip-stats-ui]]
-   ))
+   [ta.trade.roundtrip.core :refer [roundtrip-stats]]))
 
-;; todo .. move backtest-ui to viz.
-
-#_(defn backtest-ui [backtest-opts bar-ds]
-    (->> (backtest backtest-opts bar-ds)
-         (roundtrip-stats-ui backtest-opts)))
-
-(defn backtest [{:keys [asset entry exit] :as opts} bar-ds]
+(defn backtest
+  "uses :entry column in bar-ds to create roundtrips
+   using :asset :entry :exit options.
+   can be visualised with 
+   quanta.viz.plot.trade.core/roundtrip-stats-ui"
+  [{:keys [asset entry exit] :as opts} bar-ds]
   ; we need to get the asset from the bar-ds, because
   ; here we only see the viz-opts. this needs to be improved.
   (assert asset "backtest needs :asset option")

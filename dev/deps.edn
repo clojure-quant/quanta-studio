@@ -1,0 +1,9 @@
+{:paths ["src"]
+ :deps
+ {io.github.clojure-quant/quanta-studio {:local/root ".." :deps/manifest :deps}
+ }
+
+ 
+
+;
+}

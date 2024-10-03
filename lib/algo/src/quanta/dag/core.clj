@@ -79,6 +79,12 @@
  ; 
   )
 
+;(try
+;      ;(warn "run-algo-safe else.. fn: " algo-fn)
+;  (algo-fn env spec ds-bars)
+;  (catch AssertionError ex (create-error spec ex))
+;  (catch Exception ex (create-error spec ex)))
+
 (defn add-formula-cell [dag cell-id formula-fn input-cell-id-vec]
   (assert dag "dag needs to be non nil")
   (assert (vector? input-cell-id-vec) "input-cell-id-vec needs to be a vector")

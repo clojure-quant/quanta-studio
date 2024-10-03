@@ -117,10 +117,13 @@
   "adds cell-id :viz to the dag
    which contains the result of viz-fn"
   [d template viz-mode]
-  (info "adding viz-cell to  dag..")
-  (let [{:keys [viz viz-options key]
-         :or {key :algo}} (get template viz-mode)
+  (info "adding viz " viz-mode  " to dag as cell :viz ..")
+  (let [mode (get template viz-mode)
+        _ (assert mode (str "viz key " viz-mode " not found."))
+        {:keys [viz viz-options key]
+         :or {key :algo}} mode
         formula-fn (partial viz viz-options)]
+    (assert (dag/get-cell d key) (str "dag does not contain viz cell: " key))
     (info "adding viz-cell... ")
     (dag/add-formula-cell d :viz formula-fn [key])))
 
@@ -136,6 +139,7 @@
   (info "creating algo-dag..")
   (let [algo (:algo template)
         d (create/create-dag-snapshot dag-env algo dt)]
+
     (add-viz-cell d template viz-mode)
     (info "waiting for viz result.. ")
     (dag/get-current-valid-value d :viz)))
