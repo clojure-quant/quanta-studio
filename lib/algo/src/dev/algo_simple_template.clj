@@ -2,11 +2,14 @@
   (:require
     [tick.core :as t]
     [quanta.algo.template :as templ]
+    [quanta.dag.env :refer [log]]
     [dev.algo-simple :refer [simple-algo]]))
 
+
 (defn viz-print [opts data]
-  (println "algo-viz: " (pr-str data) "viz options: " opts)
-  {:data data
+  (log "calculating viz-fn with data: " data)
+  {:creator "viz-print"
+   :data data
    :viz-opts opts})
 
 (def simple-template
@@ -71,3 +74,9 @@
  simple-template
  :print
  (t/instant))
+;; => {:creator "viz-print",
+;;     :data {:result #time/zoned-date-time "2024-10-03T00:21Z[UTC]", :opts {:calendar [:crypto :m], :x 3, :y :b, :z nil}},
+;;     :viz-opts {:print-mode :simple}}
+
+
+

@@ -2,7 +2,7 @@
   (:require
    [taoensso.timbre :refer [debug info warn error]]
    [nano-id.core :refer [nano-id]]
-   [quanta.dag.core :refer [get-current-valid-value]]
+   [quanta.dag.core :as dag]
    [quanta.algo.options :as algo-opts]
    [quanta.algo.create :as create]))
 
@@ -113,6 +113,18 @@
 
 ;; CALCULATE
 
+(defn add-viz-cell
+  "adds cell-id :viz to the dag
+   which contains the result of viz-fn"
+  [d template viz-mode]
+    (info "adding viz-cell to  dag..")
+     (let [{:keys [viz viz-options key]
+            :or {key :algo}} (get template viz-mode)
+          formula-fn (partial viz viz-options)]
+      (info "adding viz-cell... ")
+      (dag/add-formula-cell d :viz formula-fn [key])))
+
+
 (defn calculate
   "this runs a viz-task once and returns the viz-result.
    output is guaranteed to be always viz-spec format, so
@@ -122,50 +134,10 @@
    viz-mode: the vizualisation that should be returned
    dt: the as-of-date-time"
   [dag-env template viz-mode dt]
-   (let [algo (:algo template)
-         s (create/create-dag-snapshot dag-env algo dt)
-         {:keys [dag add-cell]} s
-         _ (info "dag: " dag)
-         {:keys [viz viz-options key]
-          :or {key :algo}} (get template viz-mode)]
-         _ (info "adding cell: " algo)
-         (add-cell :viz {:formula [key]
-                         :algo-fn viz
-                         :opts viz-options}) 
-     (info "starting viz: " s)
-   (get-current-valid-value dag :viz)))
+  (info "creating algo-dag..")
+  (let [algo (:algo template)
+        d (create/create-dag-snapshot dag-env algo dt)]
+    (add-viz-cell d template viz-mode)
+    (info "waiting for viz result.. ")
+    (dag/get-current-valid-value d :viz)))
 
-
-(comment
-
- 
-
-  (require '[modular.system])
-  (def s (modular.system/system :studio))
-  s
-
-  (require '[quanta.studio :refer [get-options load-with-options]])
-
-  (require '[quanta.template.db :as template-db])
-
-  (def t (template-db/load-template s :alex/bollinger))
-  t
-
-  (def t (get-options s :alex/bollinger))
-
-  (apply-options t {[:exit :loss-percent] 100,
-                    [:exit :profit-percent] 200})
-
-  (load-with-options
-   s
-   :alex/bollinger
-   {[:exit :loss-percent] 100,
-    [:exit :profit-percent] 200})
-
-  t
-
-
-    
-
-;
-  )
