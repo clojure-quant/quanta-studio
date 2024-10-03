@@ -103,7 +103,8 @@
                                      (trace/write-ex (:logger dag) cell-id ex))
                                    (throw ex)))))
         formula-cell (apply m/latest formula-fn-wrapped input-cells)
-        formula-cell-wrapped (m/stream formula-cell)
+        ;formula-cell-wrapped (m/stream formula-cell)
+        formula-cell-wrapped (m/signal formula-cell)
         ]
     (add-cell dag cell-id formula-cell-wrapped)))
 

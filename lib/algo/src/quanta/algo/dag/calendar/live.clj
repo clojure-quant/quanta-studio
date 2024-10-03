@@ -11,7 +11,8 @@
   "returns a missionary flow
    fires current and all upcoming timestamps for a calendar"
   [calendar]
-  (m/stream
+  ;(m/stream
+  (m/signal 
    (m/ap
     (let [[market-kw interval-kw] calendar
           dt (t/instant)

@@ -32,6 +32,7 @@
 (dag/start-log-cell bollinger :day)
 (dag/start-log-cell bollinger :min)
 (dag/start-log-cell bollinger :signal)
+(dag/running-tasks bollinger)
 
 ;; LIVE
 
@@ -41,7 +42,8 @@
     :env env}
    bollinger-algo))
 
-(dag/cell-ids (:dag bollinger-rt))
+
+(dag/cell-ids bollinger-rt)
 ;; => ([:crypto :d] :day [:crypto :m] :min :signal)
 
 
@@ -52,6 +54,7 @@
 (dag/start-log-cell bollinger-rt :min)
 (dag/start-log-cell bollinger-rt :signal)
 
+(dag/running-tasks bollinger-rt)
 
 
 (dag/cell-ids bollinger-rt)
