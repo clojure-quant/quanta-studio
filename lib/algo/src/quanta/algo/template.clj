@@ -8,7 +8,7 @@
 
 ;; TEMPLATE INFO
 
-(defn get-views 
+(defn get-views
   "returns all vizualisation-ids of a template
    in a vector."
   [template]
@@ -85,7 +85,7 @@
 (defn- coerce-options [template options]
   (->> options
        (map (fn [[path v]]
-             (coerce-value template path v)))
+              (coerce-value template path v)))
        (into {})))
 
 (defn apply-options
@@ -106,9 +106,9 @@
           (assoc template :algo (algo-opts/apply-options (:algo template) options)))
         (catch Exception ex
           (error "template:apply-options"
-                             {:template template
-                              :options options}
-                             ex)
+                 {:template template
+                  :options options}
+                 ex)
           (throw (ex-info "options-apply-ex" {:options options}))))))
 
 ;; CALCULATE
@@ -117,13 +117,12 @@
   "adds cell-id :viz to the dag
    which contains the result of viz-fn"
   [d template viz-mode]
-    (info "adding viz-cell to  dag..")
-     (let [{:keys [viz viz-options key]
-            :or {key :algo}} (get template viz-mode)
-          formula-fn (partial viz viz-options)]
-      (info "adding viz-cell... ")
-      (dag/add-formula-cell d :viz formula-fn [key])))
-
+  (info "adding viz-cell to  dag..")
+  (let [{:keys [viz viz-options key]
+         :or {key :algo}} (get template viz-mode)
+        formula-fn (partial viz viz-options)]
+    (info "adding viz-cell... ")
+    (dag/add-formula-cell d :viz formula-fn [key])))
 
 (defn calculate
   "this runs a viz-task once and returns the viz-result.

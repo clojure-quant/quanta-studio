@@ -1,14 +1,14 @@
 (ns dev.algo-bollinger
   (:require
-    [tech.v3.datatype :as dtype]
-    [tablecloth.api :as tc]
-    [ta.indicator.band :as band]
-    [ta.indicator.signal :refer [cross-up]]
-    [quanta.dag.env :refer [log]]
-    [quanta.algo.env.bars :refer [get-trailing-bars]]
-    [quanta.algo.dag.spec :refer [spec->ops]]
-    [quanta.algo.options :refer [apply-options]]
-    [quanta.trade.backtest :refer [backtest]]))
+   [tech.v3.datatype :as dtype]
+   [tablecloth.api :as tc]
+   [ta.indicator.band :as band]
+   [ta.indicator.signal :refer [cross-up]]
+   [quanta.dag.env :refer [log]]
+   [quanta.algo.env.bars :refer [get-trailing-bars]]
+   [quanta.algo.dag.spec :refer [spec->ops]]
+   [quanta.algo.options :refer [apply-options]]
+   [quanta.trade.backtest :refer [backtest]]))
 
 (defn entry-one [long short]
   (cond
@@ -31,15 +31,14 @@
         ds-signal (tc/add-column ds-bollinger :entry entry entry)]
     ds-signal))
 
-
 (defn bollinger-stats [opts ds-d ds-m]
-  (let [day-mid (-> ds-d :bollinger-mid last )
-        min-mid (-> ds-m :bollinger-mid last )]
-  {:day-dt (-> ds-d :date last)
-   :day-mid day-mid
-   :min-dt (-> ds-m :date last)
-   :min-mid min-mid
-   :diff (- min-mid day-mid)}))
+  (let [day-mid (-> ds-d :bollinger-mid last)
+        min-mid (-> ds-m :bollinger-mid last)]
+    {:day-dt (-> ds-d :date last)
+     :day-mid day-mid
+     :min-dt (-> ds-m :date last)
+     :min-mid min-mid
+     :diff (- min-mid day-mid)}))
 
 (def bollinger-algo
   [{:asset "BTCUSDT"} ; this options are global
@@ -54,8 +53,8 @@
          :atr-n 5
          :atr-k 0.3}
    :stats {:formula [:day :min]
-            :algo bollinger-stats
-            :carry-n 2}
+           :algo bollinger-stats
+           :carry-n 2}
    :backtest {:formula [:day]
               :algo backtest
               :entry [:fixed-amount 100000]

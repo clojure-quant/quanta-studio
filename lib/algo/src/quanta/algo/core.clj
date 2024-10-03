@@ -19,7 +19,7 @@
 (defn- add-cells [d time-fn cell-spec]
   (doall (map #(add-cell d time-fn %) cell-spec)))
 
-(defn create-dag-live 
+(defn create-dag-live
   "creates a dag from an algo-spec
    time-events are generated live with the passing of time."
   [dag-env algo-spec]
@@ -30,7 +30,7 @@
     (add-cells d time-fn cell-spec)
     (assoc d :time-fn time-fn :dt-mode :live)))
 
-(defn create-dag-snapshot 
+(defn create-dag-snapshot
   "creates a dag from an algo-spec
    time-events are generated once per calendar as of the date-time of 
    the last close of each calendar."
@@ -41,7 +41,6 @@
     (write-edn-raw (:logger d) "mode: snapshot\r\nalgo-spec:" cell-spec)
     (add-cells d time-fn cell-spec)
     (assoc d :time-fn time-fn :dt-mode dt)))
-
 
 (defn calculate-cell-once
   "creates a snapshot dag as of dt from an algo spec, 

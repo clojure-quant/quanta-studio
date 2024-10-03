@@ -12,7 +12,7 @@
    fires current and all upcoming timestamps for a calendar"
   [calendar]
   ;(m/stream
-  (m/signal 
+  (m/signal
    (m/ap
     (let [[market-kw interval-kw] calendar
           dt (t/instant)
@@ -33,9 +33,8 @@
            current-dt
            (recur (t/instant)
                   (next-close market-kw interval-kw current-dt))))
-          (catch Cancelled cancel
-            (println "live-calendar " calendar " stopped.")))))))
-
+        (catch Cancelled cancel
+          (println "live-calendar " calendar " stopped.")))))))
 
 (defn all-calendars []
   (->> (for [c (get-calendar-list)

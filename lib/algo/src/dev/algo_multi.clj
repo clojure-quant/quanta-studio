@@ -12,7 +12,6 @@
   (log "** multi-calc-m " dt)
   {:m dt :opts opts})
 
-
 (defn multi-signal [opts d m]
   (log "** multi-signal " {:day d :min m})
   (vector d m))
@@ -29,7 +28,6 @@
             :algo multi-signal
             :z 27}])
 
-
 (spec->ops multi-algo)
 ;; => [[:day
 ;;      {:calendar [:crypto :d],
@@ -43,7 +41,6 @@
 ;;      {:formula [:day :min],
 ;;       :algo-fn #function[dev.algo-multi/multi-signal],
 ;;       :opts {:asset "BTCUSDT", :formula [:day :min], :z 27}}]]
-
 
 (apply-options multi-algo {[2 :x] 2
                            [4 :y] :m

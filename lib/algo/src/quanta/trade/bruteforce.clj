@@ -43,7 +43,7 @@
   ; needs to throw so it can fail.
   ; returned tasks will not be cpu intensive, so m/cpu.
   (m/via m/cpu
-         (let [result (calculate-cell-once dag-env algo dt cell-id )
+         (let [result (calculate-cell-once dag-env algo dt cell-id)
                summary (summarize algo variations)
                target {:target (run-target-fn-safe target-fn result)}
                show (run-show-fn-safe show-fn result)]
@@ -66,7 +66,7 @@
      ;:k1 [1.0 1.5]
      [:exit 1] [60 90]]
    "
-  [dag-env {:keys [algo cell-id variations dt  
+  [dag-env {:keys [algo cell-id variations dt
                    target-fn show-fn]
             :or {show-fn (fn [result] {})
                  cell-id :backtest

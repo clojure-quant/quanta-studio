@@ -83,7 +83,7 @@
     (map (partial apply-options algo) option-seq)))
 
 (comment
-  
+
   ; SET OPTIONS
 
   (apply-options {:algo {:x 1
@@ -97,7 +97,7 @@
                          :users {:w "walter"}}}
                  {:x 5
                   [:users :w] "willy"})
-  
+
   ;; VARIATIONS
 
   (add-key {:calendar [:us :d]}

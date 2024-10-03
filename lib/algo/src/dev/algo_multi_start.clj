@@ -48,8 +48,6 @@
 (dag/start-log-cell multi-rt :min)
 (dag/start-log-cell multi-rt :signal)
 
-
-
 (dag/running-tasks multi-rt)
 (dag/stop-all! multi-rt)
 

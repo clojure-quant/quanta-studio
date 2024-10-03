@@ -1,23 +1,23 @@
 (ns dev.algo-bollinger-bruteforce
-    (:require
-    [tick.core :as t]
-    [clojure.pprint :refer [print-table]]
-    [quanta.dag.core :as dag]
-    [quanta.algo.env.bars]
-    [quanta.algo.core :refer [create-dag-live create-dag-snapshot]]
-    [quanta.algo.options :refer [make-variations create-algo-variations]]
-    [quanta.trade.bruteforce :refer [bruteforce] :as bf]
-    [ta.import.provider.bybit.ds :as bybit]
-    [dev.algo-bollinger :refer [bollinger-algo]]))
+  (:require
+   [tick.core :as t]
+   [clojure.pprint :refer [print-table]]
+   [quanta.dag.core :as dag]
+   [quanta.algo.env.bars]
+   [quanta.algo.core :refer [create-dag-live create-dag-snapshot]]
+   [quanta.algo.options :refer [make-variations create-algo-variations]]
+   [quanta.trade.bruteforce :refer [bruteforce] :as bf]
+   [ta.import.provider.bybit.ds :as bybit]
+   [dev.algo-bollinger :refer [bollinger-algo]]))
 
 ;; ENV
 
 (def bar-db (bybit/create-import-bybit))
 (def env {#'quanta.algo.env.bars/*bar-db* bar-db})
 
-(def dag-env 
-    {:log-dir ".data/"
-     :env env})
+(def dag-env
+  {:log-dir ".data/"
+   :env env})
 
 (def dt (t/instant))
 
@@ -53,12 +53,12 @@
   (-> r :metrics :roundtrip (select-keys [:trades])))
 
 (-> (bruteforce dag-env
-     {:algo bollinger-algo
-      :cell-id :backtest
-      :variations variations
-      :target-fn get-pf
-      :show-fn show-fn
-      :dt dt})
+                {:algo bollinger-algo
+                 :cell-id :backtest
+                 :variations variations
+                 :target-fn get-pf
+                 :show-fn show-fn
+                 :dt dt})
     print-table)
 
 ; | [0 :asset] | [2 :day :atr-n] |            :target | :trades |

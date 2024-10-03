@@ -32,12 +32,9 @@
 ;; => (#time/zoned-date-time "2024-10-01T23:51Z[UTC]" 
 ;;     #time/zoned-date-time "2024-10-01T23:52Z[UTC]")
 
-
 ;; 
 (cal/current-close :forex :d)
 ;; => #time/zoned-date-time "2024-10-01T16:30-04:00[America/New_York]"
-
-
 
 (t/instant)
 ;; => #time/instant "2024-10-02T15:58:55.337424726Z"

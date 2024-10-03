@@ -104,8 +104,7 @@
                                    (throw ex)))))
         formula-cell (apply m/latest formula-fn-wrapped input-cells)
         ;formula-cell-wrapped (m/stream formula-cell)
-        formula-cell-wrapped (m/signal formula-cell)
-        ]
+        formula-cell-wrapped (m/signal formula-cell)]
     (add-cell dag cell-id formula-cell-wrapped)))
 
 (defn create-dag
@@ -169,8 +168,8 @@
 
 ;; TASKS
 
-(defn add-task [dag task-id ]
-   (swap! (:tasks dag) assoc task-id {:running true :task-id task-id}))
+(defn add-task [dag task-id]
+  (swap! (:tasks dag) assoc task-id {:running true :task-id task-id}))
 
 (defn update-task [dag task-id k v]
   (swap! (:tasks dag) assoc-in [task-id k] v))
@@ -180,15 +179,15 @@
 
 (defn is-running? [dag task-id]
   (when-let [t (get-task dag task-id)]
-     (:running t)))
-  
+    (:running t)))
+
 (defn get-dispose-fn [dag task-id]
   (when-let [t (get-task dag task-id)]
     (when (:running t)
-       (:dispose-fn t))))
+      (:dispose-fn t))))
 
 (defn running-tasks [dag]
-  (->> @(:tasks dag) 
+  (->> @(:tasks dag)
        vals
        (filter #(:running %))
        (map :task-id)))
@@ -216,13 +215,12 @@
   "stops a missionary task that has been started with start!
     useful for working in the repl with tasks"
   [dag task-id]
-    (if-let [dispose-fn (get-dispose-fn dag task-id)]
-      (do
-        (println "STOP " task-id)
-        (trace/write-text (:logger dag) (str "\r\nSTOP " task-id))
-        (dispose-fn))
-      (println "cannot stop task - not existing!" task-id)))
-
+  (if-let [dispose-fn (get-dispose-fn dag task-id)]
+    (do
+      (println "STOP " task-id)
+      (trace/write-text (:logger dag) (str "\r\nSTOP " task-id))
+      (dispose-fn))
+    (println "cannot stop task - not existing!" task-id)))
 
 (defn stop-all!
   "stops all missionary task that have been started with start!
@@ -238,8 +236,6 @@
       (do
         (trace/write-text (:logger dag) (str "\r\nSTOP-ALL  - no running tasks"))
         (println "STOP-ALL  - no running tasks")))))
-
-
 
 (defn start-log-cell
   "starts logging a missionary flow to a file.
