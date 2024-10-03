@@ -1,4 +1,4 @@
-(ns dev.m
+(ns dev.missionary1
   (:require
    [missionary.core :as m]))
 
