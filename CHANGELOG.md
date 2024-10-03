@@ -36,3 +36,4 @@
   sleeping for ms:  79036000  until:  #time/zoned-date-time "2024-10-02T17:01-04:00[America/New_York]"
 
  2024-10-02 remove javelin engine, going forward: only missionary dag
+ 0.4.xxx will no longer contain javelin
