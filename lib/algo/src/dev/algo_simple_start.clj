@@ -2,7 +2,7 @@
   (:require
    [tick.core :as t]
    [quanta.dag.core :as dag]
-   [quanta.algo.create :as create]
+   [quanta.algo.core :as create]
    [dev.algo-simple :refer [simple-algo]]))
 
 ;; SNAPSHOT ************************************************************

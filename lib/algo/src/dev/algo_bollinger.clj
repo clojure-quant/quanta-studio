@@ -8,7 +8,7 @@
     [quanta.algo.env.bars :refer [get-trailing-bars]]
     [quanta.algo.dag.spec :refer [spec->ops]]
     [quanta.algo.options :refer [apply-options]]
-    [quanta.algo.backtest :refer [backtest]]))
+    [quanta.trade.backtest :refer [backtest]]))
 
 (defn entry-one [long short]
   (cond

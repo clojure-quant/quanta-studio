@@ -4,7 +4,7 @@
    [nano-id.core :refer [nano-id]]
    [quanta.dag.core :as dag]
    [quanta.algo.options :as algo-opts]
-   [quanta.algo.create :as create]))
+   [quanta.algo.core :as create]))
 
 ;; TEMPLATE INFO
 

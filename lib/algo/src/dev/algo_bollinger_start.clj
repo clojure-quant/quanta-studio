@@ -3,7 +3,7 @@
    [tick.core :as t]
    [quanta.dag.core :as dag]
    [quanta.algo.env.bars]
-   [quanta.algo.create :refer [create-dag-live create-dag-snapshot]]
+   [quanta.algo.core :refer [create-dag-live create-dag-snapshot]]
    [ta.import.provider.bybit.ds :as bybit]
    [ta.db.bars.protocol :as b]
    [ta.calendar.core :refer [trailing-window]]
@@ -30,7 +30,7 @@
 (dag/start-log-cell bollinger :day)
 
 (dag/start-log-cell bollinger :min)
-(dag/start-log-cell bollinger :signal)
+(dag/start-log-cell bollinger :stats)
 (dag/running-tasks bollinger)
 
 ;; LIVE
@@ -49,7 +49,7 @@
 (dag/stop-log-cell  bollinger-rt [:crypto :m])
 (dag/start-log-cell bollinger-rt :day)
 (dag/start-log-cell bollinger-rt :min)
-(dag/start-log-cell bollinger-rt :signal)
+(dag/start-log-cell bollinger-rt :stats)
 
 (dag/running-tasks bollinger-rt)
 

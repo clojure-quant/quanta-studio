@@ -18,7 +18,7 @@
           (let [path (if (keyword? path)
                        [path]
                        path)]
-            (debug "setting path: " path " to val: " v)
+            ;(debug "setting path: " path " to val: " v)
             (specter/setval path v r)))
         algo
         options)

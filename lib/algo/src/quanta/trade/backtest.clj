@@ -1,10 +1,16 @@
-(ns quanta.algo.backtest
+(ns quanta.trade.backtest
   (:require
    [tablecloth.api :as tc]
    [ta.trade.backtest.from-entry :refer [entry-signal->roundtrips]]
    [ta.trade.roundtrip.core :refer [roundtrip-stats]]
    ;[quanta.viz.plot.trade.core :refer [roundtrip-stats-ui]]
    ))
+
+;; todo .. move backtest-ui to viz.
+
+#_(defn backtest-ui [backtest-opts bar-ds]
+    (->> (backtest backtest-opts bar-ds)
+         (roundtrip-stats-ui backtest-opts)))
 
 (defn backtest [{:keys [asset entry exit] :as opts} bar-ds]
   ; we need to get the asset from the bar-ds, because
@@ -24,6 +30,3 @@
     ;full
     ))
 
-#_(defn backtest-ui [backtest-opts bar-ds]
-    (->> (backtest backtest-opts bar-ds)
-         (roundtrip-stats-ui backtest-opts)))
