@@ -3,8 +3,8 @@
  {org.clojure/clojure    {:mvn/version "1.11.3"}
   com.rpl/specter {:mvn/version "1.1.4"}
   com.taoensso/telemere {:mvn/version "1.0.0-beta25"}
-  io.github.clojure-quant/quanta {:mvn/version "0.4.858"}
-  io.github.clojure-quant/quanta-market {:mvn/version "0.1.109"}}
+  io.github.clojure-quant/quanta {:mvn/version "0.4.863"}
+  io.github.clojure-quant/quanta-market {:mvn/version "0.1.110"}}
  :aliases
  {:test {:extra-paths ["test"]
          :extra-deps {io.github.cognitect-labs/test-runner {:git/url "https://github.com/cognitect-labs/test-runner.git"
