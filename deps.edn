@@ -15,7 +15,7 @@
   io.github.clojure-quant/quanta {:mvn/version "0.4.863"}
   io.github.clojure-quant/vector-math {:git/url "https://github.com/clojure-quant/techml.vector-math.git"
                                        :sha "1d6e5d0ef3eba53e2afddb5ca0927385a9f62ece"}
-  io.github.clojure-quant/quanta-market {:mvn/version "0.1.109"}
+  io.github.clojure-quant/quanta-market {:mvn/version "0.1.110"}
   ; still in studio, but will be moved out soon
   io.github.clojure-quant/quanta-asset-db {:local/root "./lib/asset-db" :deps/manifest :deps}
   io.github.clojure-quant/quanta-bar-warehouse {:local/root "./lib/bar-warehouse" :deps/manifest :deps}

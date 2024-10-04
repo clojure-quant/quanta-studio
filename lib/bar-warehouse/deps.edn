@@ -7,7 +7,7 @@
   com.techascent/tmducken {:mvn/version "0.10.0-2"}
   ; quanta
   io.github.clojure-quant/quanta {:mvn/version "0.4.863"}
-  io.github.clojure-quant/quanta-market {:mvn/version "0.1.109"}
+  io.github.clojure-quant/quanta-market {:mvn/version "0.1.110"}
   
   }
  :aliases
