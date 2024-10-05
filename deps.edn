@@ -7,7 +7,6 @@
   ;org.clojure/algo.generic {:mvn/version "0.1.3"} ; ???
   missionary/missionary {:mvn/version "b.39"} ; reactive framework.
   ; quanta-studio should bring docs.
-  ;org.pinkgorilla/goldly-docs {:mvn/version "0.9.41"}
   org.pinkgorilla/goldly-docs {:mvn/version "0.9.42"}
   ;org.pinkgorilla/reval {:mvn/version "0.7.163"} already part of docs
   org.pinkgorilla/docy {:mvn/version "0.0.5"}
@@ -16,8 +15,8 @@
   io.github.clojure-quant/vector-math {:git/url "https://github.com/clojure-quant/techml.vector-math.git"
                                        :sha "1d6e5d0ef3eba53e2afddb5ca0927385a9f62ece"}
   io.github.clojure-quant/quanta-market {:mvn/version "0.1.112"}
+  io.github.clojure-quant/quanta-bar-warehouse {:mvn/version "0.1.2"}
   ; still in studio, but will be moved out soon
-  io.github.clojure-quant/quanta-bar-warehouse {:local/root "./lib/bar-warehouse" :deps/manifest :deps}
   io.github.clojure-quant/quanta-dag-algo {:local/root "./lib/algo" :deps/manifest :deps}
   babashka/fs {:mvn/version "0.5.22"}
   ; projects belonging to studio here:
@@ -33,8 +32,6 @@
                "--indents" "cljfmt.edn"
                "check"
                "./lib/algo/src"
-               "./lib/asset-db/src"
-               "./lib/bar-warehouse/src"
                "./lib/studio/src"
                "./lib/viz/src"]}
 
@@ -44,8 +41,6 @@
                "--indents" "cljfmt.edn"
                "fix"
                "./lib/algo/src"
-               "./lib/asset-db/src"
-               "./lib/bar-warehouse/src"
                "./lib/studio/src"
                "./lib/viz/src"]}
 
@@ -57,8 +52,6 @@
                "--fail-level" "error"
                "--lint"
                "./lib/algo/src"
-               "./lib/asset-db/src"
-               "./lib/bar-warehouse/src"
                "./lib/studio/src"
                "./lib/viz/src"]}
 
