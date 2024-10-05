@@ -1,7 +1,0 @@
-{:name "quanta-asset-db"
- ; run-time
- :clj-services {:name "ta-db-asset-bars"
-                :permission  nil ; #{}
-                :symbols [ta.db.asset.db/search]}
- :cljs-routes {"series" ta.viz.page.series/series-page}
- }
