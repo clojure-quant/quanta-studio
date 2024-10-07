@@ -9,9 +9,8 @@
   babashka/fs {:mvn/version "0.5.22"}
   org.pinkgorilla/timbre {:mvn/version "0.0.7"}
   com.taoensso/telemere {:mvn/version "1.0.0-beta25"}
-
   io.github.clojure-quant/telegram {:mvn/version "0.2.22"}
-  io.github.clojure-quant/quanta {:mvn/version "0.4.863"}
+  io.github.clojure-quant/quanta {:mvn/version "0.4.866"}
   ta/viz {:local/root "../viz" :deps/manifest :deps}
   ;io.github.clojure-quant/quanta-asset-db {:local/root "./asset-db" :deps/manifest :deps}
   ;io.github.clojure-quant/quanta-bar-warehouse {:local/root "./bar-warehouse" :deps/manifest :deps}
