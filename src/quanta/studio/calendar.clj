@@ -2,15 +2,30 @@
   (:require
    [tick.core :as t]
    [ta.calendar.core :as cal]
+   [ta.calendar.calendars :as caldb]
+   [ta.calendar.helper :as calhelp]
    [missionary.core :as m]))
 
+  (defn market-info [market-kw]
+  (let [cal (caldb/get-calendar market-kw)
+        dt (t/instant)
+        dt-cal (-> dt
+                   (t/zoned-date-time)
+                   (t/in (:timezone cal)))
+        open? (calhelp/time-open? cal dt-cal)
+        business? (calhelp/day-open? cal dt-cal)]
+    {:calendar market-kw
+     :open open?
+     :business business?
+     ;:calendar-time dt-cal
+     }))
 
 (defn gather-calendar [calendar-kw interval-kw dt]
-  {:calendar [calendar-kw interval-kw]
-   :prior (t/instant (cal/prior-close calendar-kw interval-kw dt))
-   :current  (t/instant (cal/current-close calendar-kw interval-kw dt))
-   :next (t/instant (cal/next-close calendar-kw interval-kw dt))
-   })
+    (assoc (market-info calendar-kw)
+       :calendar [calendar-kw interval-kw]
+       :prior (t/instant (cal/prior-close calendar-kw interval-kw dt))
+       :current  (t/instant (cal/current-close calendar-kw interval-kw dt))
+       :next (t/instant (cal/next-close calendar-kw interval-kw dt))))
 
 (defn gather-calendars [dt]
   (let [cals (for [c [:us :crypto :forex 
@@ -30,6 +45,9 @@
         (recur (t/instant)))))))
 
 (comment
+  (market-info :crypto)
+  (market-info :eu)
+
   (gather-calendar :crypto :m (t/instant))
 
   (gather-calendars (t/instant))
