@@ -1,4 +1,6 @@
-{:paths ["src"]
+{:paths ["src"
+         ".data" ; so we can load preloads
+         ]
  :deps
  {io.github.clojure-quant/quanta-studio {:local/root ".." :deps/manifest :deps}
  }

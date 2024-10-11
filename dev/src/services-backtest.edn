@@ -31,7 +31,7 @@
 
   :nrepl {:start (nrepl.server/start-server
                   :bind "0.0.0.0"
-                  :port 9101
+                  :port 9100
                   :middleware cider.nrepl.middleware/cider-middleware
                   :handler cider.nrepl/cider-nrepl-handler)
           :stop (.close this)}

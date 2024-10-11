@@ -1,6 +1,7 @@
 (ns dev.preload
   (:require
    [tick.core :as t]
+   [babashka.fs :as fs]
    [clojure.pprint :refer [print-table]]
    [quanta.studio.bars.preload :refer [import-bars]]))
 
@@ -47,8 +48,11 @@
         m5  (import-5m end-dt)
         s (str (report m1 "1 minute")
                (report h1 "1 hour")
-               (report m5 "5 minute"))]
-    (spit ".data/preload.txt" s)))
+               (report m5 "5 minute"))
+        dir ".data/public/"]
+    (fs/create-dirs dir)
+    (spit (str dir "preload.txt") s)))
+
 
 (comment
   (def end-dt (t/instant))
@@ -58,6 +62,7 @@
 
 ;  
   )
+
 (defn start [& _]
   (println "preloading data..s")
   (let [end-dt (t/instant)]

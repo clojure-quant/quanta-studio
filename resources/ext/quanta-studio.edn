@@ -5,9 +5,11 @@
                quanta.studio.view.options
                quanta.studio.view.live-result
                quanta.studio.page.algo
+               quanta.studio.page.preload
                ; reval
                quanta.studio.reval.text]
  :cljs-routes {"quanta" quanta.studio.page.main/main-page
-               "quanta/" {"algo" quanta.studio.page.algo/algo-page
+               "quanta/" {"preload" quanta.studio.page.preload/preload-page
+                          "algo" quanta.studio.page.algo/algo-page
                           ["algo/" :task-id] quanta.studio.page.algo/algo-task-page
                           "tasks" quanta.studio.page.tasks/tasks-page}}}

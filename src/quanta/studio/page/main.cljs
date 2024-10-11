@@ -10,10 +10,11 @@
    [:div.bg-blue-300.m-5
     [:h1.text-xl.text-red-600 "quanta studio "]
 
+    [link-dispatch [:bidi/goto 'quanta.studio.page.calendar/calendar-page] "calendars"]
+    [link-dispatch [:bidi/goto 'quanta.studio.page.preload/preload-page] "preload"]
     [link-dispatch [:bidi/goto 'quanta.studio.page.algo/algo-page] "algo"]
     [link-dispatch [:bidi/goto 'quanta.studio.page.tasks/tasks-page] "running tasks"]
-    [link-dispatch [:bidi/goto 'quanta.studio.page.calendar/calendar-page] "calendars"]
-
+    
    ; documentation is relevant to the user.
     [:h1.text-xl.text-red-600 "documentation"]
     [link-dispatch [:bidi/goto 'docy.page/docy-page] "docy"]
