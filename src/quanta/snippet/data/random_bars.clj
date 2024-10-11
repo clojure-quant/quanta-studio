@@ -21,11 +21,11 @@
   (+ v (rand/random-float -0.1 0.1)))
 
 (defn add-open-high-low-volume [ds]
- (tc/add-columns ds
-                 {:open #(map jitter (% :close))
-                  :high #(map higher (% :close))
-                  :low #(map lower (% :close))
-                  :volume #(map volume (% :close))}))
+  (tc/add-columns ds
+                  {:open #(map jitter (% :close))
+                   :high #(map higher (% :close))
+                   :low #(map lower (% :close))
+                   :volume #(map volume (% :close))}))
 
 (defn random-bar-ds [n]
   (-> (tc/dataset

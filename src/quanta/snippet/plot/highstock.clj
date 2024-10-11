@@ -8,9 +8,8 @@
 ds
 
 (plot/highstock {:chart {:box :fl}
-                 :charts  [{:bars :candlestick 
+                 :charts  [{:bars :candlestick
                             :close :line}
                            {:volume :column}
-                           {:close :line}
-                           ]}
+                           {:close :line}]}
                 ds)

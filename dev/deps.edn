@@ -2,8 +2,22 @@
  :deps
  {io.github.clojure-quant/quanta-studio {:local/root ".." :deps/manifest :deps}
  }
-
+ :aliases
+{
+   :quanta-backtest {; usecase: clj -X:quanta:backtest
+                   :exec-fn modular.system/start!
+                   :exec-args {:profile "jetty"
+                               :config ["quanta/studio/config/docy.edn"
+                                        "config-shared.edn"
+                                        "config-backtest.edn"]
+                               :services "services-backtest.edn"}}
  
-
+ :preload {:exec-fn modular.system/start!
+           :exec-args {:profile "jetty"
+                       :run quanta.notebook.study.preload/start
+                       :config ["config-shared.edn"
+                                "config-backtest.edn"]
+                       :services "services-backtest.edn"}}
+}
 ;
 }

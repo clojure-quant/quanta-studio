@@ -5,7 +5,7 @@
 
 (def ds (random-bar-ds 200))
 
-(def opts 
+(def opts
   {:style {;:width "800px" :height "600px"
            :width "800px" :height "600px"
            ;:width "100%" :height "100%"
@@ -31,8 +31,7 @@
               }
              {:field :volume :width 70
               :resizable true
-              :cellStyle {:fontWeight "bold"}}]}
-  )
+              :cellStyle {:fontWeight "bold"}}]})
 
 (plot/agtable opts ds)
 

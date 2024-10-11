@@ -2,9 +2,7 @@
   (:require
    [quanta.trade.broker.protocol :as b]
    [quanta.trade.broker.random-fill :refer [create-random-fill-broker]]
-   [missionary.core :as m]
-   ))
-
+   [missionary.core :as m]))
 
 (defn process-msg
   ([]
@@ -13,7 +11,6 @@
    (println "order-manager received: " msg))
   ([result msg]
    (println "order-manager received: " msg " result: " result)))
-
 
 (def example-order-flow
   [{:type :new-order

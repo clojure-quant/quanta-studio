@@ -62,7 +62,7 @@
    [1562851800000,50.83]
    [1562938200000,50.61]])
 
-(def spec 
+(def spec
   (let [grouping {:units [["week" [1]] ; // unit name - allowed multiples
                           ["month" [1, 2, 3, 4, 6]]]}]
     {:title {:text "demo stockchart"}
@@ -112,10 +112,7 @@
    close-series
    volume-series
    [{:x 1561469400000     ; // Point where the flag appears
-            :title "O" ;, // Title of flag displayed on the chart 
-            :text  "open trade" ;  // Text displayed when the flag are highlighted.
-            }]
-   ])
-
-
+     :title "O" ;, // Title of flag displayed on the chart 
+     :text  "open trade" ;  // Text displayed when the flag are highlighted.
+     }]])
 (highstock spec data)

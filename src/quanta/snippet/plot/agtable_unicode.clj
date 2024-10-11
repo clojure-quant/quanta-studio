@@ -5,22 +5,21 @@
    [tablecloth.api :as tc]))
 
 (def ds
-     (-> (random-bar-ds 10)
-         (tc/add-column :action ["😀"
-                                 ""
-                                 ""
-                                 "★"
-                                 ""
-                                 ""
-                                 "❂"
-                                 ""
-                                 ""
-                                 ""
-                                 ])))
+  (-> (random-bar-ds 10)
+      (tc/add-column :action ["😀"
+                              ""
+                              ""
+                              "★"
+                              ""
+                              ""
+                              "❂"
+                              ""
+                              ""
+                              ""])))
 
 ds
 
-(def opts 
+(def opts
   {:style {;:width "800px" :height "600px"
            :width "800px" :height "600px"
            ;:width "100%" :height "100%"

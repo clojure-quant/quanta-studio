@@ -2,7 +2,6 @@
   (:require
    [quanta.viz.render.core :refer [render]]))
 
-
 (render
  {:render-fn 'quanta.viz.render.rtable/rtable
   :spec {:class "table-head-fixed padding-sm table-red table-striped table-hover"

@@ -1,0 +1,63 @@
+{:timbre/clj {:min-level [[#{"org.apache.http.*"
+                             "org.eclipse.aether.*"
+                             "org.eclipse.jetty.*"
+                             "modular.oauth2.*"
+                             "modular.oauth2.token.refresh.*"
+                             "modular.ws.*"
+                             "webly.web.*"} :warn] ; webserver stuff - warn only
+                                      ; [#{"modular.ws.*"} :debug]
+                          [#{"modular.persist.*"} :warn]
+                          [#{"goldly.service.core"} :warn] ; goldly services - less logging
+                          [#{"re-flow.core"} :warn] ; goldly services - less logging
+
+                          ; quanta specific:
+                          ;[#{"ta.import.provider.bybit.*"} ;bybit is already stable
+                          ; :warn]
+                          [#{"*"} :info]] ; default -> info
+              :appenders {:default {:type :console-color}
+                          :rolling {:type :file-rolling
+                                    :path ".data/quanta.log"
+                                    :pattern :monthly}}}
+
+ :reval {:rdocument  {:storage-root "target/webly/public/rdocument/"
+                      :url-root "/api/rdocument/file/"}
+         :collections {:study [:clj "quanta/notebook/study/"]
+                       :quanta-docs [:clj "quanta/notebook/docs/"]
+                       ;:quanta-ui [:cljs "quanta/notebook/viz/"]
+                       ;:ui [:cljs "demo/goldly/ui_test/"]
+                       ;:dev [:clj "quanta/notebook/dev/"] 
+                       ;:demo [:clj "demo/notebook/"]
+                       ;:demo-cljs [:cljs "demo/notebook/"]
+                       ;; many notebookx are in quanta/notebook 
+                       ;; we need to move them gradually to docs 
+                       ;; reason for this is because some notebooks are resetting the db,
+                       ;; and some of the notebooks take a long time to eval.
+                       }}
+
+ :keybindings [{:kb "alt-g k",
+                :handler [:palette/show],
+                :desc "Keybindings dialog"}
+               {:kb "esc",
+                :handler [:modal/close],
+                :desc "Dialog Close"}
+               {:kb "alt-g t",
+                :handler [:reframe10x-toggle],
+                :desc "10x visibility toggle"}
+
+                ;{:kb "up"   :handler [:arrow-up]    :desc "Codemirror Key Up"} ; :scope :codemirror
+                ;{:kb "down" :handler [:arrow-down] :desc "Codemirror Key Down"} :scope :codemirror
+               {:kb "shift-enter" :handler [:codemirror-active/completion-apply]  :desc "applies auto completion"}
+               {:kb "ctrl-space"  :handler [:codemirror/completion-get]     :desc "Show possible auto-completions"}
+                ; {:spec "enter"    :handler [:completion/clear]          :key ::clear}
+                ; {:spec "ctrl"     :handler [:completion/show-all false] :scope :global :key ::show-all-hide}
+               {:kb "alt-g c"     :handler [:clojuredocs]               :desc "Look up the symbol under the cursor in ClojureDocs"}
+
+                ; eval
+               {:kb "alt-shift-enter"     :handler [:notebook/evaluate-all] :desc "Evaluate all segments."}
+               {:kb "ctrl-shift-enter" :handler [:notebook/evaluate-all]         :desc "Evaluate all segments"}
+               {:kb "ctrl-enter" :handler [:repl/eval-expression]               :desc "Evaluate the highlighted segment"}]
+
+ :scratchpad {:tap true}
+
+;
+ }
