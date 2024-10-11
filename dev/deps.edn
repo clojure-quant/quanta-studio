@@ -14,10 +14,10 @@
  
  :preload {:exec-fn modular.system/start!
            :exec-args {:profile "jetty"
-                       :run quanta.notebook.study.preload/start
+                       :run dev.preload/start
                        :config ["config-shared.edn"
                                 "config-backtest.edn"]
                        :services "services-backtest.edn"}}
-}
+
 ;
-}
+}}
