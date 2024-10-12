@@ -17,7 +17,7 @@
                          {:field "exit-date" :caption "exit-dt" :width 200}
                          {:field "exit-idx" :caption "exit-idx" :width 50 :style {:bgColor "#5f5"}}
                          {:field "exit-price" :caption "exit-p" :width 50}
-                         {:field "exit-rule" :caption "exit-r" :width 90}
+                         {:field "reason" :caption ":reason" :width 90}
                          ; metrics
                          {:field "bars" :caption "bars" :width 50}
                          {:field "win?" :caption "win?" :width 50}

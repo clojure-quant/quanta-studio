@@ -1,12 +1,12 @@
 (ns quanta.studio.view.calendar)
 
-(defn one [{:keys [calendar calendar-time current next open holiday]}]
+(defn one [{:keys [calendar calendar-time current next open business]}]
   [:<>
    [:div (str calendar)]
    [:div (str calendar-time)]
    [:div (str current)]
    [:div (if open "OPEN" "CLOSED")]
-   [:div (if holiday "HOLIDAY" "WORK")]
+   [:div (if business "WORK" "HOLIDAY")]
    [:div (str next)]])
 
 (defn calendar-ui [{:keys [dt cals]}]
