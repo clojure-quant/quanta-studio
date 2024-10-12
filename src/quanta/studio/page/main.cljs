@@ -14,7 +14,7 @@
     [link-dispatch [:bidi/goto 'quanta.studio.page.preload/preload-page] "preload"]
     [link-dispatch [:bidi/goto 'quanta.studio.page.algo/algo-page] "algo"]
     [link-dispatch [:bidi/goto 'quanta.studio.page.tasks/tasks-page] "running tasks"]
-    
+
    ; documentation is relevant to the user.
     [:h1.text-xl.text-red-600 "documentation"]
     [link-dispatch [:bidi/goto 'docy.page/docy-page] "docy"]

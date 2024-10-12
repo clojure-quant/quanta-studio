@@ -14,9 +14,6 @@
 
 (def s (modular.system/system :studio))
 
-
-
-
 ;; start/stop task (a realtime calculation)
 
 (def id
@@ -32,7 +29,6 @@ id
 
 (-> (task-summary s)
     (print-table))
-
 
 (-> (task-summary s [:asset])
     (print-table))
@@ -67,7 +63,7 @@ id
 
 
 
-  
+
 
 
 

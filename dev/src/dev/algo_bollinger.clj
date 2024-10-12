@@ -7,8 +7,7 @@
    [quanta.dag.env :refer [log]]
    [quanta.algo.env.bars :refer [get-trailing-bars]]
    [quanta.trade.backtest :refer [backtest]]
-   [quanta.viz.plot.trade.core :refer [roundtrip-stats-ui]]
-   ))
+   [quanta.viz.plot.trade.core :refer [roundtrip-stats-ui]]))
 
 (defn entry-one [long short]
   (cond
@@ -89,6 +88,4 @@
                   :key :backtest}
    :backtest {:viz roundtrip-stats-ui
               :viz-options {}
-              :key :backtest}
-  
-   })
+              :key :backtest}})

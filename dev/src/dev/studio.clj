@@ -3,10 +3,6 @@
    [quanta.template.template-db :refer [get-options]]
    [quanta.studio.template.task.push :as sub]))
 
-
-
-
-
 (-> :watch-crypto get-options)
 
 (-> :juan-fx
@@ -59,16 +55,10 @@ subscription-id
 (-> @sub/subscriptions-a keys)
 ;; => ("3VlnWU")
 
-
-
-
-
-
 ;; watch results..
 (def subscription-id "3VlnWU")
 
 (-> @sub/subscriptions-a (get subscription-id))
-
 
 ; (require '[algodemo.sentiment-spread.vega :refer [calc-viz-vega]])
 ; (calc-viz-vega (-> @sub/results-a :sentiment-spread))

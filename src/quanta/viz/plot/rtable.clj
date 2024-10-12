@@ -36,8 +36,8 @@
   (assert (rtable-spec? spec) "rtable-spec needs to have :columns key")
   ^{:render-fn 'quanta.viz.render.core/render-spec} ; needed for notebooks
   {:render-fn (if (:simple spec)
-                'quanta.viz.render.rtable/rtable-simple
-                'quanta.viz.render.rtable/rtable)
+                'quanta.viz.render.table.rtable/rtable-simple
+                'quanta.viz.render.table.rtable/rtable)
    :data (-> bar-algo-ds
              (tc/select-columns (rtable-cols spec))
              ds->map)

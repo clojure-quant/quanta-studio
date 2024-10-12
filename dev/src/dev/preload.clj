@@ -36,7 +36,6 @@
                          :end end-dt}
                 :label "crypto 5min"}))
 
-
 (defn report [summary label]
   (with-out-str
     (println "summary for: " label)
@@ -52,7 +51,6 @@
         dir ".data/public/"]
     (fs/create-dirs dir)
     (spit (str dir "preload.txt") s)))
-
 
 (comment
   (def end-dt (t/instant))

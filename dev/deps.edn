@@ -3,23 +3,24 @@
          ]
  :deps
  {io.github.clojure-quant/quanta-studio {:local/root ".." :deps/manifest :deps}
- }
+  io.github.clojure-quant/quanta-studio-dev {:local/root "../studio-dev" :deps/manifest :deps}
+  io.github.clojure-quant/algo-demo {:local/root "../../algo-demo" :deps/manifest :deps}
+  }
  :aliases
-{
-   :quanta-backtest {; usecase: clj -X:quanta:backtest
-                   :exec-fn modular.system/start!
-                   :exec-args {:profile "jetty"
-                               :config ["quanta/studio/config/docy.edn"
-                                        "config-shared.edn"
-                                        "config-backtest.edn"]
-                               :services "services-backtest.edn"}}
- 
- :preload {:exec-fn modular.system/start!
-           :exec-args {:profile "jetty"
-                       :run dev.preload/start
-                       :config ["config-shared.edn"
-                                "config-backtest.edn"]
-                       :services "services-backtest.edn"}}
+ {:quanta-backtest {; usecase: clj -X:quanta:backtest
+                    :exec-fn modular.system/start!
+                    :exec-args {:profile "jetty"
+                                :config ["quanta/studio/config/docy.edn"
+                                         "config-shared.edn"
+                                         "config-backtest.edn"]
+                                :services "services-backtest.edn"}}
+
+  :preload {:exec-fn modular.system/start!
+            :exec-args {:profile "jetty"
+                        :run dev.preload/start
+                        :config ["config-shared.edn"
+                                 "config-backtest.edn"]
+                        :services "services-backtest.edn"}}
 
 ;
-}}
+  }}

@@ -8,9 +8,8 @@
 
 (defn preload-text []
   (let [text-a (r/atom "")
-        get-p (GET "/r/preload.txt")
-        ]
-    (-> get-p 
+        get-p (GET "/r/preload.txt")]
+    (-> get-p
         (p/then (fn [txt]
                   (reset! text-a txt)))
         (p/catch (fn [err]
@@ -23,7 +22,7 @@
    ; quanta studio main page
    [:div.bg-blue-300.m-5
     [:h1.text-xl.text-red-600 "quanta studio - preload "]
-    [preload-text] 
+    [preload-text]
     [link-dispatch [:bidi/goto 'quanta.studio.page.main/main-page] "main"]]
 
 ;

@@ -59,19 +59,19 @@
           :label "highstock-cljs"
           :fns ["quanta.viz.render.highcharts/highstock"
                 "quanta.viz.plot.highchart/highstock"
-                "quanta.viz.render.rtable/rtable"]}
+                "quanta.viz.render.table.rtable/rtable"]}
          {:ns "quanta.notebook.viz.rtable"
           :kernel :clj
           :label "rtable"
-          :fns ["quanta.viz.render.rtable/rtable"
-                "quanta.viz.plot.rtable/rtable"
+          :fns ["quanta.viz.render.table.rtable/rtable"
+                "quanta.viz.plot.table.rtable/rtable"
                 "quanta.viz.plot/rtable"]}
          {:ns "quanta.notebook.viz.vega"
           :kernel :clj
           :label "vega"
           :fns ["quanta.viz.render.vega/vega-lite"
                 "quanta.viz.plot.vega/vega"
-                "quanta.viz.render.rtable/rtable"]}
+                "quanta.viz.render.table.rtable/rtable"]}
 
          ;; INDICATOR
          {:ns "quanta.snippet.indicator"

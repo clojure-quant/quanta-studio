@@ -1,7 +1,7 @@
 (ns quanta.viz.render.trade.core
   (:require
    [container :refer [tab]]
-   [quanta.viz.render.rtable :refer [rtable]]
+   [quanta.viz.render.table.rtable :refer [rtable]]
    [quanta.viz.render.vega :refer [vega-lite]]
    [quanta.viz.render.trade.metrics :refer [metrics-view]]))
 

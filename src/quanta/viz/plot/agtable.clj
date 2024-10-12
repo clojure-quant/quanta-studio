@@ -80,7 +80,7 @@
   [spec bar-algo-ds]
   (assert (agtable-spec? spec) "agtable-spec needs to have :columns key")
   ^{:render-fn 'quanta.viz.render.core/render-spec} ; needed for notebooks
-  {:render-fn 'quanta.viz.render.agtable/agtable
+  {:render-fn 'quanta.viz.render.table.aggrid/agtable
    :data (-> bar-algo-ds
              (format-date spec)
              (select-columns spec)

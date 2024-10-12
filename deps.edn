@@ -37,14 +37,20 @@
    :main-opts ["-m" "cljfmt.main"
                "--indents" "cljfmt.edn"
                "check"
-               "./src"]}
+               "./src"
+               "./studio-dev/src"
+               "./dev/src"
+               ]}
 
   :cljfmt-fix
   {:extra-deps {cljfmt/cljfmt {:mvn/version "0.8.0"}}
    :main-opts ["-m" "cljfmt.main"
                "--indents" "cljfmt.edn"
                "fix"
-               "./src"]}
+               "./src"
+               "./studio-dev/src"
+               "./dev/src"
+               ]}
 
 ; https://github.com/clj-kondo/clj-kondo/blob/master/doc/jvm.md
   :lint
@@ -53,7 +59,9 @@
                "--config" "cljkondo.edn"
                "--fail-level" "error"
                "--lint"
-               "./src"]}
+               "./src"
+               "./studio-dev/src"
+               ]}
 
   :check
   {:extra-deps {athos/clj-check {:git/url "https://github.com/athos/clj-check.git"

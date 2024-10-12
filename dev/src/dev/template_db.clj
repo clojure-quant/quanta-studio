@@ -1,6 +1,6 @@
 (ns dev.template-db
-  (:require 
-     [quanta.studio.template.db :as tdb]))
+  (:require
+   [quanta.studio.template.db :as tdb]))
 
 (def s
   (-> {:templates  (atom {})}
@@ -10,7 +10,7 @@ s
 
 (tdb/available-templates s)
 ;; => (:bollinger)
- 
+
 (tdb/template-info s :bollinger)
 ;; => {:options
 ;;     [{:type :select, :path [0 :asset], :name "asset", :spec ["BTCUSDT" "ETHUSDT"]}

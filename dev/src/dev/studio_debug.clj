@@ -156,5 +156,4 @@ v
 
 ;{:x 1711227540000, :title "true", :shape "url(/r/arrow-down.svg)", :text "col: :carried-crossed?val: true"}
   ;{:x 1711240080000, :title "false", :shape nil, :text "col: :carried-crossed?val: false"}
-  
-  
+

@@ -9,8 +9,8 @@
                quanta.viz.render.edn
                quanta.viz.render.hiccup
                quanta.viz.render.highcharts
-               quanta.viz.render.rtable
-               quanta.viz.render.rtable-resolve
+               quanta.viz.render.table.rtable
+               quanta.viz.render.table.rtable-resolve
                quanta.viz.render.vega
                ta.viz.lib.layout
                ta.viz.lib.ui
