@@ -17,15 +17,15 @@
     {:calendar market-kw
      :open open?
      :business business?
-     ;:calendar-time dt-cal
-     }))
+     :calendar-time (t/date-time dt-cal)}))
 
 (defn gather-calendar [calendar-kw interval-kw dt]
+  (let [current-close (t/instant (cal/current-close calendar-kw interval-kw dt))]
     (assoc (market-info calendar-kw)
        :calendar [calendar-kw interval-kw]
-       :prior (t/instant (cal/prior-close calendar-kw interval-kw dt))
-       :current  (t/instant (cal/current-close calendar-kw interval-kw dt))
-       :next (t/instant (cal/next-close calendar-kw interval-kw dt))))
+       ;:prior (t/instant (cal/prior-close calendar-kw interval-kw dt))
+       :current current-close  
+       :next (t/instant (cal/next-close calendar-kw interval-kw current-close)))))
 
 (defn gather-calendars [dt]
   (let [cals (for [c [:us :crypto :forex 

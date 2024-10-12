@@ -1,9 +1,9 @@
 (ns quanta.studio.view.calendar)
 
-(defn one [{:keys [calendar prior current next open holiday]}]
+(defn one [{:keys [calendar calendar-time current next open holiday]}]
   [:<>
    [:div (str calendar)]
-   [:div (str prior)]
+   [:div (str calendar-time)]
    [:div (str current)]
    [:div (if open "OPEN" "CLOSED")]
    [:div (if holiday "HOLIDAY" "WORK")]
@@ -15,10 +15,10 @@
      [:div "time: " (str dt)]
      [into [:div
             {:class "grid gap-1" ;.grid-cols-2.auto-cols-min
-             :style {:grid-template-columns "1fr 1fr 1fr 1fr 1fr 1fr"
+             :style {:grid-template-columns "1fr 2fr 1fr 1fr 1fr 1fr"
                      :max-width "1200px"}}
             [:div "calendar"]
-            [:div "prior close"]
+            [:div "local time"]
             [:div "current close"]
             [:div "open"]
             [:div "holiday"]
