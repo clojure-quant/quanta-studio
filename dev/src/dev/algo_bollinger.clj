@@ -30,8 +30,7 @@
         short-signal (cross-up (:close ds-bollinger) (:bollinger-lower ds-bollinger))
         entry (dtype/clone (dtype/emap entry-one :keyword long-signal short-signal))
         ds-signal (tc/add-columns ds-bollinger {:entry entry
-                                                :atr (ind/atr {:n n} ds-bars)})
-        ]
+                                                :atr (ind/atr {:n n} ds-bars)})]
     ds-signal))
 
 (defn bollinger-stats [opts ds-d ds-m]
@@ -61,20 +60,18 @@
            :algo bollinger-stats
            :carry-n 2}
    :backtest-old {:formula [:day]
-              :algo backtest
-              :entry [:fixed-amount 100000]
-              :exit [:loss-percent 2.0
-                     :profit-percent 1.0
-                     :time 5]}
+                  :algo backtest
+                  :entry [:fixed-amount 100000]
+                  :exit [:loss-percent 2.0
+                         :profit-percent 1.0
+                         :time 5]}
    :backtest {:formula [:day]
               :algo b2/backtest
               :entry {:type :fixed-qty :fixed-qty 1.0}
               :exit [{:type :trailing-stop-offset :col :atr}
                      {:type :stop-prct :prct 2.0}
                      {:type :profit-prct :prct 1.0}
-                     {:type :time :max-bars 10}]}
-   
-   ])
+                     {:type :time :max-bars 10}]}])
 
 ;; TEMPLATE
 

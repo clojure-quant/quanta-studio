@@ -73,7 +73,7 @@
                :options-a (r/atom {:label nil})
                :result-a (r/atom nil)
                :id-a (r/atom nil)}
-        set-id (fn [id] 
+        set-id (fn [id]
                  (when-not (= id @(:id-a state))
                    (reset! (:id-a state) id)))]
     (get-labels (:labels-a state))
@@ -95,17 +95,14 @@
         [spaces.core/left-resizeable {:size 500}
          [:div.bg-red-500.p-5.m-5
           #_[:p (pr-str @(:labels-a state))
-           (pr-str @(:options-a state))
-           (pr-str @(:result-a state))
-           (pr-str (:template-id @(:result-a state)))]
-           [bruteforce-result-ui @(:result-a state) set-id]]]
-        [spaces.core/fill 
-        [:div.bg-blue-300
-         [bruteforce-roundtrips (-> state :options-a deref :label) 
-                                (-> state :id-a deref)]
-         
-          
-         ]]]])))
+             (pr-str @(:options-a state))
+             (pr-str @(:result-a state))
+             (pr-str (:template-id @(:result-a state)))]
+          [bruteforce-result-ui @(:result-a state) set-id]]]
+        [spaces.core/fill
+         [:div.bg-blue-300
+          [bruteforce-roundtrips (-> state :options-a deref :label)
+           (-> state :id-a deref)]]]]])))
 
 (defn page [_route]
   [bruteforce-ui])

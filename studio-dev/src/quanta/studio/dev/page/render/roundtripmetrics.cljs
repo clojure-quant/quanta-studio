@@ -1,10 +1,10 @@
 (ns quanta.studio.dev.page.render.roundtripmetrics
-   (:require
-    [reagent.core :as r]
-    [promesa.core :as p]
-    [rtable.rtable]
-    [cquant.tmlds :refer [GET]]
-    [quanta.viz.render.trade.core :refer [roundtrip-stats-ui]]))
+  (:require
+   [reagent.core :as r]
+   [promesa.core :as p]
+   [rtable.rtable]
+   [cquant.tmlds :refer [GET]]
+   [quanta.viz.render.trade.core :refer [roundtrip-stats-ui]]))
 
 (defn load-backtest [backtest-a]
   (let [url (str "/r/data/HyIPuo-backtest.transit-json")
@@ -21,13 +21,11 @@
                    (reset! backtest-a nil))))
     nil))
 
-
 (def opts
   {:intraday? false
    :style {:height "600px"
            :width "800px"}
    :class "bg-red-500"})
-
 
 (def data-a (r/atom nil))
 
@@ -38,7 +36,6 @@
     (if @data-a
       [roundtrip-stats-ui opts @data-a]
       [:div "loading data.."])))
-
 
 (defn page [{:keys [_route-params _query-params _handler] :as _route}]
   [:div.h-screen.w-screen.bg-blue-100

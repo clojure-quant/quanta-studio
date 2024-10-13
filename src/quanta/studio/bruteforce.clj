@@ -23,7 +23,6 @@
                     {:template template-id
                      :bruteforce-opts bruteforce-opts}))))
 
-
 (defn show-available [{:keys [bruteforce-dir] :as this}]
   (bf/show-available bruteforce-dir))
 

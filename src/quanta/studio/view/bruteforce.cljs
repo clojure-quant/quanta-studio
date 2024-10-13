@@ -33,15 +33,15 @@
   (let [loaded-a (r/atom [nil nil])
         backtest-a (r/atom nil)]
     (fn [label id]
-        (when (and label id
-                   (not (= [label id] @loaded-a)))
-          (println "loading backtest label: " label " id:  " id)
-          (load-backtest label id backtest-a)
-          (reset! loaded-a [label id])  
-          nil)
-        (if @backtest-a
-          [roundtrip-stats-ui stats-opts @backtest-a]
-          [:div "label:" label  " id: " id]))))
+      (when (and label id
+                 (not (= [label id] @loaded-a)))
+        (println "loading backtest label: " label " id:  " id)
+        (load-backtest label id backtest-a)
+        (reset! loaded-a [label id])
+        nil)
+      (if @backtest-a
+        [roundtrip-stats-ui stats-opts @backtest-a]
+        [:div "label:" label  " id: " id]))))
 
 ;; bruteforce label results
 

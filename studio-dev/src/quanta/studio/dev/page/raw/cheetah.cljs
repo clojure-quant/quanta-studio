@@ -28,8 +28,7 @@
                          {:field "cum-ret-volume" :caption "cum-ret-volume" :width 50}
                          {:field "cum-ret-abs" :caption "cum-ret-abs" :width 50}
                          {:field "cum-ret-log" :caption "cum-ret-log" :width 50}
-                         {:field "nav" :caption "nav" :width 50}
-                         ]
+                         {:field "nav" :caption "nav" :width 50}]
                :url "/r/data/LWhgL6-roundtrips.transit-json"}])
 
 (defn page [_route]

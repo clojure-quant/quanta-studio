@@ -33,7 +33,7 @@
     (tm/log! "dag init ..")
     (calculate-init this)
 
-    (when bruteforce-dir 
+    (when bruteforce-dir
       (tm/log! (str "ensuring bruteforce-dir: " bruteforce-dir))
       (fs/create-dirs bruteforce-dir))
 
