@@ -1,6 +1,8 @@
 (ns quanta.studio.dev.page.raw.cheetah
   (:require
-   [rtable.render.cheetah :refer [cheetah-ds]]))
+   [rtable.render.cheetah :refer [cheetah-ds]]
+   [quanta.viz.format :as f]
+   [quanta.viz.cheetah-style :refer [blue-color]]))
 
 (defn cheetah-table []
   [cheetah-ds {:style {:width "100%" :height "100%"}
@@ -10,17 +12,21 @@
                          {:field "side" :caption "side" :width 50}
                          {:field "qty" :caption "qty" :width 50}
                          ; entry
-                         {:field "entry-date" :caption "entry-dt" :width 200}
+                         {:field "entry-date" :caption "entry-dt" :width 200
+                          :format f/dt-yyyymmdd-hhmm}
                          {:field "entry-idx" :caption "entry-idx" :width 50 :style {:bgColor "#5f5"}}
                          {:field "entry-price" :caption "entry-p" :width 90 #_:style #_'demo.page.cheetah/red-color}
                          ; exit
-                         {:field "exit-date" :caption "exit-dt" :width 200}
+                         {:field "exit-date" :caption "exit-dt" :width 200
+                          :format f/dt-yyyymmdd-hhmm}
                          {:field "exit-idx" :caption "exit-idx" :width 50 :style {:bgColor "#5f5"}}
                          {:field "exit-price" :caption "exit-p" :width 50}
                          {:field "reason" :caption ":reason" :width 90}
                          ; metrics
                          {:field "bars" :caption "bars" :width 50}
-                         {:field "win?" :caption "win?" :width 50}
+                         {:field "win?" :caption "win?" :width 50
+                          :style blue-color
+                          :format f/format-bool}
                          {:field "ret-abs" :caption "ret-abs" :width 50}
                          {:field "ret-prct" :caption "ret-prct" :width 50}
                          {:field "ret-log" :caption "ret-log" :width 50}
