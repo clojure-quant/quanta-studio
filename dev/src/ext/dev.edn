@@ -1,0 +1,5 @@
+{:name "dev"
+ :quanta/template [dev.algo-bollinger/bollinger-template
+                  
+                   ]}
+

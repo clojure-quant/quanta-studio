@@ -12,4 +12,5 @@
                "quanta/" {"preload" quanta.studio.page.preload/preload-page
                           "algo" quanta.studio.page.algo/algo-page
                           ["algo/" :task-id] quanta.studio.page.algo/algo-task-page
+                          "bruteforce" quanta.studio.page.bruteforce/page
                           "tasks" quanta.studio.page.tasks/tasks-page}}}

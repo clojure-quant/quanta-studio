@@ -8,6 +8,16 @@
 (def assets ["BTCUSDT"
              "ETHUSDT"])
 
+(defn import-d [end-dt]
+  (import-bars {:asset assets
+                :calendar [:crypto :d]
+                ;:import :bybit-parallel
+                :import :bybit
+                :to :nippy
+                :window {:start (t/instant "2018-01-01T00:00:00Z")
+                         :end end-dt}
+                :label "crypto d"}))
+
 (defn import-1h [end-dt]
   (import-bars {:asset assets
                 :calendar [:crypto :h]
@@ -42,10 +52,12 @@
     (print-table summary)))
 
 (defn import-all-with-report [end-dt]
-  (let [h1  (import-1h end-dt)
+  (let [d  (import-d end-dt)
+        h1  (import-1h end-dt)
         m1  (import-1m end-dt)
         m5  (import-5m end-dt)
-        s (str (report m1 "1 minute")
+        s (str (report d "daily")
+               (report m1 "1 minute")
                (report h1 "1 hour")
                (report m5 "5 minute"))
         dir ".data/public/"]
