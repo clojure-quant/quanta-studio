@@ -6,7 +6,31 @@
    [rtable.rtable]
    [options.core :as o]
    [frontend.notification :refer [show-notification]]
-   [goldly.service.core :refer [clj]]))
+   [goldly.service.core :refer [clj]]
+   [ajax.promise :refer [GET]]
+   [clojure.edn :refer [read-string]]
+   [quanta.studio.view.bruteforce :refer [bruteforce-result-ui]]
+   ))
+
+(defn load-label [label result-a]
+  (let [url (str "/r/bruteforce/" label ".edn")
+        _ (println "loading url: " url)
+        get-p (GET url)]
+    (-> get-p
+        (p/then (fn [txt]
+                  (println "load-label success: " txt)
+                  (try 
+                    (reset! result-a (read-string txt))
+                    ;(reset! result-a txt)
+                    (catch js/Exception ex
+                      (println "parse-exception: " ex)
+                      )
+                  )
+                  
+                  ))
+        (p/catch (fn [err]
+                   (println "error: could not load result for label: " label "url: " url " err: " err)
+                   (reset! result-a nil))))))
 
 (defn get-labels [labels-a]
   (let [rp (clj 'quanta.studio.bruteforce/show-available)]
@@ -17,7 +41,6 @@
         (p/catch (fn [err]
                    (println "get-labels error: " err)
                    (show-notification :error  "could not get labels summary!"))))
-
     nil))
 
 (def table-opts
@@ -26,30 +49,66 @@
            :height "100vh"
            :border "3px solid green"}})
 
+(defn keyword->spec [kw]
+  {:id  kw
+   :name (str kw)})
+
+(defn keywords->spec [kws]
+  (map keyword->spec kws))
+
+(defn template-spec [template-list]
+  (let [template-spec  (keywords->spec template-list)]
+    (into []
+          (concat [{:id :no-label :name ""}]
+                  template-spec))))
+
 (defn header [{:keys [options-a labels-a] :as state}]
   [o/options-ui {:class "bg-blue-300 options-label-left" ; options-debug
                  :style {:width "100%"
                          :height "40px"}}
    {:state options-a
     :options  [{:type :select
-               :path :label
-               :name "Label"
-               :spec @labels-a}]
+                :path :label
+                :name "Label"
+                :spec (template-spec @labels-a)}]
     :current {:label nil}}])
 
 (defn bruteforce-ui []
   (let [state {:labels-a (r/atom [])
-               :options-a (atom {:label nil})}]
+               :options-a (r/atom {:label nil})
+               :result-a (r/atom nil)}]
     (get-labels (:labels-a state))
+    (add-watch (:options-a state) :watcher
+               (fn [key atom old-state new-state]
+                 (prn "-- Atom Changed --")
+                 (prn "key" key)
+                 (prn "atom" atom)
+                 (prn "old-state" old-state)
+                 (prn "new-state" new-state)
+                 (when-let [label (:label new-state)]
+                   (println "requesting result for : " label)
+                   (load-label label (:result-a state)))))
     (fn []
       [:div.flex.flex-col.h-full.w-full
        [header state]
        ;[rtable.rtable/rtable table-opts cols @(:tasks-a state)]
-       
+       [:div.bg-red-500.p-5.m-5
+        [:p (pr-str @(:labels-a state))
+         (pr-str @(:options-a state))
+         (pr-str @(:result-a state))
+         (pr-str (:template-id @(:result-a state)))]]
+       [bruteforce-result-ui @(:result-a state)]
        ])))
 
 (defn page [_route]
-  [bruteforce-ui])
+  [:div.h-screen.w-screen.bg-red-500
+   [bruteforce-ui]])
 
 
+(def data [:a 1 :b "xxx"])
 
+(def ddd (pr-str data))
+
+(println "edn as such: " ddd)
+
+(println "parsed edn: " (read-string ddd))
