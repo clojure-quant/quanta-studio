@@ -21,6 +21,7 @@
     (-> load-promise
         (p/then (fn [ds]
                   (println "ds from url " url " loaded successfully.")
+                  (println ds)
                   (reset! backtest-a ds)
                   ds))
         (p/catch (fn [err]

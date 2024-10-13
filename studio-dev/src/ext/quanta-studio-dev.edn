@@ -20,4 +20,7 @@
                          }
                 "/render/" {"vega" quanta.studio.dev.page.render.vega/page
                             "rtable" quanta.studio.dev.page.render.rtable/page
-                            "highstock" quanta.studio.dev.page.render.highstock/page}}}}
+                            "highstock" quanta.studio.dev.page.render.highstock/page
+                            "backtest" quanta.studio.dev.page.render.roundtripmetrics/page
+                            
+                            }}}}
