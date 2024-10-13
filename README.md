@@ -22,6 +22,20 @@ Quanta Studio uses Quanta and provides services like
   - bar-generator
 
 
+# developers
+
+```
+cd dev
+clj -X:preload     (to load data)
+clj -X:quanta-backtest (to run studio)
+```
+
+*ports*
+- 8080 webserver
+       /quanta is the user ui
+       /quanta/dev is the developer ui
+- 9100 nrepl
+
 
 
 

@@ -1,22 +1,17 @@
 
 2024-09-21
-
 - studio template ui always has a dt selector
   this is more logical, as the historic-calculation always requires a date
 
   ther is one drawdown: if the current date is part of the algo-opts, 
   then it is easier to make a link to an algo at a specific date.
-
 - studio template ui visualizations are now 100% arbitrary.
   the keywords used to give names to vizualisations do not have any requirements.
-
 - viz/highstock: date col of zoned-date-time supported.
 
 2024-10-01
-
 - NEW DAG ENGINE.
 - not yet integrated to ui.
-
 - ALGO-SPEC differences:
   - algo-fn is a FUNCTION, not a symbol, and a processing chain is not supported
     reason: if symbols are applied in a template, then this can mean the algo-fn
@@ -32,8 +27,10 @@
     formula-fn expects [opts & args]
 
 
-- CALENDAR BUG?
-  sleeping for ms:  79036000  until:  #time/zoned-date-time "2024-10-02T17:01-04:00[America/New_York]"
+2024-10-02 
+- remove javelin engine, going forward: only missionary dag
+  0.4.xxx will no longer contain javelin
 
- 2024-10-02 remove javelin engine, going forward: only missionary dag
- 0.4.xxx will no longer contain javelin
+2024-10-13
+- quanta.trade new backtest engine
+- sub-projects studio-dev and dev for developers
