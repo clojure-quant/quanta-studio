@@ -37,6 +37,8 @@
     [link-dispatch [:bidi/goto 'quanta.studio.dev.page.raw.highchart/highstock-page] "highstock"]
     [link-dispatch [:bidi/goto 'quanta.studio.dev.page.raw.cheetah/page] "cheetah"]
     [link-dispatch [:bidi/goto 'quanta.studio.dev.page.raw.vega/page] "vega"]
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.raw.vegads/page] "vega-ds"]
+
     ; vegaplot does not work from cljs 
     ;[link-dispatch [:bidi/goto 'quanta.studio.dev.page.raw.vegaplot/page] "vegaplot"]
     ]

@@ -1,6 +1,6 @@
 (ns quanta.viz.format
   (:require
-   [tick.core :as t]  
+   [tick.core :as t]
    [tick.helper :as th]
    [pinkgorilla.goog.string :refer [format]]))
 
@@ -16,12 +16,10 @@
       (format f nr))))
 
 (defn prct [nr]
-  (if (and nr (number? nr)) 
-  (.toLocaleString nr js/undefined (clj->js {:style "percent"
-                                    :minimumFractionDigits 2}))
-    "-"
-    )
-  )    
+  (if (and nr (number? nr))
+    (.toLocaleString nr js/undefined (clj->js {:style "percent"
+                                               :minimumFractionDigits 2}))
+    "-"))
 
 (defn nr-format-0-digits [nr]
   (nr-format "%.0f" nr))
@@ -40,7 +38,7 @@
 
 (defn dt-format-raw [fmt dt]
   (let [zdt (-> dt
-               (t/in "UTC"))]
+                (t/in "UTC"))]
     (t/format (t/formatter fmt) zdt)))
 
 (defn dt-format [f dt]

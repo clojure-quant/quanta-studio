@@ -16,8 +16,7 @@
                           :format f/dt-yyyymmdd-hhmm}
                          {:field "entry-idx" :caption "entry-idx" :width 50 :style {:bgColor "#5f5"}}
                          {:field "entry-price" :caption "entry-p" :width 90 #_:style #_'demo.page.cheetah/red-color
-                          :format f/nr-format-auto
-                          }
+                          :format f/nr-format-auto}
                          ; exit
                          {:field "exit-date" :caption "exit-dt" :width 160
                           :format f/dt-yyyymmdd-hhmm}
@@ -39,8 +38,7 @@
                          {:field "cum-ret-abs" :caption "cum-ret-abs" :width 50}
                          {:field "cum-ret-log" :caption "cum-ret-log" :width 50}
                          {:field "nav" :caption "nav" :width 50
-                          :format f/nr-format-auto
-                          }]
+                          :format f/nr-format-auto}]
                :url "/r/data/LWhgL6-roundtrips.transit-json"}])
 
 (defn page [_route]

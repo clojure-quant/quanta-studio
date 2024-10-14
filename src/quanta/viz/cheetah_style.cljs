@@ -1,6 +1,5 @@
 (ns quanta.viz.cheetah-style)
 
-
 (defn red-color [row]
   ;(println "red-color for: " row)
   (clj->js {:color "red"}))
