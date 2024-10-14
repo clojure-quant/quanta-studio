@@ -2,12 +2,10 @@
   (:require
    [tick.core :as t]
    [tech.v3.dataset :as tds]
-   [nano-id.core :refer [nano-id]]
-   [clojure.java.io :as io]
    [tablecloth.api :as tc]
    [de.otto.nom.core :as nom]
    [quanta.viz.plot.anomaly :as plot]
-   [cquant.tmlds :refer [ds->transit-json-file]]))
+   [quanta.viz.plot.transit :refer [store-dataset]]))
 
 (defn agtable-spec? [spec]
   (and (map? spec)
@@ -52,25 +50,6 @@
 (defn select-columns [ds spec]
   (let [columns (agtable-cols spec)]
     (tc/select-columns ds columns)))
-
-;; STORE DS
-
-(def ds-dir "./target/webly/public/ds")
-
-(defn ensure-directory [dir-path]
-  (let [dir (io/file dir-path)]
-    (when-not (.exists dir)
-      (.mkdirs dir))))
-
-(defn store-dataset [ds]
-  (let [id (nano-id 5)
-        filename (str ds-dir "/" id ".transit-json")
-        url (str "/r/ds/" id ".transit-json")]
-    (ensure-directory ds-dir)
-    (ds->transit-json-file ds filename)
-    {:id id
-     :url url
-     :filename filename}))
 
 (defn agtable-render-spec-impl
   "returns a plot specification {:render-fn :spec :data}. 

@@ -22,3 +22,4 @@
         [:div.h-full.w-full.p-10 "No Rows in this table. "]
         [ag-tml/aggrid-url {:style style :columns cols} (:url data)])
       {:R true})))
+
