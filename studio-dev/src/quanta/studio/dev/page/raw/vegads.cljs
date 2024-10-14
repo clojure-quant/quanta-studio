@@ -36,11 +36,26 @@
 (def bar
   {;:$schema "https://vega.github.io/schema/vega-lite/v4.json"
    :description "A simple bar chart with embedded data."
-   :mark {:type "line"
-          ;:tooltip true
-          :tooltip {:content "data"}}
-   :encoding {:x {:field "entry-date" :type "temporal"}
-              :y {:field "nav" :type "quantitative"}}
+   :height "800"
+   :width "1200"
+   :vconcat [{:height 700 ; js/null  ; Allows the line chart to take all available space
+              :width "1200" ; Makes the line chart full width
+              :mark {:type "line"
+                         ;:tooltip true
+                      :tooltip {:content "data"}}
+               :encoding {:x {:field "entry-date" :type "temporal"}
+                          :y {:field "nav" :type "quantitative"}}}
+             {:height "100"
+              :width "1200" ; Makes the line chart full width
+              :mark {:type "bar"
+                     :tooltip {:content "data"}}
+              :encoding {:x {:field "entry-date" :type "temporal"}
+                         :y {:field "nav" :type "quantitative"}}}
+             
+   
+               
+
+   ]
    :data {:name "table"}})
 
 (defn vega-ds []
