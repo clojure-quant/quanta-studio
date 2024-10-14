@@ -17,11 +17,10 @@
   ^{:render-fn 'quanta.viz.render.core/render-spec} ; needed for notebooks
   {:render-fn 'quanta.viz.render.trade.core/roundtrip-stats-ui-ds
    :data #_{:metrics metrics
-          :chart (nav-chart roundtrip-ds)
-          :rt (roundtrip-ui {} roundtrip-ds)}
-         (store-dataset data)
+            :chart (nav-chart roundtrip-ds)
+            :rt (roundtrip-ui {} roundtrip-ds)}
+   (store-dataset data)
    :spec spec})
-
 
 (defn roundtrip-stats-ui
   "returns a render specification {:render-fn :spec :data}. 

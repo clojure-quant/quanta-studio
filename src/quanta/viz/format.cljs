@@ -25,14 +25,15 @@
   (nr-format "%.0f" nr))
 
 (defn nr-format-auto [nr]
-  (nr-format (cond
-               (> nr 10000) "%.0f"
-               (> nr 1000) "%.1f"
-               (> nr 100) "%.2f"
-               (> nr 10) "%.3f"
-               (> nr 1) "%.4f"
-               :else "%.5f")
-             nr))
+  (let [nr-abs (.abs js/Math nr)]
+    (nr-format (cond
+                 (> nr-abs 10000) "%.0f"
+                 (> nr-abs 1000) "%.1f"
+                 (> nr-abs 100) "%.2f"
+                 (> nr-abs 10) "%.3f"
+                 (> nr-abs 1) "%.4f"
+                 :else "%.5f")
+               nr)))
 
 ;; date
 

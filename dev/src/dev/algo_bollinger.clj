@@ -67,6 +67,8 @@
                          :time 5]}
    :backtest {:formula [:day]
               :algo b2/backtest
+              :portfolio {:fee 0.2 ; per trade in percent
+                          :equity-initial 10000.0}
               :entry {:type :fixed-qty :fixed-qty 1.0}
               :exit [{:type :trailing-stop-offset :col :atr}
                      {:type :stop-prct :prct 2.0}

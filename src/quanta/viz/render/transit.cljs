@@ -1,10 +1,9 @@
 (ns quanta.viz.render.transit
-   (:require
-    [promesa.core :as p]
-    [reagent.core :as r]
-    [tech.v3.dataset :as tmlds]
-    [cquant.tmlds :refer [GET]]))
-  
+  (:require
+   [promesa.core :as p]
+   [reagent.core :as r]
+   [tech.v3.dataset :as tmlds]
+   [cquant.tmlds :refer [GET]]))
 
 (defn load-dataset [url]
   (println "loading dataset from url: " url)

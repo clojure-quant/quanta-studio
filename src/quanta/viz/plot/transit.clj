@@ -1,9 +1,8 @@
 (ns quanta.viz.plot.transit
   (:require
-    [nano-id.core :refer [nano-id]]
-    [babashka.fs :as fs]
-    [cquant.tmlds :refer [ds->transit-json-file]]))
-  
+   [nano-id.core :refer [nano-id]]
+   [babashka.fs :as fs]
+   [cquant.tmlds :refer [ds->transit-json-file]]))
 
 (def ds-dir ".data/public/ds")
 
