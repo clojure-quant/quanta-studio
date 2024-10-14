@@ -1,10 +1,11 @@
 (ns quanta.viz.render.trade.core
   (:require
    [container :refer [tab]]
-   [quanta.viz.render.table.rtable :refer [rtable]]
-   [quanta.viz.render.vega :refer [vega-lite]]
+   ;[quanta.viz.render.table.rtable :refer [rtable]]
+   ;[quanta.viz.render.vega :refer [vega-lite]]
    [quanta.viz.render.trade.metrics :refer [metrics-view]]
-   [quanta.viz.render.trade.roundtrips :refer [roundtrips-cheetah]]
+   [quanta.viz.render.trade.roundtrip-table :refer [roundtrips-cheetah]]
+   [quanta.viz.render.trade.roundtrip-chart :refer [roundtrip-chart]]
    [quanta.viz.render.transit :refer [loading-ui]]))
 
 (defn roundtrip-stats-ui [{:keys [style class intraday?]
@@ -21,7 +22,8 @@
           :style style}
      "metrics"
      [metrics-view metrics]
-     ;"chart"
+     "chart"
+     [roundtrip-chart roundtrip-ds]
      ;[vega-lite (:spec chart) (:data chart)]
      "roundtrips"
      [roundtrips-cheetah roundtrip-ds]

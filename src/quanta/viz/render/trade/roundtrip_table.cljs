@@ -1,4 +1,4 @@
-(ns quanta.viz.render.trade.roundtrips
+(ns quanta.viz.render.trade.roundtrip-table
   (:require
    [rtable.render.cheetah :refer [cheetah-ds-impl]]
    [quanta.viz.format :as f]
@@ -15,7 +15,7 @@
    {:style {:width "100%" :height "100%"}
     :columns [; bar
               {:field "asset" :caption "a" :width 90}
-              {:field "id" :caption "id" :width 50}
+              ;{:field "id" :caption "id" :width 50}
               {:field "side" :caption "side" :width 50}
               {:field "qty" :caption "qty" :width 50}
               {:field "volume-entry" :caption "vol" :width 50 :format f/nr-format-0-digits}

@@ -13,8 +13,8 @@
 (defn show-fn [r]
   (let [{:keys [roundtrip nav]} (:metrics r)]
     (merge
-     (select-keys roundtrip [:trades])
-     (select-keys nav  [:cum-pl :max-dd]))))
+     (select-keys (:all roundtrip) [:trades])
+     (select-keys nav  [:cum-pl :max-drawdown-prct]))))
 
 (defn bruteforce [template-id variations]
   (time

@@ -39,9 +39,9 @@
      [:table
       [:tr
        [:td {:style {:width "3cm"}} " "]
-       [:td {:style {:width "100"}} "all"]
-       [:td {:style {:width "100"}} "win"]
-       [:td {:style {:width "100"}} "loss"]]
+       [:td {:style {:min-width "100px"}} "all"]
+       [:td {:style {:width "100px"}} "win"]
+       [:td {:style {:width "100px"}} "loss"]]
       [:tr
        [:td "#trades"]
        [:td (:trades all) [:span {:class "text-blue-500"
@@ -59,10 +59,15 @@
        [:td (-> win :pl f/nr-format-0-digits)]
        [:td (-> loss :pl f/nr-format-0-digits)]]
       [:tr
-       [:td "median pl/trade"]
+       [:td "mean pl"]
        [:td (-> all :pl-mean f/nr-format-auto)]
        [:td (-> win :pl-mean f/nr-format-auto)]
        [:td (-> loss :pl-mean f/nr-format-auto)]]
+      [:tr
+       [:td "median pl"]
+       [:td (-> all :pl-median f/nr-format-auto)]
+       [:td (-> win :pl-median f/nr-format-auto)]
+       [:td (-> loss :pl-median f/nr-format-auto)]]
       [:tr
        [:td "bars avg [total]"]
        [:td (-> all :bar-avg f/nr-format-0-digits) [:span {:class "text-blue-500"

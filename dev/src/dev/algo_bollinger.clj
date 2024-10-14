@@ -1,5 +1,6 @@
 (ns dev.algo-bollinger
   (:require
+   [taoensso.telemere :as tm]
    [tech.v3.datatype :as dtype]
    [tablecloth.api :as tc]
    [ta.indicator :as ind]
@@ -21,9 +22,11 @@
   (println "bollinger-calc dt: " dt " opts: " opts)
   (log "bollinger-dt: " dt)
   (log "bollinger-opts: " opts)
+  (tm/log! "bollinger start")
   (let [n (or (:atr-n opts) 2)
         k (or (:atr-k opts) 1.0)
         ds-bars (get-trailing-bars opts dt)
+        _ (tm/log! "bollinger bar-load complete")
         ;_ (log "trailing-bars: " ds-bars) ; for debugging - logs to the dag logfile
         ds-bollinger (band/add-bollinger {:n n :k k} ds-bars)
         long-signal (cross-up (:close ds-bollinger) (:bollinger-upper ds-bollinger))
@@ -31,6 +34,7 @@
         entry (dtype/clone (dtype/emap entry-one :keyword long-signal short-signal))
         ds-signal (tc/add-columns ds-bollinger {:entry entry
                                                 :atr (ind/atr {:n n} ds-bars)})]
+    (tm/log! "bollinger strategy calc complete")
     ds-signal))
 
 (defn bollinger-stats [opts ds-d ds-m]
@@ -67,8 +71,8 @@
                          :time 5]}
    :backtest {:formula [:day]
               :algo b2/backtest
-              :portfolio {:fee 0.2 ; per trade in percent
-                          :equity-initial 10000.0}
+              :portfolio {:fee 0.1 ; per trade in percent
+                          :equity-initial 50000.0}
               :entry {:type :fixed-qty :fixed-qty 1.0}
               :exit [{:type :trailing-stop-offset :col :atr}
                      {:type :stop-prct :prct 2.0}
