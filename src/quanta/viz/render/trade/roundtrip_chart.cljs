@@ -15,13 +15,24 @@
                      ;:tooltip true
                      :tooltip {:content "data"}}
               :encoding {:x {:field "exit-date" :type "temporal"}
-                         :y {:field "equity" :type "quantitative"}}}
+                         :y {:field "equity" 
+                             :type "quantitative"
+                             :domain false
+                             }}}
              {:height "100"
               :width "1200" ; Makes the line chart full width
               :mark {:type "bar"
                      :tooltip {:content "data"}}
               :encoding {:x {:field "exit-date" :type "temporal"}
-                         :y {:field "drawdown-prct" :type "quantitative"}}}]
+                         :y {:field "pl" :type "quantitative"}}}
+             {:height "100"
+              :width "1200" ; Makes the line chart full width
+              :mark {:type "bar"
+                     :tooltip {:content "data"}}
+              :encoding {:x {:field "exit-date" :type "temporal"}
+                         :y {:field "drawdown-prct" :type "quantitative"
+                             ; todo: drawdown should be shown inverse.
+                             }}}]
 
    :data {:name "table"}})
 
@@ -30,7 +41,6 @@
        (into [])))
 
 (defn roundtrip-chart [ds]
-  (fn []
-    (if ds
-      [vegalite {:spec bar :data {:table (transform ds)}}]
-      [:p "loading data.."])))
+  (if ds
+    [vegalite {:spec bar :data {:table (transform ds)}}]
+    [:p "loading data.."]))

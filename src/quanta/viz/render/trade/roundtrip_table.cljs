@@ -14,7 +14,7 @@
   [cheetah-ds-impl
    {:style {:width "100%" :height "100%"}
     :columns [; bar
-              {:field "asset" :caption "a" :width 90}
+              {:field "asset" :caption "asset" :width 90}
               ;{:field "id" :caption "id" :width 50}
               {:field "side" :caption "side" :width 50}
               {:field "qty" :caption "qty" :width 50}
