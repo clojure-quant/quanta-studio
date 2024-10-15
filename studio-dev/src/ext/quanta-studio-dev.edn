@@ -23,5 +23,5 @@
                             "rtable" quanta.studio.dev.page.render.rtable/page
                             "highstock" quanta.studio.dev.page.render.highstock/page
                             "backtest" quanta.studio.dev.page.render.roundtripmetrics/page
-                            
+                            "backtest-stock" quanta.studio.dev.page.render.roundtripmetrics/page-stock
                             }}}}

@@ -48,7 +48,8 @@
     [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.vega/page] "vega"]
     [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.rtable/page] "rtable"]
     [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.highstock/page] "highstock"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.roundtripmetrics/page] "backtest"]]
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.roundtripmetrics/page] "backtest-report"]
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.roundtripmetrics/page-stock] "stock-future-report"]]
 
 ; reval developer tools
    [:div.bg-blue-300.m-5
