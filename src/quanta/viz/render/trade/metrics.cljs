@@ -13,13 +13,20 @@
       (println "round-numnber-digits exception: " e)
       number)))
 
-(defn metrics-view [{:keys [class style roundtrip nav]
+(defn td-border [& children]
+  (into [:td {:style {:border "1px solid"
+                      :padding "5px"}}]
+        children))
+
+(defn metrics-view [{:keys [class style roundtrip nav opts]
                      :or {class "w-full h-full"
                           style {}}}]
   (let [{:keys [pf all win loss]} roundtrip
         {:keys [equity-final cum-pl fee-total
                 max-drawdown max-drawdown-prct]} nav]
     [:div {:class class :style style}
+     [:div "options"
+      [:p (pr-str opts)]]
      [:table
       [:tr
        [:td "equity final"]
@@ -29,7 +36,7 @@
        [:td (f/nr-format-0-digits  cum-pl)]]
       [:tr
        [:td "max-dd"]
-       [:td (f/nr-format-0-digits max-drawdown) " - " (f/nr-format-0-digits max-drawdown-prct)]]
+       [:td (f/nr-format-0-digits max-drawdown) " prct: " (f/nr-format-0-digits max-drawdown-prct)]]
       [:tr
        [:td "profit factor "]
        [:td pf]]
@@ -38,46 +45,46 @@
        [:td  (f/nr-format-0-digits fee-total)]]]
      [:table
       [:tr
-       [:td {:style {:width "3cm"}} " "]
-       [:td {:style {:min-width "100px"}} "all"]
-       [:td {:style {:width "100px"}} "win"]
-       [:td {:style {:width "100px"}} "loss"]]
+       [td-border [:span {:style {:width "3cm"}} " "]]
+       [td-border [:span {:style {:min-width "100px"}} "all"]]
+       [td-border [:span {:style {:width "100px"}} "win"]]
+       [td-border [:span {:style {:width "100px"}} "loss"]]]
       [:tr
-       [:td "#trades"]
-       [:td (:trades all) [:span {:class "text-blue-500"
-                                  :style {:float "right"}}
-                           (-> all :trade-prct f/nr-format-0-digits)]]
-       [:td (:trades win) [:span {:class "text-blue-500"
-                                  :style {:float "right"}}
-                           (-> win :trade-prct f/nr-format-0-digits)]]
-       [:td (:trades loss) [:span {:class "text-blue-500"
-                                   :style {:float "right"}}
-                            (-> win :trade-prct f/nr-format-0-digits)]]]
+       [td-border "#trades"]
+       [td-border (:trades all) [:span {:class "text-blue-500"
+                                        :style {:float "right"}}
+                                 (-> all :trade-prct f/nr-format-0-digits)]]
+       [td-border (:trades win) [:span {:class "text-blue-500"
+                                        :style {:float "right"}}
+                                 (-> win :trade-prct f/nr-format-0-digits)]]
+       [td-border (:trades loss) [:span {:class "text-blue-500"
+                                         :style {:float "right"}}
+                                  (-> loss :trade-prct f/nr-format-0-digits)]]]
       [:tr
-       [:td "pl"]
-       [:td (-> all :pl f/nr-format-0-digits)]
-       [:td (-> win :pl f/nr-format-0-digits)]
-       [:td (-> loss :pl f/nr-format-0-digits)]]
+       [td-border "pl"]
+       [td-border (-> all :pl f/nr-format-0-digits)]
+       [td-border (-> win :pl f/nr-format-0-digits)]
+       [td-border (-> loss :pl f/nr-format-0-digits)]]
       [:tr
-       [:td "mean pl"]
-       [:td (-> all :pl-mean f/nr-format-auto)]
-       [:td (-> win :pl-mean f/nr-format-auto)]
-       [:td (-> loss :pl-mean f/nr-format-auto)]]
+       [td-border "mean pl"]
+       [td-border (-> all :pl-mean f/nr-format-auto)]
+       [td-border (-> win :pl-mean f/nr-format-auto)]
+       [td-border (-> loss :pl-mean f/nr-format-auto)]]
       [:tr
-       [:td "median pl"]
-       [:td (-> all :pl-median f/nr-format-auto)]
-       [:td (-> win :pl-median f/nr-format-auto)]
-       [:td (-> loss :pl-median f/nr-format-auto)]]
+       [td-border "median pl"]
+       [td-border (-> all :pl-median f/nr-format-auto)]
+       [td-border (-> win :pl-median f/nr-format-auto)]
+       [td-border (-> loss :pl-median f/nr-format-auto)]]
       [:tr
-       [:td "bars avg [total]"]
-       [:td (-> all :bar-avg f/nr-format-0-digits) [:span {:class "text-blue-500"
-                                                           :style {:float "right"}}
-                                                    (str "[" (:bars all) "]")]]
-       [:td (-> win :bar-avg f/nr-format-0-digits)
+       [td-border "bars avg [total]"]
+       [td-border (-> all :bar-avg f/nr-format-0-digits) [:span {:class "text-blue-500"
+                                                                 :style {:float "right"}}
+                                                          (str "[" (:bars all) "]")]]
+       [td-border (-> win :bar-avg f/nr-format-0-digits)
         [:span {:class "text-blue-500"
                 :style {:float "right"}}
          (str "[" (:bars win) "]")]]
-       [:td (-> loss :bar-avg f/nr-format-0-digits)
+       [td-border (-> loss :bar-avg f/nr-format-0-digits)
         [:span {:class "text-blue-500"
                 :style {:float "right"}}
          (str "[" (:bars loss) "]")]]]]]))

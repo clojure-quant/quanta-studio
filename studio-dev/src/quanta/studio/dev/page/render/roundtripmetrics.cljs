@@ -22,9 +22,10 @@
 
 (def opts
   {:intraday? false
-   :style {:height "600px"
-           :width "800px"}
-   :class "bg-red-500"})
+   ;:style {:height "600px"
+   ;        :width "800px"}
+   ;:class "bg-red-500"
+   })
 
 (defn backtest-ui [url]
   (let [data-a (r/atom nil)]

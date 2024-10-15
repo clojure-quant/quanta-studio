@@ -15,13 +15,13 @@
                                        }
                                 class "bg-blue-100"}
                            :as spec}
-                          {:keys [metrics chart roundtrip-ds] :as data}]
+                          {:keys [metrics opts #_chart roundtrip-ds] :as data}]
   ;(println "rountrip table spec: " (:spec rt) " data: " data)
   (with-meta
     [tab {:class class
           :style style}
      "metrics"
-     [metrics-view metrics]
+     [metrics-view (assoc metrics :opts opts)]
      "chart"
      [roundtrip-chart roundtrip-ds]
      ;[vega-lite (:spec chart) (:data chart)]

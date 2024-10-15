@@ -8,6 +8,10 @@
    :description "A simple bar chart with embedded data."
    :height "800"
    :width "1200"
+   :transform [{:calculate "-datum.drawdown_prct" :as "drawdownprct2"}
+    ;{"filter": "datum.b2 > 60"}
+               ]
+
    :vconcat [{:height 500 ; js/null  ; Allows the line chart to take all available space
               :width "1200" ; Makes the line chart full width
               :mark {:type "line"
@@ -22,14 +26,22 @@
               :width "1200" ; Makes the line chart full width
               :mark {:type "bar"
                      :tooltip {:content "data"}}
-              :encoding {:x {:field "exit-date" :type "temporal"}
-                         :y {:field "pl" :type "quantitative"}}}
+              :encoding {:x {:field "exit-date" :type "temporal"
+                             :title "trade-pl"}
+                         :y {:field "pl" :type "quantitative"
+                             :title "trade-pl"}}}
              {:height "100"
               :width "1200" ; Makes the line chart full width
-              :mark {:type "bar"
+              :mark {:type "line"
+                     :interpolate "step-after"
                      :tooltip {:content "data"}}
-              :encoding {:x {:field "exit-date" :type "temporal"}
+              :encoding {:x {:field "exit-date" :type "temporal"
+                             :title "drawdown prct"}
                          :y {:field "drawdown-prct" :type "quantitative"
+                             :title "drawdown prct"
+                             :scale {; "domain": [-1, 4], 
+                                     ;:reverse true ; this crashes.
+                                     }
                              ; todo: drawdown should be shown inverse.
                              }}}]
 
