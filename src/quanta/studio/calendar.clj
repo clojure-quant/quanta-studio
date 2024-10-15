@@ -8,7 +8,7 @@
   (let [cals (for [c [:us :crypto :forex
                       :eu :jp]
                    i [:m :m5 :m15 :h :d]]
-               (gather-calendar c i dt))]
+               (gather-calendar [c i] dt))]
     {:dt dt
      :cals cals}))
 
@@ -25,7 +25,7 @@
   (market-info :crypto)
   (market-info :eu)
 
-  (gather-calendar :crypto :m (t/instant))
+  (gather-calendar [:crypto :m] (t/instant))
 
   (gather-calendars (t/instant))
 
