@@ -15,10 +15,9 @@
                      ;:tooltip true
                      :tooltip {:content "data"}}
               :encoding {:x {:field "exit-date" :type "temporal"}
-                         :y {:field "equity" 
+                         :y {:field "equity"
                              :type "quantitative"
-                             :domain false
-                             }}}
+                             :domain false}}}
              {:height "100"
               :width "1200" ; Makes the line chart full width
               :mark {:type "bar"
