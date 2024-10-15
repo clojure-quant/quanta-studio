@@ -93,16 +93,15 @@
         [header state]]
        [spaces.core/fill
         [spaces.core/left-resizeable {:size 500}
-         [:div.bg-red-500.p-5.m-5
-          #_[:p (pr-str @(:labels-a state))
+         #_[:div.bg-red-500.p-5.m-5
+            [:p (pr-str @(:labels-a state))
              (pr-str @(:options-a state))
              (pr-str @(:result-a state))
-             (pr-str (:template-id @(:result-a state)))]
-          [bruteforce-result-ui @(:result-a state) set-id]]]
+             (pr-str (:template-id @(:result-a state)))]]
+         [bruteforce-result-ui @(:result-a state) set-id]]
         [spaces.core/fill
-         [:div.bg-blue-300
-          [bruteforce-roundtrips (-> state :options-a deref :label)
-           (-> state :id-a deref)]]]]])))
+         [bruteforce-roundtrips (-> state :options-a deref :label)
+          (-> state :id-a deref)]]]])))
 
 (defn page [_route]
   [bruteforce-ui])

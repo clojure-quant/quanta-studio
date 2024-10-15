@@ -10,9 +10,11 @@
 
 (def stats-opts
   {:intraday? false
-   :style {:height "600px"
-           :width "800px"}
-   :class "bg-red-500"})
+   :style {:height "100%"
+           :min-height "100%"
+           :width "100%"
+           :min-width "100%"}
+   :class "bg-blue-100"})
 
 (defn load-backtest [label id backtest-a]
   (let [url (str "/r/bruteforce/" label "/" id "-backtest.transit-json")
@@ -76,14 +78,13 @@
 
 (defn bruteforce-result-ui [{:keys [label template-id calculated algo variations result]}
                             set-id]
-  [:div.flex.flex-col
+  [:div.flex.flex-col.w-full.h-full
    [:div.grid.grid-cols-2
     [:p "label"] [:p label]
     [:p "template-id"] [:p template-id]
     [:p "calculated"] [:p calculated]
     [:p "variations"] [:p (pr-str variations)]
     [:p "result"] [:p (count result)]]
-
    [rtable.rtable/rtable table-opts (make-cols variations set-id) result]])
 
 ;
