@@ -15,10 +15,10 @@
   io.github.clojure-quant/quanta {:mvn/version "0.4.885"}
   io.github.clojure-quant/vector-math {:git/url "https://github.com/clojure-quant/techml.vector-math.git"
                                        :sha "1d6e5d0ef3eba53e2afddb5ca0927385a9f62ece"}
-  io.github.clojure-quant/quanta-market {:mvn/version "0.1.115"}
+  io.github.clojure-quant/quanta-market {:mvn/version "0.1.132"}
   io.github.clojure-quant/quanta-bar-warehouse {:mvn/version "0.1.6"}
   io.github.clojure-quant/quanta-dag-algo {:mvn/version "0.1.10"}
-  io.github.clojure-quant/quanta-trade {:mvn/version "0.1.46"}
+  io.github.clojure-quant/quanta-trade {:mvn/version "0.1.47"}
   ;; used by quanta-studio
   potemkin/potemkin {:mvn/version "0.4.7"} ; api namespace consolidation.
   nano-id/nano-id {:mvn/version "1.1.0"}
