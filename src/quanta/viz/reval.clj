@@ -10,7 +10,7 @@
   ^{:R true}
   [:span.text-green-500
    comment
-   ['quanta.studio.reval.text/text
+   ['quanta.vizs.text/text
     (pprint-str o)]])
 
 (defn text-render
@@ -18,7 +18,7 @@
   ^{:R true}
   [:span.text-blue-500
    comment
-   ['quanta.studio.reval.text/text
+   ['quanta.viz.text/text
     (pr-str o)]])
 
 ;; clojure

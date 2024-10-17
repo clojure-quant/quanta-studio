@@ -1,4 +1,4 @@
-(ns quanta.studio.reval.text
+(ns quanta.viz.text
   (:require
    [clojure.string :as str]))
 

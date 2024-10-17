@@ -2,12 +2,14 @@
   (:require
    [clojure.string :as str]
    [taoensso.timbre :refer [info warn error]]
+   [taoensso.telemere :as tm]
    [de.otto.nom.core :as nom]
    [nano-id.core :refer [nano-id]]
    [tick.core :as t]
    [babashka.fs :as fs]
    [quanta.algo.template :as templ]
    [quanta.studio.template.db :refer [load-with-options]]
+   [quanta.viz.plot.exception :refer [exception]]
    [quanta.viz.plot.anomaly :as plot]))
 
 (defn calculate-init [{:keys [calculate] :as this}]
@@ -55,5 +57,9 @@
          " options: " template-options)
    (let [dt (safe-date dt)
          template (load-with-options this template-id template-options)]
-     (templ/calculate calculate template mode dt) ; task-id
-     )))
+     (try
+       (templ/calculate calculate template mode dt) ; task-id
+       (catch Exception ex
+         (tm/log! (str "dag exception: " ex))
+         (exception (str "template: " template-id " viz: " mode)
+                    ex))))))

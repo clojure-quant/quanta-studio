@@ -3,7 +3,7 @@
    [reagent.core :as r]
    [promesa.core :as p]
    [ajax.promise :refer [GET]]
-   [quanta.studio.reval.text :refer [text]]
+   [quanta.viz.text :refer [text]]
    [ta.viz.lib.ui :refer [link-dispatch link-href]]))
 
 (defn preload-text []
