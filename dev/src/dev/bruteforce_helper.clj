@@ -3,7 +3,7 @@
    [modular.system]
    [clojure.pprint :refer [print-table]]
    [quanta.algo.env.bars]
-   [quanta.studio.bruteforce :as bf]))
+   [quanta.studio.template.bruteforce :as bf]))
 
 (def studio (modular.system/system :studio))
 
@@ -16,15 +16,25 @@
      (select-keys (:all roundtrip) [:trades])
      (select-keys nav  [:cum-pl :max-drawdown-prct]))))
 
-(defn bruteforce [template-id variations]
+(defn bruteforce [{:keys [_template-id _variations _label] :as opts}]
   (time
    (-> (bf/bruteforce
         studio
-        {:template-id template-id
-         :label "demo-bruteforce"
-         :cell-id :backtest
-         :variations variations
-         :target-fn get-pf
-         :show-fn show-fn})
+        (merge
+         {:cell-id :backtest
+          :target-fn get-pf
+          :show-fn show-fn}
+         opts))
        print-table)))
+
+(defn bruteforce-old [opts]
+  (time
+   (let [result (bf/bruteforce
+                 studio
+                 (merge
+                  {:cell-id :backtest-old
+                   :target-fn get-pf
+                   :show-fn show-fn}
+                  opts))]
+     (print-table (:ok result)))))
 

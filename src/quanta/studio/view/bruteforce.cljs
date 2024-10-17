@@ -4,6 +4,7 @@
    [promesa.core :as p]
    [rtable.rtable]
    [cquant.tmlds :refer [GET]]
+   [quanta.viz.render.exception :refer [text]]
    [quanta.viz.render.trade.core :refer [roundtrip-stats-ui]]))
 
 ;; bruteforce roundtrip-ui
@@ -31,19 +32,22 @@
                    (reset! backtest-a nil))))
     nil))
 
-(defn bruteforce-roundtrips [label id]
+(defn bruteforce-roundtrips [label {:keys [id error]}]
   (let [loaded-a (r/atom [nil nil])
         backtest-a (r/atom nil)]
-    (fn [label id]
+    (fn [label {:keys [id error]}]
       (when (and label id
+                 (not error)
                  (not (= [label id] @loaded-a)))
         (println "loading backtest label: " label " id:  " id)
         (load-backtest label id backtest-a)
         (reset! loaded-a [label id])
         nil)
-      (if @backtest-a
-        [roundtrip-stats-ui stats-opts @backtest-a]
-        [:div "label:" label  " id: " id]))))
+      (if error
+        [:div [text error]]
+        (if @backtest-a
+          [roundtrip-stats-ui stats-opts @backtest-a]
+          [:div "label:" label  " id: " id])))))
 
 ;; bruteforce label results
 
@@ -55,28 +59,31 @@
 
 (defn make-render-id  [set-id]
   (fn [col-info row]
-    (let [id (:id row)]
+    (let [id (:id row)
+          error (:error row)]
       [:div
-       [:a {:on-click #(set-id id)}
-  ; font awesome v5
+       [:a {:on-click #(set-id {:id id :error error})}
         [:i {:class "fas fa-eye m-1"}]]
-       [:a {;:on-click 
-            }
-        [:i {:class "far fa-stop-circle m-1"}]]
+
        [:span.text-blue-500 id]])))
 
-(defn make-cols  [variations set-id]
+(defn make-cols  [variation-cols set-id]
   ; :variations [[0 :asset] ["BTCUSDT" "ETHUSDT"] 
   ;              [2 :day :atr-n] [20 50]]
-  [{:path :id :header "id" :render-cell (make-render-id set-id)}
-   ; [0 :asset] "BTCUSDT",
-   ; [2 :day :atr-n] 50,
-   {:path :target}
-   {:path :trades}
-   {:path :cum-pl}
-   {:path :max-dd}])
+  (concat
+   [{:path :id :header "id" :render-cell (make-render-id set-id)}
+    {:path :target}
+    {:path :trades}
+      ; {:path :cum-pl}
+      ; {:path :max-dd}
+    ]
+   (map (fn [path]
+          {:path [path]}) variation-cols)))
 
-(defn bruteforce-result-ui [{:keys [label template-id calculated algo variations result]}
+(defn bruteforce-result-ui [{:keys [label template-id calculated
+                                    algo
+                                    variations variation-cols
+                                    result]}
                             set-id]
   [:div.flex.flex-col.w-full.h-full
    [:div.grid.grid-cols-2
@@ -84,7 +91,8 @@
     [:p "template-id"] [:p template-id]
     [:p "calculated"] [:p calculated]
     [:p "variations"] [:p (pr-str variations)]
+    [:p "variation-cols"] [:p (pr-str variation-cols)]
     [:p "result"] [:p (count result)]]
-   [rtable.rtable/rtable table-opts (make-cols variations set-id) result]])
+   [rtable.rtable/rtable table-opts (make-cols variation-cols set-id) result]])
 
 ;

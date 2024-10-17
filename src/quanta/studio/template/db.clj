@@ -48,11 +48,9 @@
 (defn load-with-options [this template-id options]
   (assert options "options may not be nil")
   (assert (map? options) "options needs to be a map")
-  (let [template (load-template this template-id)
-        template (algo-template/apply-options template options true)]
-    (info "template id: " template-id "load-with-options result" (:algo template))
-    ;(warn "full template: " template)
-    template))
+  (if-let [template (load-template this template-id)]
+    (algo-template/apply-options template options true)
+    (throw (ex-info "template not found" {:template-id template-id}))))
 
 (defn template-info
   "returns the options (what a user can edit) for a template-id"

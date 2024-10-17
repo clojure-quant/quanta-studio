@@ -1,18 +1,25 @@
 (ns dev.bruteforce
   (:require
-   [dev.bruteforce-helper :refer [bruteforce]]))
+   [dev.bruteforce-helper :refer [bruteforce-old]]))
 
-(def variations
-  [[0 :asset] ["BTCUSDT" "ETHUSDT"]
-   [2 :day :atr-n] [20 50]])
+(bruteforce-old
+ {:template-id :bollinger
+  :options {[2 :trailing-n] 20000}
+  :variations {[0 :asset] ["ETHUSDT" "BTCUSDT"]
+               ;[2 :atr-n] [20 50]
+               }})
 
-(bruteforce :bollinger variations)
-;; => nil
+; | [0 :asset] | :trades |             :cum-pl | :max-drawdown-prct |    :id |                :target |
+; |------------+---------+---------------------+--------------------+--------+------------------------|
+; |    BTCUSDT |     191 |           -270000.0 | 270.00000000000006 | GE0_fj | 1.1351841277684315E-15 |
+; |    ETHUSDT |     199 | -316567.26050347753 | 316.56726050347737 | oFSaUu |   7.36203791126886E-16 |
 
-; | [0 :asset] | [2 :day :atr-n] |             :target | :trades |             :cum-pl | :max-drawdown-prct |    :id |
-; |------------+-----------------+---------------------+---------+---------------------+--------------------+--------|
-; |    ETHUSDT |              50 |  -0.332916646516985 |     189 |  -3391.970259526272 |  7.064964609436861 | 2bNMLk |
-; |    ETHUSDT |              20 |  -0.332916646516985 |     189 |  -3391.970259526272 |  7.064964609436861 | dxxKXR |
-; |    BTCUSDT |              50 | -0.3986514403003539 |     178 | -43415.344551893984 |  88.05984120213229 | u5EKqt |
-; |    BTCUSDT |              20 | -0.3986514403003539 |     178 | -43415.344551893984 |  88.05984120213229 | EP4zLZ |
-; "Elapsed time: 12701.029513 msecs"
+;; algo has a exception thrower buit in
+; for eth atr-n 50.
+
+(bruteforce-old
+ {:template-id :bollinger
+  :label "eth-atr-50-exception-test"
+  :options {[2 :trailing-n] 20000}
+  :variations {[0 :asset] ["ETHUSDT" "BTCUSDT"]
+               [2 :atr-n] [20 50]}})

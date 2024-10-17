@@ -48,8 +48,8 @@
                                      ; calculate
                                      'quanta.studio.template.calculate/calculate
                                      ; bruteforce
-                                     'quanta.studio.bruteforce/show-available
-                                     'quanta.studio.bruteforce/load-label
+                                     'quanta.studio.template.bruteforce/show-available
+                                     'quanta.studio.template.bruteforce/load-label
                                      ; task
                                      ;'quanta.studio/start
                                      ;'quanta.studio/stop

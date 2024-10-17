@@ -28,7 +28,7 @@
                    (reset! result-a nil))))))
 
 (defn get-labels [labels-a]
-  (let [rp (clj 'quanta.studio.bruteforce/show-available)]
+  (let [rp (clj 'quanta.studio.template.bruteforce/show-available)]
     (-> rp
         (p/then (fn [labels]
                   (println "get-labels success ")  ; labels
