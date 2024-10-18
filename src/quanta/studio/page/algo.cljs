@@ -4,6 +4,7 @@
    [spaces.core]
    [options.edit :as edit]
    [ta.viz.lib.ui :refer [link-href link-dispatch]]
+   [quanta.studio.view.template-help :refer [show-help]]
    [quanta.studio.view.state :as s]
    [quanta.studio.view.result :refer [result-view]]
    [quanta.studio.view.options :refer [options-ui]]))
@@ -42,6 +43,8 @@
          :options {:spec (template-spec @template-list-a)
                    :class "bg-green-500"}}
         @template-a]
+       [:span {:on-click #(show-help @(:template state))
+               :class "bg-red-300 p-1 m-1 border-round"} "?"]
        ; options for selected template
        [options-ui state]])))
 

@@ -1,6 +1,8 @@
 (ns quanta.studio.template.db
   (:require
    [taoensso.timbre :as log :refer [tracef debug debugf info infof warn error errorf]]
+   [clojure.java.io]
+   [commonmark-hiccup.core :refer [markdown->hiccup]]
    [extension :as ext]
    [quanta.algo.template :as algo-template]))
 
@@ -60,4 +62,19 @@
   (-> (load-template this template-id)
       (algo-template/template-info)))
 
+(defn load-from-resource [filename]
+  (let  [file (-> filename
+                  clojure.java.io/resource
+                  .getFile)]
+    (slurp file)))
 
+(defn template-help [this template-id]
+  (let [template (load-template this template-id)
+        md (:md template)]
+    (cond
+      md
+      (markdown->hiccup (load-from-resource md))
+      template
+      [:div [:p "template does not have markdown file!"]]
+      :else
+      [:div [:p "template not found: " template-id]])))

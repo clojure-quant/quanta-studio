@@ -94,6 +94,7 @@
 
 (def bollinger-template
   {:id :bollinger
+   :md "dev/algo_bollinger.md"
    :algo bollinger-algo
    :options [{:type :select
               :path [0 :asset]

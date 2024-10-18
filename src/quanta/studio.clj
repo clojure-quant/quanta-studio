@@ -45,6 +45,7 @@
                            :symbols [; template
                                      'quanta.studio.template.db/available-templates
                                      'quanta.studio.template.db/template-info
+                                     'quanta.studio.template.db/template-help
                                      ; calculate
                                      'quanta.studio.template.calculate/calculate
                                      ; bruteforce
