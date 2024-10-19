@@ -77,8 +77,7 @@
               :portfolio {:fee 0.1 ; per trade in percent
                           :equity-initial 50000.0}
               :entry {:type :fixed-qty :fixed-qty 1.0}
-              :exit [{:type :trailing-stop-offset :col :atr}
-                     ]}])
+              :exit [{:type :trailing-stop-offset :col :atr}]}])
 
 ;; TEMPLATE
 

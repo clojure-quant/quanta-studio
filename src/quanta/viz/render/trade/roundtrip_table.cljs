@@ -31,7 +31,7 @@
               {:field "exit-idx" :caption "exit-idx" :width 50 :style {:bgColor "#5f5"}}
               {:field "exit-price" :caption "exit-p" :width 50
                :format f/nr-format-auto}
-              {:field "reason" :caption ":reason" :width 90}
+              {:field "exit-reason" :caption "exit-reason" :width 90}
                ; pl
               {:field "pl" :caption "pl" :width 50 :format f/nr-format-0-digits}
               {:field "pl-prct" :caption "pl%" :width 50 :format f/nr-format :format-args ["%.1f"]}
