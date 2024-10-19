@@ -10,6 +10,7 @@
    [quanta.algo.env.bars :refer [get-trailing-bars]]
    [quanta.trade.backtest :refer [backtest]]
    [quanta.trade.backtest2 :as b2]
+   [quanta.viz.plot :as plot]
    [quanta.viz.plot.trade.core :refer [roundtrip-stats-ui]]))
 
 (defn entry-one [long short]
@@ -51,6 +52,11 @@
      :min-mid min-mid
      :diff (- min-mid day-mid)}))
 
+(defn add-positions [opts bar-ds]
+  (->> bar-ds
+       (b2/entry->roundtrips opts)
+       :level-ds))
+
 (def bollinger-algo
   [{:asset "BTCUSDT"} ; this options are global
    :day {:calendar [:crypto :d]
@@ -70,7 +76,7 @@
            :carry-n 2}
    :backtest-old {:formula [:day]
                   :algo backtest
-                  :entry [:fixed-amount 100000]
+                  :entry [:fixed-amount 10000]
                   :exit [:loss-percent 2.0
                          :profit-percent 1.0
                          :time 5]}
@@ -79,10 +85,20 @@
               :portfolio {:fee 0.1 ; per trade in percent
                           :equity-initial 50000.0}
               :entry {:type :fixed-qty :fixed-qty 1.0}
-              :exit [{:type :trailing-stop-offset :col :atr}
-                     {:type :stop-prct :prct 2.0}
-                     {:type :profit-prct :prct 1.0}
-                     {:type :time :max-bars 10}]}])
+              :exit [;{:type :trailing-stop-offset :col :atr}
+                     {:type :stop-prct :prct 5.0}
+                     {:type :profit-prct :prct 8.0}
+                     {:type :time :max-bars 50}]}
+
+   :position {:formula [:day]
+              :algo add-positions
+              :portfolio {:fee 0.1 ; per trade in percent
+                          :equity-initial 50000.0}
+              :entry {:type :fixed-qty :fixed-qty 1.0}
+              :exit [;{:type :trailing-stop-offset :col :atr}
+                     {:type :stop-prct :prct 5.0}
+                     {:type :profit-prct :prct 8.0}
+                     {:type :time :max-bars 50}]}])
 
 ;; TEMPLATE
 
@@ -91,6 +107,45 @@
   {:creator "viz-print"
    :data data
    :viz-opts opts})
+
+(def chart-old
+  {:viz plot/highstock
+   :key :day
+   :viz-options {:chart {:box :fl}
+                 :charts [{:bar :candlestick ; :ohlc
+                           :bollinger-lower {:type :line :color "black"}
+                           :bollinger-upper {:type :line :color "black"}
+                           :entry {:type :flags
+                                   :fillColor "black"
+                                   :width 10
+                                   :height 10
+                                   :v2style {:long "url(/r/quanta/arrow-up.svg)"
+                                             true "url(/r/quanta/arrow-down.svg)" ;"flags
+                                             :short "url(/r/quanta/arrow-down.svg)"}}}
+                          {:atr {:type :line :color "black"}}
+                          {:volume :column}]}})
+
+(def chart
+  {:viz plot/highstock
+   :key :position
+   :viz-options {:chart {:box :fl}
+                 :charts [{:bar :candlestick ; :ohlc
+                           :bollinger-lower {:type :line :color "black"}
+                           :bollinger-upper {:type :line :color "black"}
+                           :entry {:type :flags
+                                   :fillColor "black"
+                                   :width 10
+                                   :height 10
+                                   :v2style {:long "url(/r/quanta/arrow-up.svg)"
+                                             true "url(/r/quanta/arrow-down.svg)" ;"flags
+                                             :short "url(/r/quanta/arrow-down.svg)"}}
+                           :target-profit {:type :point :color "orange"}
+                           :target-loss {:type :point :color "orange"}
+                           ;:target-profit {:type :step :color "orange"}
+                           ;:target-loss {:type :step :color "orange"}
+                           }
+                          {:atr {:type :line :color "black"}}
+                          {:volume :column}]}})
 
 (def bollinger-template
   {:id :bollinger
@@ -104,12 +159,19 @@
               :path [2 :atr-n]
               :name "atr-n"
               :coerce :int}]
+   :backtest-new {:viz roundtrip-stats-ui
+                  :viz-options {}
+                  :key :backtest}
+   :chart-old chart-old
+   :chart-pos chart
+   ;; debug
    :print {:viz viz-print
            :viz-options {:print-mode :simple}
            :key :day}
-   :backtest-raw {:viz viz-print
+   :backtest-edn {:viz viz-print
                   :viz-options {}
                   :key :backtest}
-   :backtest {:viz roundtrip-stats-ui
-              :viz-options {}
-              :key :backtest}})
+
+   :chart-edn {:viz plot/edn
+               :viz-options {}
+               :key :position}})
