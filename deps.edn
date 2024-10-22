@@ -9,8 +9,8 @@
   missionary/missionary {:mvn/version "b.40"} ; reactive framework.
   ; quanta-studio should bring docs.
   org.pinkgorilla/goldly-docs {:mvn/version "0.9.49"}
-  ;org.pinkgorilla/reval {:mvn/version "0.7.163"} already part of docs
-  org.pinkgorilla/docy {:mvn/version "0.0.5"}
+  ;org.pinkgorilla/reval {:mvn/version "0.7.163"} already part of docs 
+  org.pinkgorilla/docy {:mvn/version "0.0.6"}
   commonmark-hiccup/commonmark-hiccup {:mvn/version "0.3.0"} ; markdown to hiccup
   ;; QUANTA LIBS
   io.github.clojure-quant/quanta {:mvn/version "0.4.889"}
