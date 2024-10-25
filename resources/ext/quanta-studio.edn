@@ -1,15 +1,19 @@
 {:name "quanta-studio"
  ; run-time
- :sci-cljs-ns [quanta.studio.page.main
+ :sci-cljs-ns [quanta.viz.text
+               quanta.studio.page.main
                quanta.studio.view.state
                quanta.studio.view.options
                quanta.studio.view.live-result
-               quanta.viz.text
                quanta.studio.page.algo
-               quanta.studio.page.preload]
+               quanta.studio.page.preload
+               quanta.studio.page.layout
+               ]
  :cljs-routes {"quanta" quanta.studio.page.main/main-page
                "quanta/" {"preload" quanta.studio.page.preload/preload-page
                           "algo" quanta.studio.page.algo/algo-page
                           ["algo/" :task-id] quanta.studio.page.algo/algo-task-page
                           "bruteforce" quanta.studio.page.bruteforce/page
-                          "tasks" quanta.studio.page.tasks/tasks-page}}}
+                          "tasks" quanta.studio.page.tasks/tasks-page
+                          "layout" quanta.studio.page.layout/page
+                          }}}

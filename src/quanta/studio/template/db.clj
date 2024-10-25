@@ -62,6 +62,16 @@
   (-> (load-template this template-id)
       (algo-template/template-info)))
 
+(defn templates-info
+  "returns a map with keys being the template-ids, and
+   the vals being the options and edit spec"
+  ; exposed at start of studio
+  [{:keys [templates]}]
+  (->> @templates
+       (map (fn [[id t]]
+              [id (algo-template/template-info t)]))
+       (into {})))
+
 (defn load-from-resource [filename]
   (let  [file (-> filename
                   clojure.java.io/resource

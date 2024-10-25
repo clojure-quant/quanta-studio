@@ -13,6 +13,7 @@
     [link-dispatch [:bidi/goto 'quanta.studio.page.calendar/calendar-page] "calendars"]
     [link-dispatch [:bidi/goto 'quanta.studio.page.preload/preload-page] "preload"]
     [link-dispatch [:bidi/goto 'quanta.studio.page.algo/algo-page] "algo"]
+    [link-dispatch [:bidi/goto 'quanta.studio.page.layout/page] "algo-layout"]
     [link-dispatch [:bidi/goto 'quanta.studio.page.bruteforce/page] "bruteforce"]
     [link-dispatch [:bidi/goto 'quanta.studio.page.tasks/tasks-page] "running tasks"]
 

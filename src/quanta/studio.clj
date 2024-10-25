@@ -44,8 +44,9 @@
                           {:name "quanta-studio"
                            :symbols [; template
                                      'quanta.studio.template.db/available-templates
-                                     'quanta.studio.template.db/template-info
+                                     'quanta.studio.template.db/template-info ; one template
                                      'quanta.studio.template.db/template-help
+                                     'quanta.studio.template.db/templates-info ; all templates
                                      ; calculate
                                      'quanta.studio.template.calculate/calculate
                                      ; bruteforce
