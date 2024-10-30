@@ -3,7 +3,13 @@
    [reagent.core :as r]
    [ui.flexlayout :refer [component-ui get-data]]
    [ui.frisk :refer [frisk]]
-   [re-flow.core :refer [flow-ui]]))
+   [re-flow.core :refer [flow-ui]]
+   [dali.cljviewer :refer [clj-viewer]]))
+
+(defmethod component-ui "help" [{:keys [id]}]
+  (fn [options]
+    [clj-viewer {:fun  'quanta.dali.plot.md/md
+                 :args ["docy/quanta-studio-layout.md"]}]))
 
 (defmethod component-ui "calendar" [{:keys [id]}]
   (fn [options]

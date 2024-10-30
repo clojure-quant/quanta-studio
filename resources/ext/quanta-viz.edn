@@ -2,7 +2,9 @@
  :clj-services {:name "quanta-viz"
                 :permission  #{}
                 :symbols [ta.viz.publish/topic-keys
-                          ta.viz.publish/get-topic]}
+                          ta.viz.publish/get-topic
+                          quanta.dali.plot.md/md
+                          ]}
  :cljs-routes {"publish" ta.viz.page.publish/publish-page}
  :sci-cljs-ns [ta.viz.lib.layout
                ta.viz.lib.ui

@@ -1,5 +1,7 @@
 (ns quanta.studio.page.layout
   (:require
+   [reagent.core :as r]
+   [promesa.core :as p]
    [ui.flexlayout :refer [create-model layout add-node get-data]]
    [goldly.service.core :refer [clj]]
    [quanta.studio.layout.algo] ; side-effects to register components
@@ -15,9 +17,9 @@
             :children [{:type "tabset"
                         :weight 50
                         :children [{:type "tab"
-                                    :name "One"
-                                    :component "url"
-                                    :icon "/r/images/add.svg"
+                                    :name "help"
+                                    :component "help"
+                                    :icon "/r/quanta/question-mark-circle.svg"
                                     :helpText "this tab has helpText defined"
                                     :id "quanta-github"}]}]}
    :borders [{:type "border"
@@ -41,6 +43,17 @@
   (let [data (get-data m)]
     (println "saving layout " @layout-name-a)
     (clj 'quanta.studio.layout.core/save-layout @layout-name-a data)))
+
+(def algo-templates-a (r/atom {}))
+; keys: template-ids
+; vals: {:options :current :views}
+
+(-> (clj 'quanta.studio.template.db/templates-info)
+    (p/then (fn [templates]
+              (println "templates: " (keys templates))
+              (reset! algo-templates-a templates))))
+
+;  quanta.dali.plot.md/md
 
 (defn page [{:keys [route-params query-params handler] :as route}]
   [:div.h-screen.w-screen
