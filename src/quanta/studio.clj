@@ -57,6 +57,8 @@
                                      'quanta.studio.template.bruteforce/load-label
                                      ; layout
                                      'quanta.studio.layout.core/save-layout
+                                     'quanta.studio.layout.core/load-layout
+                                     'quanta.studio.layout.core/files
                                      ; task
                                      ;'quanta.studio/start
                                      ;'quanta.studio/stop
