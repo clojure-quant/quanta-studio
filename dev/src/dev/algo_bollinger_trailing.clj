@@ -8,10 +8,8 @@
    [ta.indicator.signal :refer [cross-up]]
    [quanta.dag.env :refer [log]]
    [quanta.algo.env.bars :refer [get-trailing-bars]]
-   [quanta.trade.backtest :refer [backtest]]
    [quanta.trade.backtest2 :as b2]
-   [quanta.viz.plot :as plot]
-   [quanta.viz.plot.trade.core :refer [roundtrip-stats-ui]]))
+   [quanta.dali.plot :as plot]))
 
 (defn entry-one [long short]
   (cond
@@ -87,11 +85,12 @@
    :data data
    :viz-opts opts})
 
-(def chart-old
-  {:viz plot/highstock
+(def chart-no-position
+  {:viz plot/highstock-ds
    :key :day
    :viz-options {:chart {:box :fl}
-                 :charts [{:bar :candlestick ; :ohlc
+                 :charts [{:bar {:type :ohlc
+                                 :mode :candle}
                            :bollinger-lower {:type :line :color "black"}
                            :bollinger-upper {:type :line :color "black"}
                            :entry {:type :flags
@@ -105,10 +104,11 @@
                           {:volume :column}]}})
 
 (def chart
-  {:viz plot/highstock
+  {:viz plot/highstock-ds
    :key :position
    :viz-options {:chart {:box :fl}
-                 :charts [{:bar :candlestick ; :ohlc
+                 :charts [{:bar {:type :ohlc
+                                 :mode :candle}
                            :bollinger-lower {:type :line :color "black"}
                            :bollinger-upper {:type :line :color "black"}
                            :entry {:type :flags
@@ -138,19 +138,15 @@
               :path [2 :atr-n]
               :name "atr-n"
               :coerce :int}]
-   :backtest-new {:viz roundtrip-stats-ui
+   :backtest-new {:viz plot/backtest-ui-ds
                   :viz-options {}
                   :key :backtest}
-   :chart-old chart-old
-   :chart-pos chart
+   :chart-no-position chart-no-position
+   :chart chart
    ;; debug
-   :print {:viz viz-print
-           :viz-options {:print-mode :simple}
-           :key :day}
-   :backtest-edn {:viz viz-print
-                  :viz-options {}
-                  :key :backtest}
-
-   :chart-edn {:viz plot/edn
-               :viz-options {}
-               :key :position}})
+   :no-ui-print {:viz viz-print
+                 :viz-options {:print-mode :simple}
+                 :key :day}
+   :no-ui-backtest-edn {:viz viz-print
+                        :viz-options {}
+                        :key :backtest}})

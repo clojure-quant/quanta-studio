@@ -1,6 +1,6 @@
 (ns quanta.studio.view.result
   (:require
-   [quanta.viz.render.core :refer [render render-spec]]
+   [dali.viewer :refer [viewer viewer2]]
    [quanta.studio.view.state :refer [get-result-a]]))
 
 (defn error-view [error-message]
@@ -14,6 +14,6 @@
           ;[:p "topic: " (str topic)]
           ;[:p "viz-spec: "  (pr-str result)]
        (if @result-a
-         [render-spec @result-a]
+         [viewer2 @result-a] ; viewer is not updating after the initial render.
          [error-view "result-a has value of nil."])]
       [error-view "result-a has not been initialized."])))

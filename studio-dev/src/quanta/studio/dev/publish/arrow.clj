@@ -1,10 +1,10 @@
 (ns quanta.studio.dev.publish.arrow
   (:require
-   [tech.v3.dataset :as dataset]
+   [tech.v3.dataset :as tds]
    [ta.viz.arrow :as a]))
 
 (def ds1
-  (dataset/->dataset
+  (tds/->dataset
    {:score [11 2 3 99 3 61 32 5 32 54]
     :player ["A" "B" "C" "D" "E" "F" "G" "H" "I" "J"]}))
 

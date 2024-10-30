@@ -4,15 +4,7 @@
                 :symbols [ta.viz.publish/topic-keys
                           ta.viz.publish/get-topic]}
  :cljs-routes {"publish" ta.viz.page.publish/publish-page}
- :sci-cljs-ns [quanta.viz.render.core
-               quanta.viz.render.anomaly
-               quanta.viz.render.edn
-               quanta.viz.render.hiccup
-               quanta.viz.render.highcharts
-               quanta.viz.render.table.rtable
-               quanta.viz.render.table.rtable-resolve
-               quanta.viz.render.vega
-               ta.viz.lib.layout
+ :sci-cljs-ns [ta.viz.lib.layout
                ta.viz.lib.ui
                ta.viz.lib.loader
                ta.viz.lib.column

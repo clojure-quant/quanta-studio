@@ -9,8 +9,9 @@
    [babashka.fs :as fs]
    [quanta.algo.template :as templ]
    [quanta.studio.template.db :refer [load-with-options]]
-   [quanta.viz.plot.exception :refer [exception]]
-   [quanta.viz.plot.anomaly :as plot]))
+   [dali.plot.exception :refer [exception]]
+   [dali.plot.hiccup :refer [hiccup]]
+   [dali.plot.anomaly :as plot]))
 
 (defn calculate-init [{:keys [calculate] :as this}]
   (assert calculate "studio needs :calculate (the dag-env for calculations)")
@@ -47,9 +48,9 @@
 ;; todo .. catch exceptions and wrap viz-anomaly
 
 (defn calculate
-  "this runs a viz-task once and returns the viz-result.
-   output is guaranteed to be always viz-spec format, so
-   possible anomalies are converted to viz-spec"
+  "calculates an algo once
+   returns a dali-spec that can be shown with the dali viewer.
+   Exception or AssertionError will be converted to a dali-spec also. "
   ([this template-id template-options mode dt]
    (calculate this template-id template-options mode dt (nano-id 6)))
   ([{:keys [calculate] :as this} template-id template-options mode dt task-id]
@@ -61,5 +62,10 @@
        (templ/calculate calculate template mode dt) ; task-id
        (catch Exception ex
          (tm/log! (str "dag exception: " ex))
-         (exception (str "template: " template-id " viz: " mode)
-                    ex))))))
+         (exception (str "template: " template-id " viz: " mode) ex))
+       (catch AssertionError ex
+         (tm/log! (str "dag assert error: " ex))
+         #_(hiccup [:div.w-full.h-full.bg-red-300
+                    [:p "assert error"]
+                    [:p (pr-str ex)]])
+         (exception (str "template: " template-id " viz: " mode) ex))))))

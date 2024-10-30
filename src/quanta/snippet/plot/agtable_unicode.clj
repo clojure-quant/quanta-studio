@@ -1,7 +1,7 @@
 (ns quanta.snippet.plot.agtable-unicode
   (:require
    [quanta.snippet.data.random-bars :refer [random-bar-ds]]
-   [quanta.viz.plot :as plot]
+   [quanta.dali.plot :as plot]
    [tablecloth.api :as tc]))
 
 (def ds
@@ -29,7 +29,7 @@ ds
              {:field :open}
              {:field :action}]})
 
-(plot/agtable opts ds)
+(plot/aggrid-ds opts ds)
 
 
 

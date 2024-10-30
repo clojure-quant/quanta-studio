@@ -1,7 +1,7 @@
 (ns quanta.snippet.plot.rtable
   (:require
    [quanta.snippet.data.random-bars :refer [random-bar-ds]]
-   [quanta.viz.plot :as plot]))
+   [quanta.dali.plot :as plot]))
 
 (def ds (random-bar-ds 200))
 

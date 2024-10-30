@@ -22,6 +22,6 @@
                 "/render/" {"vega" quanta.studio.dev.page.render.vega/page
                             "rtable" quanta.studio.dev.page.render.rtable/page
                             "highstock" quanta.studio.dev.page.render.highstock/page
-                            "backtest" quanta.studio.dev.page.render.roundtripmetrics/page
-                            "backtest-stock" quanta.studio.dev.page.render.roundtripmetrics/page-stock
+                            "backtest" quanta.studio.dev.page.render.backtest/page
+                            "backtest-stock" quanta.studio.dev.page.render.backtest/page-stock
                             }}}}

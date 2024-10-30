@@ -6,7 +6,7 @@
   io.github.clojure-quant/quanta-studio-dev {:local/root "../studio-dev" :deps/manifest :deps}
   ;io.github.clojure-quant/algo-demo {:local/root "../../algo-demo" :deps/manifest :deps}
   io.github.clojure-quant/algo-demo {:git/url "https://github.com/clojure-quant/algo-demo.git"
-                                       :sha "8d9f1ee834c077de5df02b7788fadd1d325d33e9"}}
+                                       :sha "de8fde49270449a1ff3799337ce796e851d1a946"}}
  :aliases
  {:quanta-backtest {; usecase: clj -X:quanta:backtest
                     :exec-fn modular.system/start!

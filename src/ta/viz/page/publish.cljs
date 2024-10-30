@@ -4,7 +4,7 @@
    [options.edit :as edit]
    [ta.viz.lib.loader :refer [clj->p]]
    [ta.viz.lib.ui :refer [link-href]]
-   [quanta.viz.render.core :refer [render render-spec]]))
+   [dali.viewer :refer [viewer]]))
 
 (defn keyword->spec [kw]
   {:id  kw
@@ -28,7 +28,7 @@
               ;[:p "raw data:"]
               ;[:p (pr-str (get-in @render-spec-a [:data :data]))]
               ;[:p "ui:"]
-            [render-spec (:data @render-spec-a)]])])
+            [viewer (:data @render-spec-a)]])])
 
 (defn topic-view [topic-kw]
   (let [render-spec-a (clj->p 'ta.viz.publish/get-topic topic-kw)]

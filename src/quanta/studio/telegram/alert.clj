@@ -1,7 +1,7 @@
 (ns quanta.studio.telegram.alert
   (:require
    [tick.core :as t]
-   [quanta.viz.plot.edn :as plot]))
+   [quanta.dali.plot :as plot]))
 
 (defn report-data
   "provides data of the current state of an algo.
@@ -9,10 +9,10 @@
    - algo-opts: the opts from the algo
    - data: optional data to display"
   [algo-opts data]
-  (plot/edn :alert/data
-            {:alert false
-             :opts algo-opts
-             :data data}))
+  (plot/hiccup [:div "algo row"
+                (pr-str {:alert false
+                         :opts algo-opts
+                         :data data})]))
 
 (defn trade-alert
   "creates a trade alert
@@ -20,11 +20,12 @@
    - algo-opts: the opts from the algo
    - data: optional data to display"
   [side algo-opts data]
-  (plot/edn :alert
-            {:alert true
-             :side side
-             :opts algo-opts
-             :data data}))
+  (plot/hiccup [:div "alert"
+                (pr-str
+                 {:alert true
+                  :side side
+                  :opts algo-opts
+                  :data data})]))
 
 (defn alert? [{:keys [data spec]}]
   (= spec :alert))

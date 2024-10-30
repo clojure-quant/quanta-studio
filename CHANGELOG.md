@@ -34,3 +34,13 @@
 2024-10-13
 - quanta.trade new backtest engine
 - sub-projects studio-dev and dev for developers
+
+
+2024-10-29 BREAKING CHANGES
+- dali viewer system for ui
+- quanta.dali.plot now is the only plot namespace you need. (forget quanta.viz)
+- chart-spec highchart 
+  - {:type :ohlc :mode :candle}  type candlestick no longer supported
+  - :chart {:box :fl} is no longer used. Use style and class instead. Default is 100% width/height, so not required to be set.
+
+

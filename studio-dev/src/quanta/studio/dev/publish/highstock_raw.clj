@@ -34,8 +34,7 @@
 (add-data-to-spec {:data data :spec spec})
 
 (def render-spec
-  {:render-fn 'quanta.viz.render.highcharts/highchart
-   :data data
-   :spec spec})
+  {:viewer-fn 'quanta.dali.viewer.highcharts/highchart
+   :data (assoc spec :series data)})
 
 (p/publish nil {:topic :highchart-raw} render-spec)

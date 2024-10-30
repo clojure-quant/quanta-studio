@@ -44,12 +44,11 @@
     ]
 
    [:div.bg-blue-300.m-5
-    [:p.text-blue.text-xl "ui-quanta"]
+    [:p.text-blue.text-xl "dali viewer"]
     [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.vega/page] "vega"]
     [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.rtable/page] "rtable"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.highstock/page] "highstock"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.roundtripmetrics/page] "backtest-report"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.roundtripmetrics/page-stock] "stock-future-report"]]
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.backtest/page] "backtest-report"]
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.backtest/page-stock] "stock-future-report"]]
 
 ; reval developer tools
    [:div.bg-blue-300.m-5

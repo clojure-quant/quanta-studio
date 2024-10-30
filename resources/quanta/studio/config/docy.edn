@@ -24,7 +24,7 @@
         ; calendar
                      ;ta.calendar.core
         ; studio
-                     quanta.viz.plot
+                     quanta.dali.plot
         ; external 
                      tablecloth.api
                      ;fastmath.core

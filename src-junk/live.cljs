@@ -2,9 +2,9 @@
   (:require
    [reagent.core :as r]
    [input]
+   [dali.viewer :refer [viewer]]
    [ta.viz.lib.loader :refer [clj->p]]
    [ta.viz.lib.ui :refer [link-href]]
-   [quanta.viz.render.core :refer [render render-spec]]
    [quanta.studio.view.live-result :refer [viz-result-view]]))
 
 

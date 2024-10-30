@@ -28,7 +28,6 @@
    {:nav 150.0 :index 8}])
 
 (p/publish nil {:topic :demo-vega}
-           {:render-fn 'quanta.viz.render.core.vega/vega-lite
-            :data data
-            :spec spec})
+           {:viewer-fn 'quanta.dali.plot/vega
+            :data (assoc spec :data data)})
 

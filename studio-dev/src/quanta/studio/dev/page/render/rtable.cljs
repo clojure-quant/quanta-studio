@@ -1,6 +1,7 @@
 (ns quanta.studio.dev.page.render.rtable
   (:require
-   [quanta.viz.render.table.rtable :refer [rtable]]))
+   [rtable.viewer.rtable :refer [rtable]]
+   [ta.viz.lib.format :refer [fmt-nodigits]]))
 
 (def spec
   {:class "table-head-fixed padding-sm table-red table-striped table-hover"
@@ -8,10 +9,9 @@
            :height "40vh"
            :border "3px solid green"}
    :columns [{:path :close
-              :format 'ta.viz.lib.format/fmt-nodigits}
+              :format ta.viz.lib.format/fmt-nodigits}
              {:path :sma
-              ;:format (fn [v] (str "#" v))
-              }]})
+              :format (fn [v] (str "#" v))}]})
 
 (def data
   [{:close 10.444 :sma 10}
@@ -23,4 +23,4 @@
 
 (defn page [{:keys [_route-params _query-params _handler] :as _route}]
   [:div.h-screen.w-screen.bg-red-500
-   [rtable spec data]])
+   [rtable (assoc spec :rows data)]])

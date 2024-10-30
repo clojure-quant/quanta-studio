@@ -1,7 +1,7 @@
 (ns ta.viz.publish
   (:require
    [taoensso.timbre :refer [info warn error]]
-   [quanta.viz.plot :as plot]))
+   [quanta.dali.plot :as plot]))
 
 (defonce topics (atom {}))
 
@@ -30,13 +30,13 @@
   (when ds
     (let [cols (:columns spec)]
       (assert cols "publish-dataset needs to have :columns spec")
-      (publish env spec (plot/rtable spec ds)))))
+      (publish env spec (plot/rtable-ds spec ds)))))
 
 (defn publish-ds->highstock [env spec ds]
   (when ds
     (let [cols (:charts spec)]
       (assert cols "publish-dataset needs to have :charts spec")
-      (publish env spec (plot/highstock spec ds)))))
+      (publish env spec (plot/highstock-ds spec ds)))))
 
 
 

@@ -2,7 +2,7 @@
   (:require
    [promesa.core :as p]
    [reagent.core :as r]
-   [tech.v3.dataset :as tmlds]
+   [tech.v3.dataset :as tds]
    [cquant.tmlds :refer [GET]]
    [ui.vega :refer [vegalite]]))
 
@@ -11,7 +11,7 @@
   (let [load-promise (GET url)]
     (-> load-promise
         (p/then (fn [ds]
-                  (println "ds from url " url " loaded successfully. rows: " (tmlds/row-count ds) "cols: " (tmlds/column-names ds))
+                  (println "ds from url " url " loaded successfully. rows: " (tds/row-count ds) "cols: " (tds/column-names ds))
                   ds))
         (p/catch (fn [err]
                    (println "could not load ds from url " url " err: " err))))
@@ -26,7 +26,7 @@
            {:a "I" :b 52} {:a "J" :b 127}]})
 
 (defn transform [ds]
-  (->> (tmlds/rows ds)
+  (->> (tds/rows ds)
        (into [])))
 
 (-> (load-dataset "/r/data/LWhgL6-roundtrips.transit-json")

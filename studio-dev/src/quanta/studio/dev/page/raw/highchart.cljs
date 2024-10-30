@@ -1,7 +1,7 @@
 (ns quanta.studio.dev.page.raw.highchart
   (:require
    [reagent.core :as r]
-   [ui.highcharts :refer [highchart highstock add-annotations add-boost add-debugger]]))
+   [rtable.viewer.highcharts :refer [highstock]]))
 
 ; this is our helper function to assemble a highchart object. it contains
 ; default values that we will use for multiple charts
@@ -63,7 +63,7 @@
 (defn highchart-page [{:keys [_route-params _query-params _handler] :as _route}]
   [:div.bg-blue-300.m-5
    [:p.text-blue.text-xl.bg-yellow-300 "highchart test"]
-   [highchart {:data highchart-spec :box :md}]])
+   [highstock {:data-js (clj->js highchart-spec)}]])
 
 (def highstock-spec
   (assoc highchart-spec
@@ -76,4 +76,4 @@
 (defn highstock-page [{:keys [_route-params _query-params _handler] :as _route}]
   [:div.bg-blue-300.m-5
    [:p.text-blue.text-xl.bg-yellow-300 "highstock test"]
-   [highstock {:data highstock-spec :box :md}]])
+   [highstock {:data-js (clj->js highstock-spec)}]])

@@ -1,7 +1,7 @@
 (ns quanta.snippet.plot.agtable
   (:require
    [quanta.snippet.data.random-bars :refer [random-bar-ds]]
-   [quanta.viz.plot :as plot]))
+   [quanta.dali.plot :as plot]))
 
 (def ds (random-bar-ds 200))
 
@@ -33,7 +33,6 @@
               :resizable true
               :cellStyle {:fontWeight "bold"}}]})
 
-(plot/agtable opts ds)
-
+(plot/aggrid-ds opts ds)
 
 

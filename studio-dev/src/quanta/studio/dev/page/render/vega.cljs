@@ -1,6 +1,6 @@
 (ns quanta.studio.dev.page.render.vega
   (:require
-   [quanta.viz.render.vega :refer [vega-lite]]))
+   [ui.vega :refer [vegalite]]))
 
 (def spec
   {:box :sm
@@ -28,4 +28,4 @@
 
 (defn page [{:keys [_route-params _query-params _handler] :as _route}]
   [:div.h-screen.w-screen.bg-red-500
-   [vega-lite spec data]])
+   [vegalite (assoc spec :data {:values data})]])

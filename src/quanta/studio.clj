@@ -2,15 +2,15 @@
   (:require
    [clojure.string :as str]
    [taoensso.timbre :refer [info warn error]]
+   [taoensso.telemere :as tm]
    [de.otto.nom.core :as nom]
    [nano-id.core :refer [nano-id]]
    [tick.core :as t]
    [babashka.fs :as fs]
    [clj-service.core :refer [expose-functions]]
+   ;[dali.plot.anomaly :as plot]
    [quanta.studio.template.calculate :refer [calculate-init]]
    [quanta.studio.template.db :as template-db]
-   [quanta.viz.plot.anomaly :as plot]
-   [taoensso.telemere :as tm]
    ;[quanta.studio.template.task.core]
    ;
    ))

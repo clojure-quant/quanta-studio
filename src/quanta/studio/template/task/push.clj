@@ -3,7 +3,7 @@
    [de.otto.nom.core :as nom]
    [taoensso.timbre :as log :refer [tracef debug debugf info infof warn error errorf]]
    [modular.ws.core :refer [send-all!]]
-   [quanta.viz.plot.anomaly :as plot]))
+   [quanta.dali.plot :as plot]))
 
 ;; result fns 
 

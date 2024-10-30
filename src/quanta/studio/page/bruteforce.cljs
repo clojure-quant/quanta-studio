@@ -9,7 +9,7 @@
    [goldly.service.core :refer [clj]]
    [ajax.promise :refer [GET]]
    [clojure.edn :refer [read-string]]
-   [quanta.studio.view.bruteforce :refer [bruteforce-result-ui bruteforce-roundtrips]]))
+   [quanta.dali.viewer.bruteforce :refer [bruteforce-result-ui bruteforce-roundtrips]]))
 
 (defn load-label [label result-a]
   (let [url (str "/r/bruteforce/" label ".edn")
@@ -76,14 +76,14 @@
         set-id (fn [id]
                  (when-not (= id @(:id-a state))
                    (reset! (:id-a state) id)))]
-    (get-labels (:labels-a state))
-    (add-watch (:options-a state) :watcher
+    (get-labels (:labels-a state)) ; load label list once on start
+    (add-watch (:options-a state) :watcher ; when label selected, load label data.
                (fn [key atom old-state new-state]
-                 (prn "-- Atom Changed --")
-                 (prn "key" key)
-                 (prn "atom" atom)
-                 (prn "old-state" old-state)
-                 (prn "new-state" new-state)
+                 ;(prn "-- Atom Changed --")
+                 ;(prn "key" key)
+                 ;(prn "atom" atom)
+                 ;(prn "old-state" old-state)
+                 ;(prn "new-state" new-state)
                  (when-let [label (:label new-state)]
                    (println "requesting result for : " label)
                    (load-label label (:result-a state)))))
@@ -105,11 +105,3 @@
 
 (defn page [_route]
   [bruteforce-ui])
-
-(def data [:a 1 :b "xxx"])
-
-(def ddd (pr-str data))
-
-(println "edn as such: " ddd)
-
-(println "parsed edn: " (read-string ddd))
