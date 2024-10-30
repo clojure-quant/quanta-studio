@@ -18,17 +18,17 @@
               :args []
               :render 'quanta.studio.view.calendar/calendar-ui}]))
 
+(def dt-a (r/atom (t/instant)))
+
 (defmethod component-ui "algo" [{:keys [id] :as opts}]
   (fn [options]
     (let [template-id (:template-id options)
           options (dissoc options :template-id)]
-;      calculate template: docy/quanta-studio-layout.md mode:  {[0 :asset] "BTCUSDT", [2 :atr-n] 10} dt:  :chart  options:  :bollinger
-
       [clj-viewer {:fun  'quanta.studio.template.calculate/calculate
                    :args [template-id
                           options
                           :chart ; (get-mode state)
-                          (t/instant)]}]
+                          @dt-a]}]
       #_[:div
          "I am an algo: " (name template-id)
      ;(pr-str opts)
