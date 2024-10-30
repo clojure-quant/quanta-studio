@@ -2,6 +2,7 @@
   (:require
    [reagent.core :as r]
    [promesa.core :as p]
+   [nano-id.core :refer [nano-id]]
    [ui.flexlayout :refer [create-model layout add-node get-data]]
    [goldly.service.core :refer [clj]]
    [quanta.studio.layout.algo] ; side-effects to register components
@@ -20,8 +21,7 @@
                                     :name "help"
                                     :component "help"
                                     :icon "/r/quanta/question-mark-circle.svg"
-                                    :helpText "this tab has helpText defined"
-                                    :id "quanta-github"}]}]}
+                                    :helpText "this tab has helpText defined"}]}]}
    :borders [{:type "border"
               ;:selected 13,
               :size 350
@@ -35,7 +35,7 @@
 
 (def m (create-model
         {:model model-empty
-         :options {"quanta-github" "https://github.com/clojure-quant/algo-alex/issues"}}))
+         :options {}}))
 
 (def layout-name-a (atom nil))
 
@@ -53,7 +53,19 @@
               (println "templates: " (keys templates))
               (reset! algo-templates-a templates))))
 
-;  quanta.dali.plot.md/md
+(defn add-algo [template-id]
+  (when template-id
+    (let [template-id-kw (keyword template-id)
+          {:keys [options current views]} (template-id-kw @algo-templates-a)
+          id (nano-id 5)]
+      (println "adding algo: " template-id " id: " id " current:" current)
+      (add-node m {:component "algo"
+                   ;:icon "/r/images/article.svg",
+                   :name "algo"
+                   :id id
+                   :options (assoc current
+                                   :template-id template-id-kw)
+                   :edit options}))))
 
 (defn page [{:keys [route-params query-params handler] :as route}]
   [:div.h-screen.w-screen
@@ -81,6 +93,15 @@
                             (println "Enter pressed")
                             (save-layout)))}]
 
+    (into [:select {:on-change (fn [e]
+                                 (let [v (-> e .-target .-value)]
+                                   (println "algo selected: " v)
+                                   (add-algo v)
+                                   nil))}
+           [:option {:value nil :selected true} "< add algo >"]]
+          (map (fn [algo-id]
+                 [:option {:value (name algo-id) :selected false} (name algo-id)]) (keys @algo-templates-a)))
+
     [:svg {:fill "none"
            :viewBox "0 0 24 24"
            :stroke-width "1.5"
@@ -94,51 +115,32 @@
              :stroke-linecap "round"
              :stroke-linejoin "round"}]]
 
-    [:button
-     {:on-click #(add-node m {:component "data"
-                              :icon "/r/images/article.svg",
-                              :name "Grid-added"})
-      :style {:border-radius "5px"
-              :border "1px solid lightgray"}}
-     "add data"]
+    [:svg {:fill "none"
+           :viewBox "0 0 24 24"
+           :stroke-width "1.5"
+           :stroke "currentColor"
+           :width "24px"
+           :height "24px"
+           :on-click #(add-node m {:component "data"
+                                   :icon "/r/quanta/bug-ant.svg",
+                                   :name "debugger"})}
+     [:path {:d "M8.478 1.6a.75.75 0 0 1 .273 1.026 3.72 3.72 0 0 0-.425 1.121c.058.058.118.114.18.168A4.491 4.491 0 0 1 12 2.25c1.413 0 2.673.651 3.497 1.668.06-.054.12-.11.178-.167a3.717 3.717 0 0 0-.426-1.125.75.75 0 1 1 1.298-.752 5.22 5.22 0 0 1 .671 2.046.75.75 0 0 1-.187.582c-.241.27-.505.52-.787.749a4.494 4.494 0 0 1 .216 2.1c-.106.792-.753 1.295-1.417 1.403-.182.03-.364.057-.547.081.152.227.273.476.359.742a23.122 23.122 0 0 0 3.832-.803 23.241 23.241 0 0 0-.345-2.634.75.75 0 0 1 1.474-.28c.21 1.115.348 2.256.404 3.418a.75.75 0 0 1-.516.75c-1.527.499-3.119.854-4.76 1.049-.074.38-.22.735-.423 1.05 2.066.209 4.058.672 5.943 1.358a.75.75 0 0 1 .492.75 24.665 24.665 0 0 1-1.189 6.25.75.75 0 0 1-1.425-.47 23.14 23.14 0 0 0 1.077-5.306c-.5-.169-1.009-.32-1.524-.455.068.234.104.484.104.746 0 3.956-2.521 7.5-6 7.5-3.478 0-6-3.544-6-7.5 0-.262.037-.511.104-.746-.514.135-1.022.286-1.522.455.154 1.838.52 3.616 1.077 5.307a.75.75 0 1 1-1.425.468 24.662 24.662 0 0 1-1.19-6.25.75.75 0 0 1 .493-.749 24.586 24.586 0 0 1 4.964-1.24h.01c.321-.046.644-.085.969-.118a2.983 2.983 0 0 1-.424-1.05 24.614 24.614 0 0 1-4.76-1.05.75.75 0 0 1-.516-.75c.057-1.16.194-2.302.405-3.417a.75.75 0 0 1 1.474.28c-.164.862-.28 1.74-.345 2.634 1.237.371 2.517.642 3.832.803.085-.266.207-.515.359-.742a18.698 18.698 0 0 1-.547-.08c-.664-.11-1.311-.612-1.417-1.404a4.535 4.535 0 0 1 .217-2.103 6.788 6.788 0 0 1-.788-.751.75.75 0 0 1-.187-.583 5.22 5.22 0 0 1 .67-2.04.75.75 0 0 1 1.026-.273Z"
+             :stroke-linecap "round"
+             :stroke-linejoin "round"
+             :fill-rule "evenodd"
+             :clip-rule "evenodd"}]]
 
     [:button
      {:on-click #(add-node m {:component "url"
-                              :icon "/r/images/article.svg",
-                              :name "duck"
+                              :name "kibot"
                               :options "https://kibot.com"
-                              :id "duck1"})
+                              :id "kibot"})
       :style {:border-radius "5px"
               :border "1px solid lightgray"}}
      "kibot"]
 
-    [:button
-     {:on-click #(add-node m {:component "algo"
-                              :icon "/r/images/article.svg",
-                              :name "algo1"
-                              :id "algo1"
-                              :options {[0 :asset] "USD/JPY",
-                                        [2 :trailing-n] 120,
-                                        [2 :atr-n] 10,
-                                        [2 :percentile] 70,
-                                        [2 :step] 1.0E-4,
-                                        [4 :max-open-close-over-low-high] 0.3}
-                              :edit [{:type :select
-                                      :path [0 :asset],
-                                      :name "asset",
-                                      :spec
-                                      ["EUR/USD" "USD/CHF" "GBP/USD" "USD/SEK" "USD/NOK" "USD/CAD" "USD/JPY"
-                                       "AUD/USD" "NZD/USD" "USD/MXN" "USD/ZAR" "EUR/JPY" "EUR/CHF" "EUR/GBP" "GBP/JPY"]}
-                                     {:type :select :path [2 :trailing-n], :name "DailyLoad#", :spec [2 5 10 20 30 50 80 100 120 150]}
-                                     {:type :select :path [2 :atr-n], :name "dATR#", :spec [5 10 20 30]}
-                                     {:type :select :path [2 :percentile], :name "dPercentile", :spec [10 20 30 40 50 60 70 80 90]}
-                                     {:type :select :path [2 :step], :name "dStep", :spec [0.001 1.0E-4 4.0E-5]}
-                                     {:type :select :path [4 :max-open-close-over-low-high], :name "doji-co/lh max", :spec [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]}]})
-
-      :style {:border-radius "5px"
-              :border "1px solid lightgray"}}
-     "add algo"]]
-
+    ; end of menu div
+    ]
    [:div {:style {:display "flex"
                   :flex-grow "1"
                   :position "relative"
