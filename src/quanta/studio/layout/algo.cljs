@@ -2,7 +2,14 @@
   (:require
    [reagent.core :as r]
    [ui.flexlayout :refer [component-ui get-data]]
-   [ui.frisk :refer [frisk]]))
+   [ui.frisk :refer [frisk]]
+   [re-flow.core :refer [flow-ui]]))
+
+(defmethod component-ui "calendar" [{:keys [id]}]
+  (fn [options]
+    [flow-ui {:clj 'quanta.studio.calendar/calendar-time
+              :args []
+              :render 'quanta.studio.view.calendar/calendar-ui}]))
 
 (defmethod component-ui "algo" [{:keys [id]}]
   (fn [options]

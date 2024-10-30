@@ -1,6 +1,7 @@
 (ns quanta.studio.page.layout
   (:require
-   [ui.flexlayout :refer [create-model layout add-node]]
+   [ui.flexlayout :refer [create-model layout add-node get-data]]
+   [goldly.service.core :refer [clj]]
    [quanta.studio.layout.algo] ; side-effects to register components
    ))
 
@@ -27,11 +28,19 @@
                           :id "options"
                           :name "Options"
                           :component "option"
+                          :icon "/r/quanta/adjustments-vertical.svg"
                           :enableClose false}]}]})
 
 (def m (create-model
         {:model model-empty
          :options {"quanta-github" "https://github.com/clojure-quant/algo-alex/issues"}}))
+
+(def layout-name-a (atom nil))
+
+(defn save-layout []
+  (let [data (get-data m)]
+    (println "saving layout " @layout-name-a)
+    (clj 'quanta.studio.layout.core/save-layout @layout-name-a data)))
 
 (defn page [{:keys [route-params query-params handler] :as route}]
   [:div.h-screen.w-screen
@@ -42,6 +51,35 @@
           :style {:margin "2px"
                   :display "flex"
                   :align-items "center"}}
+
+    [:input {:type "text"
+             :placeholder "no name"
+             :style {:width "150px"
+                     :min-width "150px"
+                     :max-width "150px"}
+             :on-change (fn [e]
+                          (let [v (-> e .-target .-value)]
+                            (println "textbox value: " v)
+                            (reset! layout-name-a v)))
+             :on-key-up (fn [e]
+                          (println "key-up: " e)
+                          (when (or (= (.-key e) "Enter")
+                                    (= (.-keyCode e) 13))
+                            (println "Enter pressed")
+                            (save-layout)))}]
+
+    [:svg {:fill "none"
+           :viewBox "0 0 24 24"
+           :stroke-width "1.5"
+           :stroke "currentColor"
+           :width "24px"
+           :height "24px"
+           :on-click #(add-node m {:component "calendar"
+                                   :icon "/r/quanta/calendar-days.svg",
+                                   :name "calendar"})}
+     [:path {:d "M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
+             :stroke-linecap "round"
+             :stroke-linejoin "round"}]]
 
     [:button
      {:on-click #(add-node m {:component "data"

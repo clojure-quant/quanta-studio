@@ -1,11 +1,7 @@
 (ns quanta.studio
   (:require
-   [clojure.string :as str]
    [taoensso.timbre :refer [info warn error]]
    [taoensso.telemere :as tm]
-   [de.otto.nom.core :as nom]
-   [nano-id.core :refer [nano-id]]
-   [tick.core :as t]
    [babashka.fs :as fs]
    [clj-service.core :refer [expose-functions]]
    ;[dali.plot.anomaly :as plot]
@@ -19,8 +15,10 @@
   "calculate are the dag opts {:log-dir :env}"
   [{:keys [exts clj role
            calculate
-           bruteforce-dir]
-    :or {bruteforce-dir ".data/public/bruteforce/"}}]
+           bruteforce-dir
+           layout-dir]
+    :or {bruteforce-dir ".data/public/bruteforce/"
+         layout-dir ".data/public/layout/"}}]
   (tm/log! "starting quanta-studio..")
   ;(info "starting quanta-studio..")
   ; this assert fucks up the starting of the clip system
@@ -28,7 +26,8 @@
   (let [this {:templates (atom {})
               :subscriptions-a (atom {})
               :calculate calculate
-              :bruteforce-dir bruteforce-dir}]
+              :bruteforce-dir bruteforce-dir
+              :layout-dir layout-dir}]
     (template-db/add-templates this exts)
     (tm/log! "dag init ..")
     (calculate-init this)
@@ -36,6 +35,10 @@
     (when bruteforce-dir
       (tm/log! (str "ensuring bruteforce-dir: " bruteforce-dir))
       (fs/create-dirs bruteforce-dir))
+
+    (when layout-dir
+      (tm/log! (str "ensuring layout-dir: " layout-dir))
+      (fs/create-dirs layout-dir))
 
     (if clj
       (do
@@ -52,6 +55,8 @@
                                      ; bruteforce
                                      'quanta.studio.template.bruteforce/show-available
                                      'quanta.studio.template.bruteforce/load-label
+                                     ; layout
+                                     'quanta.studio.layout.core/save-layout
                                      ; task
                                      ;'quanta.studio/start
                                      ;'quanta.studio/stop

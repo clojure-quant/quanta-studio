@@ -1,8 +1,5 @@
 (ns quanta.studio.page.calendar
   (:require
-   [reagent.core :as r]
-   [promesa.core :as p]
-   [missionary.core :as m]
    [ta.viz.lib.ui :refer [link-dispatch link-href]]
    [re-flow.core :refer [re-flow flow-ui]]))
 
