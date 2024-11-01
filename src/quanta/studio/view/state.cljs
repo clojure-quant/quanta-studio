@@ -33,9 +33,9 @@
 (defn create-state []
   {:template-list (r/atom [])
    :template (r/atom :no-algo)
-   :options (r/atom {})
-   :current (r/atom {})
-   :views (r/atom [])
+   :edit-a (r/atom [])
+   :current-a (r/atom {})
+   :views-a (r/atom [])
    :task-id (r/atom nil)
    :result (r/atom nil)})
 
@@ -65,14 +65,16 @@
   nil)
 
 (defn get-template-options [state template-id]
-  (let [rp (clj-state-k state :options 'quanta.studio.template.db/template-info  template-id)]
-    (p/then rp (fn [r]
-                 (println "current template-options: " (:current r))
-                 (println "current template-views: " (:views r))
-                 (set-state state :current (:current r))
-                 (set-state state :views (:views r))
-                 (swap! (:current state) assoc :dt (t/instant))))
-
+  (let [rp (clj 'quanta.studio.template.db/template-info template-id)]
+    (p/then rp (fn [{:keys [options current views] :as template-info}]
+                 (println "template info: " template-info)
+                 (let [current (assoc current :dt (str (t/instant)))]
+                   (println "current template-options: " options)
+                   (println "current template-current: " current)
+                   (println "current template-views: " views)
+                   (set-state state :edit-a options)
+                   (set-state state :current-a current)
+                   (set-state state :views-a views))))
     nil))
 
 (defn stop [state]
@@ -81,7 +83,7 @@
     (clj 'quanta.studio/stop task-id)))
 
 (defn get-mode [state]
-  (or (get @(:current state) :mode)
+  (or (get @(:current-a state) :mode)
       :chart))
 
 (defn start [state]
@@ -92,7 +94,7 @@
     ; comes back after the request comes back.
     (let [rp (clj 'quanta.studio/start
                   @(:template state)
-                  @(:current state)
+                  @(:current-a state)
                   (get-mode state)
                   task-id)]
       (-> rp
@@ -106,7 +108,7 @@
 (defn calculate [state]
   ;(unsubscribe state)
   (let [t @(:template state)
-        current @(:current state)
+        current @(:current-a state)
         dt (:dt current)
         current (dissoc current :mode :dt)]
     (println "calculating template: " t

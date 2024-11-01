@@ -3,7 +3,7 @@
    [promesa.core :as p]
    [spaces.core]
    [options.edit :as edit]
-   [ta.viz.lib.ui :refer [link-href link-dispatch]]
+   [ta.viz.lib.ui :refer [link-dispatch]]
    [quanta.studio.view.template-help :refer [show-help]]
    [quanta.studio.view.state :as s]
    [quanta.studio.view.result :refer [result-view]]
@@ -31,13 +31,9 @@
     (fn [state]
       [:div.w-full.h-full.bg-blue-300
        [link-dispatch [:bidi/goto 'quanta.studio.page.main/main-page] "studio"]
-       ;[link-href "/" "main"]
        ; template selector
-       ;[:p "template-selector" (pr-str @template-list-a)]
        [edit/select
         {:set-fn (fn [template-id]
-                   (s/set-state state :current {})
-                   (s/set-state state :options {})
                    (s/set-state state :template template-id)
                    (s/get-template-options state template-id))
          :options {:spec (template-spec @template-list-a)

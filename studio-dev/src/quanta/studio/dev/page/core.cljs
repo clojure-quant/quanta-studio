@@ -29,7 +29,8 @@
     [link-dispatch [:bidi/goto 'quanta.studio.dev.page.layout/page-layout-1] "layout-1"]
     [link-dispatch [:bidi/goto 'quanta.studio.dev.page.layout/page-layout-2] "layout-2"]
     [link-dispatch [:bidi/goto 'quanta.studio.dev.page.color/color-page] "color"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.assetpicker/assetpicker-page] "asset-picker"]]
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.assetpicker/assetpicker-page] "asset-picker"]
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.date/page] "date-scroller"]]
 
    [:div.bg-blue-300.m-5
     [:p.text-blue.text-xl "ui-raw"]

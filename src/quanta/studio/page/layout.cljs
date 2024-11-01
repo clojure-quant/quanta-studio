@@ -5,8 +5,8 @@
    [nano-id.core :refer [nano-id]]
    [ui.flexlayout :refer [create-model layout add-node get-data]]
    [goldly.service.core :refer [clj]]
-   [quanta.studio.layout.algo] ; side-effects to register components
-   ))
+   [quanta.studio.layout.algo :refer [dt-a]] ; side-effects to register components are also needed.
+   [quanta.studio.view.date :refer [dt-scroller]]))
 
 (def model-empty
   {:global {:tabEnableRename true
@@ -118,6 +118,9 @@
                                  (let [v (-> e .-target .-value)]
                                    (println "algo selected: " v)
                                    (add-algo v)
+                                   (println "setting index to 0")
+                                   ;(set! (.zzz js/window) e)
+                                   (set! (-> e .-target .-selectedIndex) "0")
                                    nil))}
            [:option {:value nil :selected true} "< add algo >"]]
           (map (fn [algo-id]
@@ -159,6 +162,8 @@
       :style {:border-radius "5px"
               :border "1px solid lightgray"}}
      "kibot"]
+
+    [dt-scroller dt-a]
 
     ; end of menu div
     ]

@@ -9,6 +9,7 @@
  :cljs-routes {"quanta/dev"
                {"" quanta.studio.dev.page.core/dev-page
                 "/color" quanta.studio.dev.page.color/color-page
+                "/date" quanta.studio.dev.page.date/page
                 "/layout1" quanta.studio.dev.page.layout/page-layout-1
                 "/layout2" quanta.studio.dev.page.layout/page-layout-2
                 "/assetpicker" quanta.studio.dev.page.assetpicker/assetpicker-page
