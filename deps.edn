@@ -39,7 +39,7 @@
                "--indents" "cljfmt.edn"
                "check"
                "./src"
-               "./studio-dev/src"
+               "./dev-plot/src"
                "./dev/src"
                ]}
 
@@ -49,7 +49,7 @@
                "--indents" "cljfmt.edn"
                "fix"
                "./src"
-               "./studio-dev/src"
+               "./dev-plot/src"
                "./dev/src"
                ]}
 
@@ -61,7 +61,7 @@
                "--fail-level" "error"
                "--lint"
                "./src"
-               "./studio-dev/src"
+               "./dev-plot/src"
                ]}
 
   :check
