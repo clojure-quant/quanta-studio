@@ -61,4 +61,10 @@
   - no longer needed: :chart {:box :fl}
                  
 
-
+2024-11-03 BREAKING CHANGES TEMPLATE TOPOLOGY
+- change [] to {}
+- add :* key for global options
+- Making this changes is REALLY FAST. 
+- Negative side: single algo needs {:algo {xxx}} (or whatever name you want to put) instead of {xxx}
+- Of course, it requires the Template Option Paths to be adjusted, but they become much easier 
+  to reason about, which was the reason for this change.

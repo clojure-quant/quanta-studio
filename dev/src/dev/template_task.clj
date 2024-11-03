@@ -1,4 +1,4 @@
-(ns quanta.dev.studio-template
+(ns dev.template-task
   (:require
    [clojure.pprint :refer [print-table]]
    [modular.system]

@@ -6,10 +6,12 @@
   io.github.clojure-quant/studio-dev-plot {:local/root "../dev-plot" :deps/manifest :deps}
   ;io.github.clojure-quant/algo-demo {:local/root "../../algo-demo" :deps/manifest :deps}
   io.github.clojure-quant/algo-demo {:git/url "https://github.com/clojure-quant/algo-demo.git"
-                                       :sha "e2cbd77c62312f055be065529f782e9667e3ac46"}
+                                       :sha "bd8cba69aa2305ed51f3b807d682abf714f6339a"}
   ;io.github.clojure-quant/algo-astro {:local/root "../../algo-astro" :deps/manifest :deps}
   io.github.clojure-quant/algo-astro {:git/url "https://github.com/clojure-quant/algo-astro.git"
-                                     :sha "699cc5afbc04b2aa1cd3bee10684106fa1ded238"}}
+                                     :sha "cea627176b87a419454caa03a5510e64e495c7c6"}
+  
+  }
  :aliases
  {:quanta-backtest {; usecase: clj -X:quanta:backtest
                     :exec-fn modular.system/start!

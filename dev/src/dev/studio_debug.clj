@@ -1,4 +1,4 @@
-(ns quanta.notebook.studio-debug
+(ns dev.studio-debug
   (:require
    [tablecloth.api :as tc]
    [tech.v3.dataset.print :refer [print-range]]

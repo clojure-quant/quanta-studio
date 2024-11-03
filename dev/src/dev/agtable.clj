@@ -1,4 +1,4 @@
-(ns quanta.dev.agtable
+(ns dev.agtable
   (:require
    [nano-id.core :refer [nano-id]]
    [tech.v3.io :as io]

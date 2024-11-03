@@ -3,14 +3,12 @@
    [clojure.string :as str]
    [taoensso.timbre :refer [info warn error]]
    [taoensso.telemere :as tm]
-   [de.otto.nom.core :as nom]
    [nano-id.core :refer [nano-id]]
    [tick.core :as t]
    [babashka.fs :as fs]
    [quanta.algo.template :as templ]
    [quanta.studio.template.db :refer [load-with-options]]
    [dali.plot.exception :refer [exception]]
-   [dali.plot.hiccup :refer [hiccup]]
    [dali.plot.anomaly :as plot]))
 
 (defn calculate-init [{:keys [calculate] :as this}]

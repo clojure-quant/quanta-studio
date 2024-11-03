@@ -55,7 +55,7 @@
        :level-ds))
 
 (def bollinger-algo
-  [{:asset "BTCUSDT"} ; this options are global
+  {:* {:asset "BTCUSDT"} ; this options are global
    :bars-day {:calendar [:crypto :d]
               :fn get-trailing-bars
               :bardb :nippy
@@ -96,7 +96,7 @@
               :exit [;{:type :trailing-stop-offset :col :atr}
                      {:type :stop-prct :prct 5.0}
                      {:type :profit-prct :prct 8.0}
-                     {:type :time :max-bars 50}]}])
+                     {:type :time :max-bars 50}]}})
 
 ;; TEMPLATE
 
@@ -148,11 +148,11 @@
    :md "dev/algo_bollinger.md"
    :algo bollinger-algo
    :options [{:type :select
-              :path [0 :asset]
+              :path [:* :asset]
               :name "asset"
               :spec ["BTCUSDT" "ETHUSDT"]}
              {:type :string
-              :path [4 :atr-n]
+              :path [:day :atr-n]
               :name "atr-n"
               :coerce :int}]
    :backtest-new {:viz plot/backtest-ui-ds

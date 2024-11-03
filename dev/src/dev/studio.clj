@@ -1,4 +1,4 @@
-(ns quanta.notebook.studio
+(ns dev.studio
   (:require
    [quanta.template.template-db :refer [get-options]]
    [quanta.studio.template.task.push :as sub]))
