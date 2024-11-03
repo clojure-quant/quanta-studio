@@ -44,3 +44,21 @@
   - :chart {:box :fl} is no longer used. Use style and class instead. Default is 100% width/height, so not required to be set.
 
 
+2024-11-03 BREAKING CHANGES
+- ns quanta.bar.env  was formerly called quanta.studio.bar.env 
+- get-bars in template always needs to be separate because it is now async.
+- ALGO:
+  - in the template :algo stays (might get renamed to :cells)
+  - algo-spec: :algo -> :fn
+- algo-env: needs to be defined as keyword
+  SERVICES.edn - STUDIO
+- LOGGING in ALGOS:
+  - log now requires ENV to be passed.
+  - so algos that want to log need to have (fn [env opts & args])
+    in template add :env? true
+- PLOT SPEC highchart-ds 
+  - for candles:  :bar {:type :ohlc :mode :candle}
+  - no longer needed: :chart {:box :fl}
+                 
+
+

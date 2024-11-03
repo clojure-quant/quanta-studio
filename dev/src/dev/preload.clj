@@ -2,49 +2,65 @@
   (:require
    [tick.core :as t]
    [babashka.fs :as fs]
+   [missionary.core :as m]
    [clojure.pprint :refer [print-table]]
-   [quanta.studio.bars.preload :refer [import-bars]]))
+   [modular.system]
+   [quanta.bar.preload :refer [import-bars]]))
+
+(def s (modular.system/system :bar-engine))
+
+s
 
 (def assets ["BTCUSDT"
              "ETHUSDT"])
 
+(m/?
+ (import-bars s {:asset assets
+                 :calendar [:crypto :d]
+                 ;:import :bybit-parallel
+                 :import :bybit
+                 :to :nippy
+                 :window {:start (t/instant "2018-01-01T00:00:00Z")
+                          :end (t/instant)}
+                 :label "crypto d"}))
+
 (defn import-d [end-dt]
-  (import-bars {:asset assets
-                :calendar [:crypto :d]
+  (import-bars s {:asset assets
+                  :calendar [:crypto :d]
                 ;:import :bybit-parallel
-                :import :bybit
-                :to :nippy
-                :window {:start (t/instant "2018-01-01T00:00:00Z")
-                         :end end-dt}
-                :label "crypto d"}))
+                  :import :bybit
+                  :to :nippy
+                  :window {:start (t/instant "2018-01-01T00:00:00Z")
+                           :end end-dt}
+                  :label "crypto d"}))
 
 (defn import-1h [end-dt]
-  (import-bars {:asset assets
-                :calendar [:crypto :h]
-                :import :bybit-parallel
-                :to :nippy
-                :window {:start (t/instant "2024-01-01T00:00:00Z")
-                         :end end-dt}
-                :label "crypto 1h"}))
+  (import-bars s {:asset assets
+                  :calendar [:crypto :h]
+                  :import :bybit-parallel
+                  :to :nippy
+                  :window {:start (t/instant "2024-01-01T00:00:00Z")
+                           :end end-dt}
+                  :label "crypto 1h"}))
 
 (defn import-1m [end-dt]
-  (import-bars {:asset assets
-                :calendar [:crypto :m]
-                :import :bybit-parallel
-                :to :nippy
-                :window {:start (t/instant "2024-01-01T00:00:00Z")
-                         :end end-dt}
-                :label "crypto 1min"}))
+  (import-bars s {:asset assets
+                  :calendar [:crypto :m]
+                  :import :bybit-parallel
+                  :to :nippy
+                  :window {:start (t/instant "2024-01-01T00:00:00Z")
+                           :end end-dt}
+                  :label "crypto 1min"}))
 
 (defn import-5m [end-dt]
-  (import-bars {:asset assets
-                :calendar [:crypto :m5]
-                :bardb :nippy
-                :transform :compress
-                :to :nippy
-                :window {:start (t/instant "2024-01-01T00:00:00Z")
-                         :end end-dt}
-                :label "crypto 5min"}))
+  (import-bars s {:asset assets
+                  :calendar [:crypto :m5]
+                  :bardb :nippy
+                  :transform :compress
+                  :to :nippy
+                  :window {:start (t/instant "2024-01-01T00:00:00Z")
+                           :end end-dt}
+                  :label "crypto 5min"}))
 
 (defn report [summary label]
   (with-out-str

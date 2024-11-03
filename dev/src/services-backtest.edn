@@ -54,7 +54,7 @@
   :nippy {:start (ta.db.bars.nippy/start-bardb-nippy ".data/nippy/")}
 
   :bar-engine {; this is the only bardb service that you need.
-                 ; it allows to use any imaginable bardb source.
+               ; it allows to use any imaginable bardb source.
                :start (quanta.bar.engine/start-bar-engine
                        {:bardb {:nippy (clip/ref :nippy)}
                         :import {:bybit (quanta.market.barimport.bybit.import/create-import-bybit)
@@ -80,14 +80,12 @@
                                                 })
                                     :shuffle (quanta.bar.transform.shuffle/start-transform-shuffle)}})}
 
-  :bar-engine-sync {:start (quanta.bar.engine/create-engine-sync (clip/ref :bar-engine))}
-
   :studio {:start (quanta.studio/start-studio
                    {:exts (clip/ref :exts)
                     :clj (clip/ref :clj-service)
                     :role nil
                     :calculate {:log-dir ".data/calc/"
-                                :env  {quanta.algo.env.bars/*bar-db* (clip/ref :bar-engine-sync)}}})}
+                                :env  {:bar-db (clip/ref :bar-engine)}}})}
 
 ;
   }}

@@ -8,6 +8,9 @@
 
 ;; calculate
 
+(calculate s :bollinger {} :no-ui-bars (t/instant))
+(calculate s :bollinger {} :chart-no-position (t/instant))
+
 (calculate s :bollinger {} :print (t/instant))
 (calculate s :bollinger {} :backtest-raw (t/instant))
 
