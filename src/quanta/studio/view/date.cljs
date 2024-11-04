@@ -1,6 +1,7 @@
 (ns quanta.studio.view.date
   (:require
-   [tick.core :as t]))
+   [tick.core :as t]
+   [tick.editor :refer [instant-editor]]))
 
 (def day1 (t/new-duration 1 :days))
 
@@ -29,6 +30,7 @@
 (defn dt-scroller [dt-a]
   [:div
    [:span (str @dt-a)]
+   [instant-editor {:instant-a dt-a}]
    [:button.m-1.border.border-round {:on-click #(swap! dt-a move-back-day)} "<D"]
    [:button.m-1.border.border-round {:on-click #(swap! dt-a move-forward-day)} "D>"]
    [:button.m-1.border.border-round {:on-click #(swap! dt-a move-back-week)} "<W"]

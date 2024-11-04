@@ -19,7 +19,7 @@
               :args []
               :render 'quanta.studio.view.calendar/calendar-ui}]))
 
-(def dt-a (r/atom (t/instant)))
+(def dt-a (r/atom (-> (t/instant) (t/truncate :seconds))))
 
 (defmethod component-ui "algo1" [{:keys [id] :as opts}]
   (fn [options]
