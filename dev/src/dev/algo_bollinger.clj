@@ -1,5 +1,6 @@
 (ns dev.algo-bollinger
   (:require
+   [missionary.core :as m]
    [taoensso.telemere :as tm]
    [tech.v3.datatype :as dtype]
    [tablecloth.api :as tc]
@@ -17,6 +18,16 @@
     long :long
     short :short
     :else :flat))
+
+(defn get-trailing-bars-window [env opts dt]
+  (m/sp
+   (if-let [width (get-in opts [:window :width])]
+     (let [trailing-n (min 80 (int (/ width 10)))]
+       (log env "trailing window!" (str "window width:" width " trailing# " trailing-n))
+       (m/? (get-trailing-bars env (assoc opts :trailing-n trailing-n) dt)))
+     (do
+       (log env "trailing window-no-width" opts)
+       (m/? (get-trailing-bars env opts dt))))))
 
 (defn bollinger-calc [env opts bar-ds]
   (when (and (= (:asset opts) "ETHUSDT")
@@ -57,7 +68,7 @@
 (def bollinger-algo
   {:* {:asset "BTCUSDT"} ; this options are global
    :bars-day {:calendar [:crypto :d]
-              :fn get-trailing-bars
+              :fn get-trailing-bars-window
               :bardb :nippy
               :trailing-n 1100}
    :day {:formula [:bars-day]
@@ -66,7 +77,7 @@
          :atr-n 10
          :atr-k 0.6}
    :bars-min {:calendar [:crypto :m]
-              :fn get-trailing-bars
+              :fn get-trailing-bars-window
               :bardb :nippy
               :trailing-n 20   ; on top of its own local options      
               }
