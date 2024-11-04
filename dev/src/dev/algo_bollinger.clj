@@ -8,7 +8,7 @@
    [ta.indicator.band :as band]
    [ta.indicator.signal :refer [cross-up]]
    [quanta.dag.env :refer [log]]
-   [quanta.bar.env :refer [get-trailing-bars]]
+   [quanta.bar.env :refer [get-trailing-bars get-trailing-bars-window]]
    [quanta.trade.backtest :refer [backtest]]
    [quanta.trade.backtest2 :as b2]
    [quanta.dali.plot :as plot]))
@@ -18,16 +18,6 @@
     long :long
     short :short
     :else :flat))
-
-(defn get-trailing-bars-window [env opts dt]
-  (m/sp
-   (if-let [width (get-in opts [:window :width])]
-     (let [trailing-n (min 80 (int (/ width 10)))]
-       (log env "trailing window!" (str "window width:" width " trailing# " trailing-n))
-       (m/? (get-trailing-bars env (assoc opts :trailing-n trailing-n) dt)))
-     (do
-       (log env "trailing window-no-width" opts)
-       (m/? (get-trailing-bars env opts dt))))))
 
 (defn bollinger-calc [env opts bar-ds]
   (when (and (= (:asset opts) "ETHUSDT")
