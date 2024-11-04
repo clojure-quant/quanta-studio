@@ -8,7 +8,8 @@
 (defn load-from-resource [filename]
   (let  [file (-> filename
                   clojure.java.io/resource
-                  .getFile)]
+                  ;.getFile
+                  )]
     (slurp file)))
 
 (defn md [resource-filename]
