@@ -5,7 +5,8 @@
    [ui.flexlayout :refer [component-ui get-data]]
    [ui.frisk :refer [frisk]]
    [re-flow.core :refer [flow-ui]]
-   [dali.cljviewer :refer [clj-viewer]]))
+   [dali.cljviewer :refer [clj-viewer]]
+   [dali.container :refer [container-dimension]]))
 
 (defmethod component-ui "help" [{:keys [id]}]
   (fn [options]
@@ -20,7 +21,7 @@
 
 (def dt-a (r/atom (t/instant)))
 
-(defmethod component-ui "algo" [{:keys [id] :as opts}]
+(defmethod component-ui "algo1" [{:keys [id] :as opts}]
   (fn [options]
     (let [template-id (:template-id options)
           options (dissoc options :template-id)]
@@ -53,3 +54,27 @@
        ;(pr-str @data-a)
        [:hr]
        [frisk @data-a]])))
+
+(defmethod component-ui "algo" [{:keys [id] :as opts}]
+  (let [window-a (r/atom nil)]
+    (fn [options]
+      (let [template-id (:template-id options)
+            options (dissoc options :template-id)]
+        [:div.w-full.h-full
+         [container-dimension
+          {:window-a window-a}]
+         (when @window-a
+           (println "running clj opts:" options " window:" @window-a)
+           [clj-viewer {:fun  'quanta.studio.template.calculate/calculate
+                        :args [template-id
+                               (assoc options [:* :window] @window-a)
+                               :chart ; (get-mode state)
+                               @dt-a]}])]
+        #_[:div
+           "I am an algo: " (name template-id)
+     ;(pr-str opts)
+           [:br]
+           "options"
+           [:br]
+           (pr-str options)]))))
+
