@@ -68,3 +68,8 @@
 - Negative side: single algo needs {:algo {xxx}} (or whatever name you want to put) instead of {xxx}
 - Of course, it requires the Template Option Paths to be adjusted, but they become much easier 
   to reason about, which was the reason for this change.
+
+2024-11-06 OPTIONS-UI
+- create a group of options with: {:type :label  :name "v2"}
+- overflowing label is cut off, multiple lines are not allowed
+- BREAKING-CHANGE: studio-env needs key :dali-store
