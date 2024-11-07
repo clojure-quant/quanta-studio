@@ -2,7 +2,8 @@
   (:require
    [taoensso.telemere :as tm]
    [tablecloth.api :as tc]
-   [tech.v3.io :as io]))
+   [tech.v3.io :as io])
+  (:import (java.io ByteArrayOutputStream ByteArrayInputStream)))
 
 (defn save-ds [filename ds]
   (let [s (io/gzip-output-stream! filename)]
@@ -13,10 +14,34 @@
         ds (io/get-nippy s)]
     ds))
 
+#_(defn sanitize-ds [ds]
+    ; this version must have a conflict if two proceses read/write to the temparary file at the same time.
+    (tm/log! (str "sanitizing ds: " ds))
+    (let [filename "/tmp/ds-safe.nippy.gz"]
+      (save-ds filename ds)
+      (load-ds filename)))
+
 (defn sanitize-ds [ds]
-  (tm/log! (str "sanitizing ds: " ds))
-  (let [filename "/tmp/ds-safe.nippy.gz"]
-    (save-ds filename ds)
-    (load-ds filename)))
+  (let [s (ByteArrayOutputStream.)]
+    (io/put-nippy! s ds)
+    (let [bb (.toByteArray s)
+          s (ByteArrayInputStream. bb)]
+      (io/get-nippy s))))
 
 ;  java.lang.RuntimeException: java.lang.Exception: Not supported: class tech.v3.datatype.unary_op$eval13921$fn$reify__13965
+
+(comment
+  (def d (tc/dataset {:a [1 2 34]}))
+  d
+   ;; => _unnamed [3 1]:
+   ;;    
+   ;;    | :a |
+   ;;    |---:|
+   ;;    |  1 |
+   ;;    |  2 |
+   ;;    | 34 |
+  (sanitize-ds d)
+
+;  
+  )
+
