@@ -52,9 +52,10 @@
   ([this template-id template-options mode dt]
    (calculate this template-id template-options mode dt (nano-id 6)))
   ([{:keys [calculate] :as this} template-id template-options mode dt task-id]
-   (info "calculate template:" template-id "mode: " mode "dt: " dt
-         " options: " template-options)
    (let [dt (safe-date dt)
+         template-options (dissoc template-options nil) ; quick hack for options-ui with label
+         _ (info "calculate template:" template-id "mode: " mode "dt: " dt
+                 " options: " template-options)
          template (load-with-options this template-id template-options)]
      (try
        (templ/calculate calculate template mode dt) ; task-id

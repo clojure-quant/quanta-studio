@@ -152,6 +152,7 @@
               :path [:* :asset]
               :name "asset"
               :spec ["BTCUSDT" "ETHUSDT"]}
+             {:type :label  :name "asset-cal"}
              {:type :string
               :path [:day :atr-n]
               :name "atr-n"
