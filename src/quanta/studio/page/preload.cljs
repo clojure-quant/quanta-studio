@@ -3,8 +3,8 @@
    [reagent.core :as r]
    [promesa.core :as p]
    [ajax.promise :refer [GET]]
-   [quanta.viz.text :refer [text]]
-   [ta.viz.lib.ui :refer [link-dispatch link-href]]))
+   [dali.viewer.text :refer [text]]
+   [quanta.studio.lib.link :refer [link-dispatch link-href]]))
 
 (defn preload-text []
   (let [text-a (r/atom "")
@@ -15,7 +15,7 @@
         (p/catch (fn [err]
                    (reset! text-a "lo preload report found."))))
     (fn []
-      [text @text-a])))
+      [text {:text @text-a}])))
 
 (defn preload-page [{:keys [_route-params _query-params _handler] :as _route}]
   [:div

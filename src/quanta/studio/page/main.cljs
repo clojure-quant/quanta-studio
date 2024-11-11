@@ -1,6 +1,6 @@
 (ns quanta.studio.page.main
   (:require
-   [ta.viz.lib.ui :refer [link-dispatch link-href]]))
+   [quanta.studio.lib.link :refer [link-dispatch link-href]]))
 
 ; main page 
 

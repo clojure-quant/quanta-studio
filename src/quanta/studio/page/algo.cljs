@@ -3,7 +3,7 @@
    [promesa.core :as p]
    [spaces.core]
    [options.edit :as edit]
-   [ta.viz.lib.ui :refer [link-dispatch]]
+   [quanta.studio.lib.link :refer [link-dispatch]]
    [quanta.studio.view.template-help :refer [show-help]]
    [quanta.studio.view.state :as s]
    [quanta.studio.view.result :refer [result-view]]

@@ -8,7 +8,7 @@
    [ta.tradingview.goldly.interact :refer [tv-widget-atom]]
    [ta.tradingview.goldly.interact2 :refer [set-symbol chart-active wrap-chart-ready add-shape]]
    [ta.tradingview.goldly.view.aggrid :refer [study-table]]
-   [ta.viz.lib.ui :refer [link-href]]
+   [quanta.studio.lib.link :refer [link-href]]
    [ta.viz.trade-metrics.backtest :refer [navs-chart navs-view roundtrips-view metrics-view]]))
 
 (defonce algo-state

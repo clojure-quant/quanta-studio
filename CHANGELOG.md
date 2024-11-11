@@ -73,3 +73,9 @@
 - create a group of options with: {:type :label  :name "v2"}
 - overflowing label is cut off, multiple lines are not allowed
 - BREAKING-CHANGE: studio-env needs key :dali-store
+
+2024-11-11 REVAL-DALI
+- reval now uses with dali.
+- reval service and reval config setup has a BREAKING CHANGE,
+  but it is solved with copy-paste of reval-config and reval-service.
+

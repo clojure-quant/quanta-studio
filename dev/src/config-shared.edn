@@ -19,11 +19,13 @@
                                     :path ".data/quanta.log"
                                     :pattern :monthly}}}
 
- :reval {:rdocument  {:storage-root "target/webly/public/rdocument/"
-                      :url-root "/api/rdocument/file/"}
-         :collections {:study [:clj "quanta/notebook/study/"]
-                       :quanta-docs [:clj "quanta/notebook/docs/"]
-                       ;:quanta-ui [:cljs "quanta/notebook/viz/"]
+ :reval  {:rdocument  {:fpath ".reval/public/rdocument"
+                      :rpath "/r/rdocument"}
+         :collections {:study {:clj "quanta/notebook/study/"}
+                       :quanta-docs {:clj "quanta/notebook/docs/"}
+                       :demo {:clj "demo/notebook/" ; embedded notebooks in jars.
+                              :cljs "demo/notebook/"}}}
+  ;:quanta-ui [:cljs "quanta/notebook/viz/"]
                        ;:ui [:cljs "demo/goldly/ui_test/"]
                        ;:dev [:clj "quanta/notebook/dev/"] 
                        ;:demo [:clj "demo/notebook/"]
@@ -32,8 +34,7 @@
                        ;; we need to move them gradually to docs 
                        ;; reason for this is because some notebooks are resetting the db,
                        ;; and some of the notebooks take a long time to eval.
-                       }}
-
+ 
  :keybindings [{:kb "alt-g k",
                 :handler [:palette/show],
                 :desc "Keybindings dialog"}

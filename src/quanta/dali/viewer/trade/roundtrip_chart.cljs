@@ -1,7 +1,7 @@
 (ns quanta.dali.viewer.trade.roundtrip-chart
   (:require
    [tech.v3.dataset :as tds]
-   [ui.vega :refer [vegalite]]))
+   [rtable.viewer.vega :refer [vegalite]]))
 
 (def bar
   {;:$schema "https://vega.github.io/schema/vega-lite/v4.json"

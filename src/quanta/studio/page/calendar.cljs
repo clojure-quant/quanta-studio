@@ -1,6 +1,6 @@
 (ns quanta.studio.page.calendar
   (:require
-   [ta.viz.lib.ui :refer [link-dispatch link-href]]
+   [quanta.studio.lib.link :refer [link-dispatch link-href]]
    [re-flow.core :refer [re-flow flow-ui]]))
 
 (defn calendar-page [{:keys [_route-params _query-params _handler] :as _route}]

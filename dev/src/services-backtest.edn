@@ -18,10 +18,10 @@
                     {:clj-service (clip/ref :clj-service)
                      :permission-service (clip/ref :permission)})}
 
-;:reval {:start (reval.core/start-reval
-  ;                {:config (:reval (deref (clip/ref :config)))
-  ;                 :clj  (clip/ref :clj-service)
-  ;                 :reval-role nil})}
+  :reval {:start (reval.core/start-reval
+                  (merge {:clj  (clip/ref :clj-service)
+                          :reval-role nil}
+                         (:reval (deref (clip/ref :config)))))}
 
   :webly {:start (webly.app.app/start-webly
                   (clip/ref :exts)
@@ -39,11 +39,11 @@
   ;; DOCY
 
   :docy {:start (docy.core/start-docy
-               {:exts (clip/ref :exts)
-                :clj (clip/ref :clj-service)
-                :role nil
-                :namespaces (:namespaces (:docy (deref (clip/ref :config))))
-                :snippets (:snippets (:docy (deref (clip/ref :config))))})}
+                 {:exts (clip/ref :exts)
+                  :clj (clip/ref :clj-service)
+                  :role nil
+                  :namespaces (:namespaces (:docy (deref (clip/ref :config))))
+                  :snippets (:snippets (:docy (deref (clip/ref :config))))})}
 
   ;; QUANTA
 
@@ -78,7 +78,28 @@
                                                 :m4 :m
                                                   ;:m :m ; use minute from source.
                                                 })
-                                    :shuffle (quanta.bar.transform.shuffle/start-transform-shuffle)}})}
+                                    :shuffle (quanta.bar.transform.shuffle/start-transform-shuffle)
+                                    :append-only (quanta.bar.transform.append-only/start-transform-append-only
+                                                  {; we just request daily and minute bars, the rest gets calculated.
+                                                   :Y :d
+                                                   :M :d
+                                                   :W :d
+                                                                                        ;:d :d ; use daily from source.
+                                                   :h6 :m
+                                                   :h4 :m
+                                                   :h :m
+                                                   :m90 :m
+                                                   :m72 :m
+                                                   :m30 :m
+                                                   :m15 :m
+                                                   :m8 :m
+                                                   :m6 :m
+                                                   :m5 :m
+                                                   :m4 :m
+                                                                                        ;:m :m ; use minute from source.
+                                                   })
+                                    
+                                    }})}
 
   :dali-store {:start (dali.store.file/create-dali-file-store
                        {:fpath ".data/public/dali"

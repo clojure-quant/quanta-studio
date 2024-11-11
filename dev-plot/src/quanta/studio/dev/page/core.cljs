@@ -1,6 +1,6 @@
 (ns quanta.studio.dev.page.core
   (:require
-   [ta.viz.lib.ui :refer [link-dispatch link-href]]))
+   [quanta.studio.lib.link :refer [link-dispatch link-href]]))
 
 ; main page 
 
@@ -33,23 +33,17 @@
     [link-dispatch [:bidi/goto 'quanta.studio.dev.page.date/page] "date-scroller"]]
 
    [:div.bg-blue-300.m-5
-    [:p.text-blue.text-xl "ui-raw"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.raw.highchart/highchart-page] "highchart"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.raw.highchart/highstock-page] "highstock"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.raw.cheetah/page] "cheetah"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.raw.vega/page] "vega"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.raw.vegads/page] "vega-ds"]
-
-    ; vegaplot does not work from cljs 
-    ;[link-dispatch [:bidi/goto 'quanta.studio.dev.page.raw.vegaplot/page] "vegaplot"]
-    ]
-
-   [:div.bg-blue-300.m-5
     [:p.text-blue.text-xl "dali viewer"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.vega/page] "vega"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.rtable/page] "rtable"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.backtest/page] "backtest-report"]
-    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.render.backtest/page-stock] "stock-future-report"]]
+    ; dali table
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.viewer.rtable/page] "rtable"]
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.viewer.cheetah/page] "cheetah"]
+    ; dali chart
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.viewer.highchart/highchart-page] "highchart"]
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.viewer.highchart/highstock-page] "highstock"]
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.viewer.vega/page] "vega"]
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.viewer.vegads/page] "vega-ds"]
+    ; quanta
+    [link-dispatch [:bidi/goto 'quanta.studio.dev.page.viewer.backtest/page] "backtest-report"]]
 
 ; reval developer tools
    [:div.bg-blue-300.m-5

@@ -1,4 +1,4 @@
-(ns ta.viz.lib.layout
+(ns quanta.studio.lib.layout
   (:require
    [spaces.core]))
 

@@ -1,6 +1,6 @@
 (ns quanta.dali.plot.trade.nav-chart
   (:require
-   [quanta.dali.plot.vega :as plot]))
+   [rtable.plot.vega :as plot]))
 
 (defn nav-chart [roundtrip-ds]
   (let [cols [:exit-date :cum-ret-volume]
@@ -13,7 +13,7 @@
                               :color "blue"}
                           :x {:type "temporal"
                               :field :exit-date}}}]
-    (plot/vega
+    (plot/vegalite-ds
      {:spec spec
       :cols cols}
      roundtrip-ds)))

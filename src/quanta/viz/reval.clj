@@ -1,64 +1,49 @@
 (ns quanta.viz.reval
   (:require
+   [dali.plot.text :refer [text]]
+   [reval.type.protocol :refer [dali-convertable]]
    [tech.v3.dataset.impl.dataset]
    [tech.v3.dataset.impl.column]
-   [modular.persist.edn :refer [pprint-str]]
-   [reval.type.protocol :refer [hiccup-convertable #_to-hiccup]]))
-
-(defn text-render-fipp
-  [o comment]
-  ^{:R true}
-  [:span.text-green-500
-   comment
-   ['quanta.vizs.text/text
-    (pprint-str o)]])
-
-(defn text-render
-  [o comment]
-  ^{:R true}
-  [:span.text-blue-500
-   comment
-   ['quanta.viz.text/text
-    (pr-str o)]])
+   [quanta.dali.plot.fipp :refer [edn-fipp]]))
 
 ;; clojure
 
 (extend-type clojure.lang.PersistentVector
-  hiccup-convertable
-  (to-hiccup [self]
-    (text-render-fipp self "persistent-vector")))
+  dali-convertable
+  (to-dali [v _env]
+    (edn-fipp v)))
 
 (extend-type clojure.lang.LazySeq
-  hiccup-convertable
-  (to-hiccup [self]
-    (text-render-fipp self "lazy-seq")))
+  dali-convertable
+  (to-dali [v _env]
+    (edn-fipp v)))
 
 (extend-type clojure.lang.PersistentArrayMap
-  hiccup-convertable
-  (to-hiccup [self]
-    (text-render-fipp self "persistent-array-map")))
+  dali-convertable
+  (to-dali [v _env]
+    (edn-fipp v)))
 
 (extend-type clojure.lang.PersistentHashMap
-  hiccup-convertable
-  (to-hiccup [self]
-    (text-render-fipp self "persistent-hash-map")))
+  dali-convertable
+  (to-dali [v _env]
+    (edn-fipp v)))
 
 (extend-type java.time.Instant
-  hiccup-convertable
-  (to-hiccup [self]
-    (text-render-fipp self "time-instant")))
+  dali-convertable
+  (to-dali [v _env]
+    (text {:text v})))
 
 ;; techml
 
 (extend-type tech.v3.dataset.impl.column.Column
-  hiccup-convertable
-  (to-hiccup [self]
-    (text-render self "techml column!")))
+  dali-convertable
+  (to-dali [v _env]
+    (text {:text v})))
 
 (extend-type tech.v3.dataset.impl.dataset.Dataset
-  hiccup-convertable
-  (to-hiccup [self]
-    (text-render self "techml dataset ")))
+  dali-convertable
+  (to-dali [v _env]
+    (text {:text v})))
 
 (defn quanta-default-reval-ui []
   ; this function is called just for the side-effects above.

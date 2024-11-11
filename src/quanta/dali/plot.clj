@@ -11,8 +11,8 @@
    [rtable.plot.rtable]
    [rtable.plot.highcharts]
    [rtable.plot.pixi]
+   [rtable.plot.vega]
    ;quanta
-   [quanta.dali.plot.vega]
    [quanta.dali.plot.backtest]
    ;[quanta.dali.transform.date]
    ))
@@ -35,7 +35,9 @@
  rtable.plot.rtable/rtable-ds
  rtable.plot.highcharts/highstock-ds
  rtable.plot.pixi/pixi-ds
+ rtable.plot.vega/vegalite-ds
+ rtable.plot.vega/vegalite
+ rtable.plot.vega/vega
  ; quanta
- quanta.dali.plot.vega/vega
  quanta.dali.plot.backtest/backtest-ui-ds)
 

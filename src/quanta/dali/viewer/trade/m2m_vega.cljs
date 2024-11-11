@@ -1,6 +1,6 @@
 (ns quanta.dali.viewer.trade.m2m-vega
   (:require
-   [ui.vega :refer [vegalite]]))
+   [rtable.viewer.vega :refer [vegalite]]))
 
 ; :date
 ; :open# :long$ :short$ :net$ 
@@ -16,7 +16,6 @@
            :width width
            :height "500"
            :overflow true
-           :box :fl
            :vconcat [{:height 300
                       :width width
                       :layer [{:mark "line"

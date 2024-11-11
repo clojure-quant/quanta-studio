@@ -3,8 +3,8 @@
    [reagent.core :as r]
    [input]
    [dali.viewer :refer [viewer]]
-   [ta.viz.lib.loader :refer [clj->p]]
-   [ta.viz.lib.ui :refer [link-href]]
+   [quanta.studio.lib.loader :refer [clj->p]]
+   [quanta.studio.lib.link :refer [link-href]]
    [quanta.studio.view.live-result :refer [viz-result-view]]))
 
 

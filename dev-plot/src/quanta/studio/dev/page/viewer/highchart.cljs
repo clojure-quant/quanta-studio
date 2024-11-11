@@ -1,4 +1,4 @@
-(ns quanta.studio.dev.page.raw.highchart
+(ns quanta.studio.dev.page.viewer.highchart
   (:require
    [reagent.core :as r]
    [rtable.viewer.highcharts :refer [highstock]]))

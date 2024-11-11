@@ -1,4 +1,4 @@
-(ns quanta.studio.dev.page.render.rtable
+(ns quanta.studio.dev.page.viewer.rtable
   (:require
    [rtable.viewer.rtable :refer [rtable]]
    [ta.viz.lib.format :refer [fmt-nodigits]]))

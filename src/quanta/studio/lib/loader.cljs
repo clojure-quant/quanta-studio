@@ -1,4 +1,4 @@
-(ns ta.viz.lib.loader
+(ns quanta.studio.lib.loader
   (:require
    [reagent.core :as r]
    [promesa.core :as p]

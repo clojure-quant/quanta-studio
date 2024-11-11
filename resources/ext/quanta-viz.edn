@@ -7,7 +7,7 @@
                           ]}
  :cljs-routes {"publish" ta.viz.page.publish/publish-page}
  :sci-cljs-ns [ta.viz.lib.layout
-               ta.viz.lib.ui
+               quanta.studio.lib.link
                ta.viz.lib.loader
                ta.viz.lib.column
                ta.viz.lib.format

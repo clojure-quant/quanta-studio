@@ -7,7 +7,7 @@
    [rtable.rtable]
    [options.core :as o]
    [frontend.notification :refer [show-notification]]
-   [ta.viz.lib.ui :refer [link-href]]
+   [quanta.studio.lib.link :refer [link-href]]
    [ta.viz.lib.format-date :refer [dt-yyyymmdd-hhmm]]
    [goldly.service.core :refer [clj]]))
 

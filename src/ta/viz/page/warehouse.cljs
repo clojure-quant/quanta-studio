@@ -1,7 +1,7 @@
 (ns ta.viz.page.warehouse
   (:require
-   [ta.viz.lib.loader :refer [clj->p]]
-   [ta.viz.lib.ui :refer [link-href]]
+   [quanta.studio.lib.loader :refer [clj->p]]
+   [quanta.studio.lib.link :refer [link-href]]
    [ta.tradingview.goldly.view.aggrid :refer [table]]))
 
 ; todo: fix it . ta.db.bars.overview/overview-map is removed.

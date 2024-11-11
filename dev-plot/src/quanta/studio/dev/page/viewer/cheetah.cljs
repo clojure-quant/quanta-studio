@@ -1,4 +1,4 @@
-(ns quanta.studio.dev.page.raw.cheetah
+(ns quanta.studio.dev.page.viewer.cheetah
   (:require
    [dali.viewer :refer [viewer]]
    [quanta.viz.format :as f]

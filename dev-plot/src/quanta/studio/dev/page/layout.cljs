@@ -1,7 +1,7 @@
 (ns quanta.studio.dev.page.layout
   (:require
    [ui.site.ipsum :refer [ipsum]]
-   [ta.viz.lib.layout :as layout]))
+   [quanta.studio.lib.layout :as layout]))
 
 (defn page-layout-1 [_route]
   (layout/left-right-top {:top "top"

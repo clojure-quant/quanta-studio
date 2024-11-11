@@ -3,8 +3,8 @@
    [reagent.core :as r]
    [options.edit :as edit]
    [ta.tradingview.goldly.view.aggrid :refer [bars-table]]
-   [ta.viz.lib.loader :refer [clj->a]]
-   [ta.viz.lib.ui :refer [link-href]]))
+   [quanta.studio.lib.loader :refer [clj->a]]
+   [quanta.studio.lib.link :refer [link-href]]))
 
 (defn pickable-series-view []
   (let [state (r/atom {:location :duckdb

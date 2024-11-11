@@ -2,8 +2,8 @@
   (:require
    [reagent.core :as r]
    [options.edit :as edit]
-   [ta.viz.lib.loader :refer [clj->p]]
-   [ta.viz.lib.ui :refer [link-href]]
+   [quanta.studio.lib.loader :refer [clj->p]]
+   [quanta.studio.lib.link :refer [link-href]]
    [dali.viewer :refer [viewer]]))
 
 (defn keyword->spec [kw]

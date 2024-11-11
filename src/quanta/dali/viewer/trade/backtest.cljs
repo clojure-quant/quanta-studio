@@ -13,15 +13,11 @@
                                 }
                          class "bg-blue-100"}
                     :as opts}]
-  ;(println "rountrip table spec: " (:spec rt) " data: " data)
   [tab {:class class
         :style style}
    "metrics"
    [metrics-view metrics #_(assoc metrics :opts opts)]
    "chart"
    [roundtrip-chart roundtrip-ds]
-     ;[vega-lite (:spec chart) (:data chart)]
    "roundtrips"
-   [roundtrips-cheetah roundtrip-ds]
-     ;[rtable (:spec rt) (:data rt)]
-   ])
+   [roundtrips-cheetah roundtrip-ds]])

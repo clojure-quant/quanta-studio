@@ -1,10 +1,10 @@
-(ns quanta.studio.dev.page.raw.vegads
+(ns quanta.studio.dev.page.viewer.vegads
   (:require
    [promesa.core :as p]
    [reagent.core :as r]
    [tech.v3.dataset :as tds]
    [cquant.tmlds :refer [GET]]
-   [ui.vega :refer [vegalite]]))
+   [rtable.viewer.vega :refer [vegalite]]))
 
 (defn load-dataset [url]
   (println "loading dataset from url: " url)
