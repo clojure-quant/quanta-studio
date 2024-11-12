@@ -2,7 +2,6 @@
   (:require
    [modular.system]
    [clojure.pprint :refer [print-table]]
-   [quanta.algo.env.bars]
    [quanta.studio.template.bruteforce :as bf]))
 
 (def studio (modular.system/system :studio))
@@ -25,16 +24,7 @@
           :target-fn get-pf
           :show-fn show-fn}
          opts))
+       :ok
        print-table)))
 
-(defn bruteforce-old [opts]
-  (time
-   (let [result (bf/bruteforce
-                 studio
-                 (merge
-                  {:cell-id :backtest-old
-                   :target-fn get-pf
-                   :show-fn show-fn}
-                  opts))]
-     (print-table (:ok result)))))
 

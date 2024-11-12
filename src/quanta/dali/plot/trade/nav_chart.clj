@@ -2,7 +2,7 @@
   (:require
    [rtable.plot.vega :as plot]))
 
-(defn nav-chart [roundtrip-ds]
+(defn nav-chart [env roundtrip-ds]
   (let [cols [:exit-date :cum-ret-volume]
         spec {:width "700"
               :height "550"
@@ -14,6 +14,7 @@
                           :x {:type "temporal"
                               :field :exit-date}}}]
     (plot/vegalite-ds
+     env
      {:spec spec
       :cols cols}
      roundtrip-ds)))

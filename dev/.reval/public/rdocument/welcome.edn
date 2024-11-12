@@ -1,1 +1,0 @@
-{:meta {:ns "welcome"}, :content [{:code "(println \"Welcome to Notebook Viewer \")", :result {:viewer-fn dali.viewer.hiccup/hiccup, :data [:h1.text-blue-800 "Welcome to Notebook Viewer!"]}, :out "Welcome to Notebook Viewer"}]}

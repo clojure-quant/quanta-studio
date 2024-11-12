@@ -9,7 +9,6 @@
    [ta.indicator.signal :refer [cross-up]]
    [quanta.dag.env :refer [log]]
    [quanta.bar.env :refer [get-trailing-bars get-trailing-bars-window]]
-   [quanta.trade.backtest :refer [backtest]]
    [quanta.trade.backtest2 :as b2]
    [quanta.dali.plot :as plot]))
 
@@ -157,9 +156,9 @@
               :path [:day :atr-n]
               :name "atr-n"
               :coerce :int}]
-   :backtest-new {:viz plot/backtest-ui-ds
-                  :viz-options {}
-                  :key :backtest}
+   :backtest {:viz plot/backtest-ui-ds
+              :viz-options {}
+              :key :backtest}
    :chart-no-position chart-no-position
    :chart chart
    ;; debug

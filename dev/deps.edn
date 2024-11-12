@@ -7,7 +7,7 @@
   io.github.clojure-quant/studio-dev-plot {:local/root "../dev-plot" :deps/manifest :deps}
   ;io.github.clojure-quant/algo-demo {:local/root "../../algo-demo" :deps/manifest :deps}
   io.github.clojure-quant/algo-demo {:git/url "https://github.com/clojure-quant/algo-demo.git"
-                                       :sha "f1d5e1e3218fecba0d62d1445a2324de04ef5165"}
+                                     :sha "061ea21cae438b0ddfee2d7220e8ef145853f7cf"}
   ;io.github.clojure-quant/algo-astro {:local/root "../../algo-astro" :deps/manifest :deps}
   io.github.clojure-quant/algo-astro {:git/url "https://github.com/clojure-quant/algo-astro.git"
                                      :sha "a9c8023ea7cce6e3833dcba5fdfe4a24e8a0f395"}

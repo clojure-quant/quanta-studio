@@ -4,7 +4,7 @@
    [promesa.core :as p]
    [rtable.rtable]
    [cquant.tmlds :refer [GET]]
-   [dali.viewer.exception :refer [exception]]
+   [dali.viewer.text :refer [text-exception]]
    [quanta.dali.viewer.trade.backtest :refer [backtest-ui]]))
 
 ;; bruteforce roundtrip-ui
@@ -45,7 +45,7 @@
         (reset! loaded-a [label id])
         nil)
       (if error
-        [:div [exception error]]
+        [:div [text-exception error]]
         (if @backtest-a
           [backtest-ui (merge @backtest-a stats-opts)]
           [:div "label:" label  " id: " id "error:" (pr-str error)])))))

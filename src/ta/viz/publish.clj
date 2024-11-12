@@ -36,7 +36,7 @@
   (when ds
     (let [cols (:charts spec)]
       (assert cols "publish-dataset needs to have :charts spec")
-      (publish env spec (plot/highstock-ds spec ds)))))
+      (publish env spec (plot/highstock-ds env spec ds)))))
 
 
 
