@@ -3,6 +3,14 @@
    [tick.core :as t]
    [tick.editor :refer [instant-editor]]))
 
+(def h8 (t/new-duration 8 :hours))
+
+(defn move-back-h8 [dt]
+  (t/<< dt h8))
+
+(defn move-forward-h8 [dt]
+  (t/>> dt h8))
+
 (def day1 (t/new-duration 1 :days))
 
 (defn move-back-day [dt]
@@ -31,6 +39,8 @@
   [:div
    [:span (str @dt-a)]
    [instant-editor {:instant-a dt-a}]
+   [:button.m-1.border.border-round {:on-click #(swap! dt-a move-back-h8)} "<8H"]
+   [:button.m-1.border.border-round {:on-click #(swap! dt-a move-forward-h8)} "8H>"]
    [:button.m-1.border.border-round {:on-click #(swap! dt-a move-back-day)} "<D"]
    [:button.m-1.border.border-round {:on-click #(swap! dt-a move-forward-day)} "D>"]
    [:button.m-1.border.border-round {:on-click #(swap! dt-a move-back-week)} "<W"]

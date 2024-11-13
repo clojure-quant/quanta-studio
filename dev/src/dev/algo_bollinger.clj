@@ -55,7 +55,10 @@
        :level-ds))
 
 (def bollinger-algo
-  {:* {:asset "BTCUSDT"} ; this options are global
+  {:* {; this options are global
+       :asset "BTCUSDT"
+       :bar-px 6
+       :preload-n 0}
    :bars-day {:calendar [:crypto :d]
               :fn get-trailing-bars-window
               :bardb :nippy
@@ -151,6 +154,10 @@
               :path [:* :asset]
               :name "asset"
               :spec ["BTCUSDT" "ETHUSDT"]}
+             {:type :select
+              :path [:* :bar-px]
+              :name "bar-px"
+              :spec [4 5 6 7 8 9 10 12 14 16 18 20]}
              {:type :label  :name "asset-cal"}
              {:type :string
               :path [:day :atr-n]
