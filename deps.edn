@@ -9,6 +9,7 @@
   ; quanta-studio uses docs.
   org.pinkgorilla/goldly-docs {:mvn/version "0.9.71"}
   org.pinkgorilla/docy {:mvn/version "0.0.10"}
+  org.pinkgorilla/edn-x {:mvn/version "0.1.4"}
   commonmark-hiccup/commonmark-hiccup {:mvn/version "0.3.0"} ; markdown to hiccup
   ;; QUANTA LIBS
   io.github.clojure-quant/quanta {:mvn/version "0.4.899"}
